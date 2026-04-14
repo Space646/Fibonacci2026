@@ -1,0 +1,402 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4D85813522FF181DFC0573B4 /* FiboHealthApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD13B9821A0C42175F131D83 /* FiboHealthApp.swift */; };
+		74484DC3A86BBF23C9119FB9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015B1F85269765D15EE02CB3 /* ContentView.swift */; };
+		AE03C703D4998FB1B7278BDE /* FiboHealthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3A9C19F0B40D5BB9F50108 /* FiboHealthTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		17D7671CF0505A27C90F6F34 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 442E57577BC95FC2ACA98F3B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7B38803E1EA09E03DAE8CAAA;
+			remoteInfo = FiboHealth;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		015B1F85269765D15EE02CB3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		13E57A7E44C7A1762BC38CA2 /* FiboHealthTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = FiboHealthTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D3A9C19F0B40D5BB9F50108 /* FiboHealthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiboHealthTests.swift; sourceTree = "<group>"; };
+		5DAC0F54E78AF29F53028DBE /* FiboHealth.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = FiboHealth.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD13B9821A0C42175F131D83 /* FiboHealthApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiboHealthApp.swift; sourceTree = "<group>"; };
+		DF1E98F8927DF0F29BCB9FFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		F372DF6DE6D1D86BE4BF74C6 /* FiboHealth.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FiboHealth.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		15B525ED99FD825850CD4199 = {
+			isa = PBXGroup;
+			children = (
+				A93755AF2F8A04868464775F /* FiboHealth */,
+				B90322509BD90FC6CC9425FD /* FiboHealthTests */,
+				D5EF159A379AB3FABCC6CFB7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A93755AF2F8A04868464775F /* FiboHealth */ = {
+			isa = PBXGroup;
+			children = (
+				015B1F85269765D15EE02CB3 /* ContentView.swift */,
+				F372DF6DE6D1D86BE4BF74C6 /* FiboHealth.entitlements */,
+				BD13B9821A0C42175F131D83 /* FiboHealthApp.swift */,
+				DF1E98F8927DF0F29BCB9FFC /* Info.plist */,
+			);
+			path = FiboHealth;
+			sourceTree = "<group>";
+		};
+		B90322509BD90FC6CC9425FD /* FiboHealthTests */ = {
+			isa = PBXGroup;
+			children = (
+				3D3A9C19F0B40D5BB9F50108 /* FiboHealthTests.swift */,
+			);
+			path = FiboHealthTests;
+			sourceTree = "<group>";
+		};
+		D5EF159A379AB3FABCC6CFB7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5DAC0F54E78AF29F53028DBE /* FiboHealth.app */,
+				13E57A7E44C7A1762BC38CA2 /* FiboHealthTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		131833C9DE7BEAE9C9376EEF /* FiboHealthTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 95092DBCC7F9273E4751520C /* Build configuration list for PBXNativeTarget "FiboHealthTests" */;
+			buildPhases = (
+				BC0A6EA625D7C72C37BD15B6 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0ECF28A71F5854566FA99530 /* PBXTargetDependency */,
+			);
+			name = FiboHealthTests;
+			packageProductDependencies = (
+			);
+			productName = FiboHealthTests;
+			productReference = 13E57A7E44C7A1762BC38CA2 /* FiboHealthTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		7B38803E1EA09E03DAE8CAAA /* FiboHealth */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A187FF91F4E9FF0E77E31BB4 /* Build configuration list for PBXNativeTarget "FiboHealth" */;
+			buildPhases = (
+				638CCA592394B2BFA1581649 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FiboHealth;
+			packageProductDependencies = (
+			);
+			productName = FiboHealth;
+			productReference = 5DAC0F54E78AF29F53028DBE /* FiboHealth.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		442E57577BC95FC2ACA98F3B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					7B38803E1EA09E03DAE8CAAA = {
+						DevelopmentTeam = "";
+					};
+				};
+			};
+			buildConfigurationList = CB659AD1B21C4B73145E024A /* Build configuration list for PBXProject "FiboHealth" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 15B525ED99FD825850CD4199;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = D5EF159A379AB3FABCC6CFB7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7B38803E1EA09E03DAE8CAAA /* FiboHealth */,
+				131833C9DE7BEAE9C9376EEF /* FiboHealthTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		638CCA592394B2BFA1581649 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				74484DC3A86BBF23C9119FB9 /* ContentView.swift in Sources */,
+				4D85813522FF181DFC0573B4 /* FiboHealthApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC0A6EA625D7C72C37BD15B6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AE03C703D4998FB1B7278BDE /* FiboHealthTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0ECF28A71F5854566FA99530 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7B38803E1EA09E03DAE8CAAA /* FiboHealth */;
+			targetProxy = 17D7671CF0505A27C90F6F34 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		57E7DFAE7FDA802CBB2FC31A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		5E7F9BC26D765EFF81B3B083 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FiboHealth/FiboHealth.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = FiboHealth/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.fibonacci.fibohealth;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A139719AEC04A99A7B3D7C4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.fibonacci.fibohealth.tests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FiboHealth.app/FiboHealth";
+			};
+			name = Debug;
+		};
+		C5CBB7E4D854AC2D2AE401D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		DC4DEFC29703A0DDA15AA25C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FiboHealth/FiboHealth.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = FiboHealth/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.fibonacci.fibohealth;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F70592408D778C6D74A45674 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.fibonacci.fibohealth.tests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FiboHealth.app/FiboHealth";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		95092DBCC7F9273E4751520C /* Build configuration list for PBXNativeTarget "FiboHealthTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A139719AEC04A99A7B3D7C4D /* Debug */,
+				F70592408D778C6D74A45674 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A187FF91F4E9FF0E77E31BB4 /* Build configuration list for PBXNativeTarget "FiboHealth" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DC4DEFC29703A0DDA15AA25C /* Debug */,
+				5E7F9BC26D765EFF81B3B083 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		CB659AD1B21C4B73145E024A /* Build configuration list for PBXProject "FiboHealth" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57E7DFAE7FDA802CBB2FC31A /* Debug */,
+				C5CBB7E4D854AC2D2AE401D4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 442E57577BC95FC2ACA98F3B /* Project object */;
+}

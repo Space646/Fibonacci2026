@@ -1,0 +1,60 @@
+name: FiboHealth
+options:
+  bundleIdPrefix: com.fibonacci
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "15"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: 5.9
+    IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+
+targets:
+  FiboHealth:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: FiboHealth
+        createIntermediateGroups: true
+    info:
+      path: FiboHealth/Info.plist
+      properties:
+        CFBundleDisplayName: FiboHealth
+        CFBundleIdentifier: com.fibonacci.fibohealth
+        CFBundleVersion: "1"
+        CFBundleShortVersionString: "1.0"
+        UILaunchScreen: {}
+        NSHealthShareUsageDescription: "FiboHealth reads your activity data to calculate remaining daily calories."
+        NSHealthUpdateUsageDescription: "FiboHealth does not write health data."
+        NSBluetoothAlwaysUsageDescription: "FiboHealth connects to your Fibonacci Pi device over Bluetooth."
+        UIBackgroundModes:
+          - bluetooth-central
+    entitlements:
+      path: FiboHealth/FiboHealth.entitlements
+      properties:
+        com.apple.developer.healthkit: true
+        com.apple.developer.healthkit.access: []
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.fibonacci.fibohealth
+        INFOPLIST_FILE: FiboHealth/Info.plist
+        CODE_SIGN_ENTITLEMENTS: FiboHealth/FiboHealth.entitlements
+        DEVELOPMENT_TEAM: ""
+        SWIFT_VERSION: "5.9"
+
+  FiboHealthTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: FiboHealthTests
+        createIntermediateGroups: true
+    dependencies:
+      - target: FiboHealth
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.fibonacci.fibohealth.tests
+        SWIFT_VERSION: "5.9"
