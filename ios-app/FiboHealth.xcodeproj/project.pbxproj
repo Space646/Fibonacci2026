@@ -18,7 +18,9 @@
 		A483533101C7B89789487A03 /* CalorieRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD463E0D1725E896B2F018EB /* CalorieRingView.swift */; };
 		AB191C476E763A38E2BC7B74 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF08E0713AE7E97FE7BA5BD6 /* AppEnvironment.swift */; };
 		AE03C703D4998FB1B7278BDE /* FiboHealthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3A9C19F0B40D5BB9F50108 /* FiboHealthTests.swift */; };
+		AE733EDA2D4333F1D5186F00 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033CFE46A27FABDEADB6DD11 /* RootView.swift */; };
 		B68E00F93A06A08871EDB440 /* FoodLogEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BEF80057BCDEAF181D0DA6 /* FoodLogEntry.swift */; };
+		CEB6B30DCBAF4619E74E1CFD /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C148D9E7D0D23406D700E278 /* DashboardView.swift */; };
 		D23896EC4B69E36D83E99930 /* SessionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391C3A5FDB33FA84FED0D169 /* SessionState.swift */; };
 		E386C0A805DC1EA2855DBD2F /* HealthBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45EF33F80ECDD3FDB5709A1 /* HealthBadgeView.swift */; };
 		E3CDCD2A51996FCD3BC0AC07 /* DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81B9F185BE4C17515D7B7B6 /* DesignTokens.swift */; };
@@ -37,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		015B1F85269765D15EE02CB3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		033CFE46A27FABDEADB6DD11 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		0C0061690FA349CF88438C9B /* MacroBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacroBarView.swift; sourceTree = "<group>"; };
 		13E57A7E44C7A1762BC38CA2 /* FiboHealthTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = FiboHealthTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		25A8DD800FE2AD95E32DCEDB /* HealthSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthSnapshot.swift; sourceTree = "<group>"; };
@@ -49,6 +52,7 @@
 		AF08E0713AE7E97FE7BA5BD6 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		B81B9F185BE4C17515D7B7B6 /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
 		BD13B9821A0C42175F131D83 /* FiboHealthApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiboHealthApp.swift; sourceTree = "<group>"; };
+		C148D9E7D0D23406D700E278 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		C2BEF80057BCDEAF181D0DA6 /* FoodLogEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodLogEntry.swift; sourceTree = "<group>"; };
 		CD463E0D1725E896B2F018EB /* CalorieRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalorieRingView.swift; sourceTree = "<group>"; };
 		DF1E98F8927DF0F29BCB9FFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -67,6 +71,15 @@
 				B90322509BD90FC6CC9425FD /* FiboHealthTests */,
 				D5EF159A379AB3FABCC6CFB7 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		1A913F808EAE337EAA315E80 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C148D9E7D0D23406D700E278 /* DashboardView.swift */,
+				033CFE46A27FABDEADB6DD11 /* RootView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		3D35DAC45F6907FD38634388 /* Services */ = {
@@ -91,6 +104,7 @@
 				B825FE8C669FF9A0C21CC840 /* Components */,
 				E3152E7AECF8E8F0985A539B /* Models */,
 				3D35DAC45F6907FD38634388 /* Services */,
+				1A913F808EAE337EAA315E80 /* Views */,
 			);
 			path = FiboHealth;
 			sourceTree = "<group>";
@@ -216,6 +230,7 @@
 				F22773CCD8A9EB112A24D27E /* BluetoothClient.swift in Sources */,
 				A483533101C7B89789487A03 /* CalorieRingView.swift in Sources */,
 				74484DC3A86BBF23C9119FB9 /* ContentView.swift in Sources */,
+				CEB6B30DCBAF4619E74E1CFD /* DashboardView.swift in Sources */,
 				E3CDCD2A51996FCD3BC0AC07 /* DesignTokens.swift in Sources */,
 				4D85813522FF181DFC0573B4 /* FiboHealthApp.swift in Sources */,
 				B68E00F93A06A08871EDB440 /* FoodLogEntry.swift in Sources */,
@@ -223,6 +238,7 @@
 				4133EAF3398F79CF10AAB484 /* HealthKitService.swift in Sources */,
 				11DA62398CEC6DC3F0FD7AF2 /* HealthSnapshot.swift in Sources */,
 				2A65810947AA2AEEF09D2E1F /* MacroBarView.swift in Sources */,
+				AE733EDA2D4333F1D5186F00 /* RootView.swift in Sources */,
 				D23896EC4B69E36D83E99930 /* SessionState.swift in Sources */,
 				323F3FF0CC1F865DEDD2C2B6 /* StatCardView.swift in Sources */,
 				2DFD2FFF99E80B7D3665EEF2 /* UserProfile.swift in Sources */,
