@@ -31,3 +31,14 @@ CREATE TABLE IF NOT EXISTS food_log (
     calories    REAL NOT NULL,
     timestamp   TEXT DEFAULT (strftime('%Y-%m-%dT%H:%M:%S', 'now'))
 );
+
+CREATE TABLE IF NOT EXISTS health_snapshots (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id         INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    date            TEXT NOT NULL,
+    steps           INTEGER DEFAULT 0,
+    calories_burned REAL DEFAULT 0,
+    active_minutes  INTEGER DEFAULT 0,
+    workouts        INTEGER DEFAULT 0,
+    UNIQUE(user_id, date)
+);
