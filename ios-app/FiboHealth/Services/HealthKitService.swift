@@ -16,7 +16,7 @@ final class HealthKitService: ObservableObject {
         for id in ids {
             if let t = HKQuantityType.quantityType(forIdentifier: id) { types.insert(t) }
         }
-        if let workout = HKObjectType.workoutType() { types.insert(workout) }
+        types.insert(HKObjectType.workoutType())
         return types
     }()
 

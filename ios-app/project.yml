@@ -54,7 +54,15 @@ targets:
         createIntermediateGroups: true
     dependencies:
       - target: FiboHealth
+    info:
+      path: FiboHealthTests/Info.plist
+      properties:
+        CFBundleIdentifier: com.fibonacci.fibohealth.tests
+        CFBundleVersion: "1"
+        CFBundleShortVersionString: "1.0"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.fibonacci.fibohealth.tests
+        INFOPLIST_FILE: FiboHealthTests/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
         SWIFT_VERSION: "5.9"
