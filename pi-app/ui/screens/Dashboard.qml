@@ -3,8 +3,8 @@ import QtQuick.Layouts 1.15
 import "../components"
 
 Item {
+    id: root
     objectName: "Home"
-    anchors.fill: parent
 
     property bool isDark: appState.theme === "dark"
     property color surface: isDark ? "#1e293b" : "#ffffff"
@@ -68,6 +68,10 @@ Item {
                         text: "Connect phone"
                         color: "#6366f1"; font.pixelSize: 10
                     }
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: appState.simulatePhonePairing()
+                    }
                 }
             }
 
@@ -77,7 +81,7 @@ Item {
                 width: 180; height: 180
                 consumed: appState.totalCaloriesToday
                 goal: appState.dailyGoal
-                isDark: parent.parent.parent.isDark
+                isDark: root.isDark
             }
 
             // Stats row
@@ -87,19 +91,19 @@ Item {
                 StatCard {
                     width: (parent.width - 16) / 3
                     value: Math.round(appState.totalCaloriesToday).toString()
-                    label: "consumed"; isDark: col.parent.parent.isDark
+                    label: "consumed"; isDark: root.isDark
                     valueColor: "#06b6d4"
                 }
                 StatCard {
                     width: (parent.width - 16) / 3
                     value: Math.round(appState.dailyGoal).toString()
-                    label: "goal"; isDark: col.parent.parent.isDark
+                    label: "goal"; isDark: root.isDark
                     valueColor: "#22c55e"
                 }
                 StatCard {
                     width: (parent.width - 16) / 3
                     value: Math.round(appState.healthSnapshot.calories_burned || 0).toString()
-                    label: "burned"; isDark: col.parent.parent.isDark
+                    label: "burned"; isDark: root.isDark
                     valueColor: "#f59e0b"
                 }
             }
@@ -120,9 +124,12 @@ Item {
                         font { pixelSize: 9; letterSpacing: 1 }
                         color: muted
                     }
-                    Row {
+                    RowLayout {
                         width: parent.width
-                        Column {
+                        spacing: 12
+
+                        ColumnLayout {
+                            Layout.alignment: Qt.AlignVCenter
                             spacing: 2
                             Text {
                                 text: appState.todaysLog[0] ? appState.todaysLog[0].food_name : ""
@@ -137,11 +144,11 @@ Item {
                                 font.pixelSize: 10; color: muted
                             }
                         }
-                        Item { Layout.fillWidth: true; width: 1 }
+                        Item { Layout.fillWidth: true }
                         HealthBadge {
-                            anchors.verticalCenter: parent.verticalCenter
+                            Layout.alignment: Qt.AlignVCenter
                             healthy: appState.todaysLog[0] ? appState.todaysLog[0].is_healthy === 1 : true
-                            isDark: col.parent.parent.isDark
+                            isDark: root.isDark
                         }
                     }
                 }
@@ -154,28 +161,28 @@ Item {
                 Column {
                     anchors { fill: parent; margins: 12 }
                     spacing: 6
-                    Text { text: "ACTIVITY TODAY"; font { pixelSize: 9; letterSpacing: 1 }; color: muted }
+                    Text { text: "ACTIVITY TODAY"; font.pixelSize: 9; font.letterSpacing: 1; color: muted }
                     Row {
                         width: parent.width
                         spacing: 0
                         StatCard {
                             width: (parent.width - 2) / 3; height: 40
                             value: (appState.healthSnapshot.steps || 0).toString()
-                            label: "steps"; isDark: col.parent.parent.isDark
+                            label: "steps"; isDark: root.isDark
                             valueColor: "#6366f1"
                         }
                         Rectangle { width: 1; height: 40; color: isDark ? "#334155" : "#e2e8f0" }
                         StatCard {
                             width: (parent.width - 2) / 3; height: 40
                             value: (appState.healthSnapshot.active_minutes || 0).toString()
-                            label: "active min"; isDark: col.parent.parent.isDark
+                            label: "active min"; isDark: root.isDark
                             valueColor: "#06b6d4"
                         }
                         Rectangle { width: 1; height: 40; color: isDark ? "#334155" : "#e2e8f0" }
                         StatCard {
                             width: (parent.width - 2) / 3; height: 40
                             value: Math.round(appState.healthSnapshot.calories_burned || 0).toString()
-                            label: "kcal burned"; isDark: col.parent.parent.isDark
+                            label: "kcal burned"; isDark: root.isDark
                             valueColor: "#f59e0b"
                         }
                     }

@@ -22,6 +22,7 @@ struct ContentWrapperView: View {
 
 private struct InnerView: View {
     @StateObject var env: AppEnvironment
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         RootView()
@@ -29,6 +30,11 @@ private struct InnerView: View {
             .environmentObject(env.profileStore)
             .environmentObject(env.healthKit)
             .environmentObject(env.bluetooth)
-            .preferredColorScheme(env.theme == .dark ? .dark : .light)
+            .onAppear {
+                env.theme = colorScheme == .dark ? .dark : .light
+            }
+            .onChange(of: colorScheme) { _, newValue in
+                env.theme = newValue == .dark ? .dark : .light
+            }
     }
 }

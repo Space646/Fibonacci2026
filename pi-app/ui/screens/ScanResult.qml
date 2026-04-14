@@ -3,8 +3,8 @@ import QtQuick.Layouts 1.15
 import "../components"
 
 Item {
+    id: root
     objectName: "Scan"
-    anchors.fill: parent
 
     property var detectedFood: ({})
     property real weightG: appState.currentWeightG
@@ -32,7 +32,7 @@ Item {
                 HealthBadge {
                     anchors.horizontalCenter: parent.horizontalCenter
                     healthy: detectedFood.is_healthy === 1
-                    isDark: col.parent.parent.isDark
+                    isDark: root.isDark
                 }
                 Text {
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -55,10 +55,10 @@ Item {
                     Column {
                         anchors.centerIn: parent; spacing: 4
                         Text { anchors.horizontalCenter: parent.horizontalCenter; text: "WEIGHT"
-                               font { pixelSize: 9; letterSpacing: 1 }; color: muted }
+                               font.pixelSize: 9; font.letterSpacing: 1; color: muted }
                         Text { anchors.horizontalCenter: parent.horizontalCenter
                                text: Math.round(weightG).toString()
-                               font { pixelSize: 26; bold: true }; color: isDark ? "white" : "#0f172a" }
+                               font.pixelSize: 26; font.bold: true; color: isDark ? "white" : "#0f172a" }
                         Text { anchors.horizontalCenter: parent.horizontalCenter; text: "grams"
                                font.pixelSize: 10; color: muted }
                     }
@@ -73,10 +73,10 @@ Item {
                     Column {
                         anchors.centerIn: parent; spacing: 4
                         Text { anchors.horizontalCenter: parent.horizontalCenter; text: "CALORIES"
-                               font { pixelSize: 9; letterSpacing: 1 }; color: "#a5b4fc" }
+                               font.pixelSize: 9; font.letterSpacing: 1; color: "#a5b4fc" }
                         Text { anchors.horizontalCenter: parent.horizontalCenter
                                text: Math.round(calories).toString()
-                               font { pixelSize: 26; bold: true }; color: "white" }
+                               font.pixelSize: 26; font.bold: true; color: "white" }
                         Text { anchors.horizontalCenter: parent.horizontalCenter; text: "kcal"
                                font.pixelSize: 10; color: "#a5b4fc" }
                     }
@@ -94,20 +94,20 @@ Item {
                     spacing: 8
 
                     Text { text: "NUTRITIONAL BREAKDOWN / 100g"
-                           font { pixelSize: 9; letterSpacing: 1 }; color: muted }
+                           font.pixelSize: 9; font.letterSpacing: 1; color: muted }
 
                     MacroBar { width: parent.width; label: "Fiber"
                                value: detectedFood.fiber_per_100g || 0; maxValue: 10
-                               barColor: "#34d399"; isDark: col.parent.parent.isDark }
+                               barColor: "#34d399"; isDark: root.isDark }
                     MacroBar { width: parent.width; label: "Protein"
                                value: detectedFood.protein_per_100g || 0; maxValue: 30
-                               barColor: "#60a5fa"; isDark: col.parent.parent.isDark }
+                               barColor: "#60a5fa"; isDark: root.isDark }
                     MacroBar { width: parent.width; label: "Sugar"
                                value: detectedFood.sugar_per_100g || 0; maxValue: 30
-                               barColor: "#f87171"; isDark: col.parent.parent.isDark }
+                               barColor: "#f87171"; isDark: root.isDark }
                     MacroBar { width: parent.width; label: "Fat"
                                value: detectedFood.fat_per_100g || 0; maxValue: 30
-                               barColor: "#fbbf24"; isDark: col.parent.parent.isDark }
+                               barColor: "#fbbf24"; isDark: root.isDark }
 
                     // Health score bar
                     Row {
@@ -129,7 +129,7 @@ Item {
                             }
                         }
                         Text { width: 40; text: (detectedFood.health_score || 50) + "/100"
-                               font { pixelSize: 10; bold: true }; color: "#06b6d4"
+                               font.pixelSize: 10; font.bold: true; color: "#06b6d4"
                                horizontalAlignment: Text.AlignRight
                                verticalAlignment: Text.AlignVCenter; height: 16 }
                     }
@@ -146,7 +146,7 @@ Item {
                     Item { Layout.fillWidth: true; width: 1 }
                     Text { anchors.verticalCenter: parent.verticalCenter
                            text: Math.round(Math.max(0, appState.remainingCalories - calories)) + " kcal"
-                           font { pixelSize: 15; bold: true }; color: "#06b6d4" }
+                           font.pixelSize: 15; font.bold: true; color: "#06b6d4" }
                 }
             }
 
@@ -157,7 +157,7 @@ Item {
                     width: (parent.width - 8) / 3; height: 44; radius: 8; color: surface
                     border { color: isDark ? "#334155" : "#e2e8f0"; width: 1 }
                     Text { anchors.centerIn: parent; text: "Discard"
-                           font { pixelSize: 12; bold: true }; color: muted }
+                           font.pixelSize: 12; font.bold: true; color: muted }
                     MouseArea {
                         anchors.fill: parent
                         onClicked: stackView.replace(Qt.resolvedUrl("Dashboard.qml"))
@@ -171,7 +171,7 @@ Item {
                         GradientStop { position: 1.0; color: "#06b6d4" }
                     }
                     Text { anchors.centerIn: parent; text: "Add to Log"
-                           font { pixelSize: 12; bold: true }; color: "white" }
+                           font.pixelSize: 12; font.bold: true; color: "white" }
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {

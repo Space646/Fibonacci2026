@@ -38,15 +38,23 @@ struct DeviceView: View {
                         .padding()
                         .background(env.theme.bgSurface)
                         .cornerRadius(10)
+                } else if bluetooth.isScanning {
+                    HStack(spacing: 10) {
+                        ProgressView()
+                        Text("Searching for Pi…")
+                            .foregroundColor(env.theme.textPrimary)
+                    }
+                    .padding()
+                    .background(env.theme.bgSurface)
+                    .cornerRadius(10)
                 } else {
-                    Button(bluetooth.isScanning ? "Scanning…" : "Scan for Pi") {
+                    Button("Scan for Pi") {
                         bluetooth.startScanning()
                     }
                     .foregroundColor(Color(hex: "6366f1"))
                     .padding()
                     .background(env.theme.bgSurface)
                     .cornerRadius(10)
-                    .disabled(bluetooth.isScanning)
                 }
 
                 Text("Make sure your Pi device is powered on and nearby.")
@@ -58,6 +66,7 @@ struct DeviceView: View {
                 Spacer()
             }
             .padding(20)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .background(env.theme.bgPrimary.ignoresSafeArea())
             .navigationTitle("Device")
         }

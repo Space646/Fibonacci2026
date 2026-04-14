@@ -88,7 +88,7 @@ class AppState(QObject):
         self._weight_svc.set_test_weight(grams)
         self.weightChanged.emit(grams)
 
-    @pyqtProperty(list)
+    @pyqtProperty(list, constant=True)
     def allFoods(self):
         return self._detection_svc.get_all_foods()
 
@@ -98,17 +98,17 @@ class AppState(QObject):
     def calculateCalories(self, calories_per_100g: float, weight_g: float) -> float:
         return calculate_calories(calories_per_100g, weight_g)
 
-    @pyqtProperty(float)
+    @pyqtProperty(float, notify=logUpdated)
     def totalCaloriesToday(self):
         return self._session.total_calories_today(self._active_user["id"])
 
-    @pyqtProperty(float)
+    @pyqtProperty(float, notify=userChanged)
     def dailyGoal(self):
         from types import SimpleNamespace
         u = SimpleNamespace(**self._active_user)
         return calculate_daily_goal(u)
 
-    @pyqtProperty(float)
+    @pyqtProperty(float, notify=logUpdated)
     def remainingCalories(self):
         return max(0.0, self.dailyGoal - self.totalCaloriesToday)
 
@@ -131,7 +131,7 @@ class AppState(QObject):
 
     # ── Activity / Health ────────────────────────────────────────────────────
 
-    @pyqtProperty(dict)
+    @pyqtProperty('QVariantMap', notify=userChanged)
     def healthSnapshot(self):
         snap = self._session.get_health_snapshot(self._active_user["id"])
         return snap or {"steps": 0, "calories_burned": 0, "active_minutes": 0, "workouts": 0}
@@ -180,11 +180,40 @@ class AppState(QObject):
         self._theme = theme
         self.themeChanged.emit(theme)
 
-    @pyqtProperty(str)
+    @pyqtProperty(str, notify=userChanged)
     def activeUserName(self):
         return self._active_user.get("name") or "Guest"
 
-    @pyqtProperty(bool)
+    @pyqtProperty(bool, notify=userChanged)
     def userConnected(self):
         from services.user_session import GUEST_MAC
         return self._active_user.get("bluetooth_mac") != GUEST_MAC
+
+    # ── Simulated pairing (dev / macOS) ─────────────────────────────────────
+    # The real BLE GATT peripheral lives in services/bluetooth_server.py and
+    # only runs on BlueZ (Linux/RPi). On macOS or any platform without dbus
+    # the BLE server is a no-op, so tapping "Connect phone" has nothing to
+    # bind to. This slot mocks the payload an iOS client would have written
+    # so the UI can be exercised end-to-end without a phone.
+    @pyqtSlot()
+    def simulatePhonePairing(self):
+        from datetime import date
+        mock_mac = "SIMULATED:00:11:22:33:44:55"
+        mock_profile = {
+            "name": "Test User",
+            "age": 28,
+            "weight_kg": 72.0,
+            "height_cm": 178.0,
+            "sex": "male",
+            "activity_level": "moderate",
+            "daily_calorie_goal": None,
+        }
+        mock_health = {
+            "date": date.today().isoformat(),
+            "steps": 6420,
+            "calories_burned": 312,
+            "active_minutes": 34,
+            "workouts": 1,
+        }
+        self._on_profile_received(mock_mac, mock_profile)
+        self._on_health_received(mock_mac, mock_health)

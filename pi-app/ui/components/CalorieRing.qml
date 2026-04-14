@@ -7,8 +7,20 @@ Item {
 
     property real consumed: 0
     property real goal: 2000
-    property real progress: goal > 0 ? Math.min(consumed / goal, 1.0) : 0
+    property real rawRatio: goal > 0 ? consumed / goal : 0
+    property real progress: Math.min(rawRatio, 1.0)
     property bool isDark: true
+
+    // Color shifts as the user eats more of their daily goal:
+    //   <60%  green      (plenty of room)
+    //   60-85% indigo    (on track)
+    //   85-100% amber    (approaching goal)
+    //   >=100% red       (at / over goal)
+    property color progressColor:
+        rawRatio >= 1.0  ? "#ef4444" :
+        rawRatio >= 0.85 ? "#f59e0b" :
+        rawRatio >= 0.60 ? "#6366f1" :
+                           "#22c55e"
 
     // Background track
     Shape {
@@ -26,15 +38,20 @@ Item {
         }
     }
 
-    // Progress arc (indigo → cyan via gradient workaround using two arcs)
+    // Progress arc — color shifts based on how close we are to the goal.
     Shape {
         anchors.fill: parent
         visible: root.progress > 0
         ShapePath {
-            strokeColor: "#6366f1"
+            strokeColor: root.progressColor
             strokeWidth: 14
             fillColor: "transparent"
             capStyle: ShapePath.RoundCap
+
+            Behavior on strokeColor {
+                ColorAnimation { duration: 260; easing.type: Easing.InOutQuad }
+            }
+
             PathAngleArc {
                 centerX: root.width / 2; centerY: root.height / 2
                 radiusX: root.width / 2 - 10; radiusY: root.height / 2 - 10
@@ -51,7 +68,7 @@ Item {
 
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
-            text: Math.round(goal - consumed)
+            text: Math.max(0, Math.round(goal - consumed))
             font { pixelSize: 28; bold: true }
             color: isDark ? "#ffffff" : "#0f172a"
         }

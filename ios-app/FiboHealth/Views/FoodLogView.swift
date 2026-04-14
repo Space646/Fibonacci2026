@@ -43,6 +43,7 @@ struct FoodLogView: View {
                     .scrollContentBackground(.hidden)
                 }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(env.theme.bgPrimary.ignoresSafeArea())
             .navigationTitle("Food Log")
             .navigationBarTitleDisplayMode(.large)

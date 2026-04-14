@@ -1,9 +1,10 @@
 import QtQuick 2.15
+import QtQuick.Layouts 1.15
 import "../components"
 
 Item {
+    id: root
     objectName: "Log"
-    anchors.fill: parent
     property bool isDark: appState.theme === "dark"
     property color surface: isDark ? "#1e293b" : "#ffffff"
     property color muted:   isDark ? "#64748b" : "#94a3b8"
@@ -13,15 +14,20 @@ Item {
         spacing: 12
 
         // Header
-        Row {
+        RowLayout {
             width: parent.width
-            Text { text: "Today's Log"; font { pixelSize: 20; bold: true }
-                   color: isDark ? "white" : "#0f172a" }
-            Item { width: 1; Layout.fillWidth: true }
+            spacing: 12
+
             Text {
-                anchors.verticalCenter: parent.verticalCenter
+                text: "Today's Log"
+                font { pixelSize: 20; bold: true }
+                color: isDark ? "white" : "#0f172a"
+            }
+            Item { Layout.fillWidth: true }
+            Text {
                 text: Math.round(appState.totalCaloriesToday) + " kcal total"
                 font.pixelSize: 12; color: "#06b6d4"
+                Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
             }
         }
 
@@ -46,14 +52,16 @@ Item {
             clip: true
 
             delegate: Rectangle {
-                width: parent.width; height: 60; radius: 10; color: surface
+                width: ListView.view ? ListView.view.width : 0
+                height: 60; radius: 10; color: surface
 
-                Row {
+                RowLayout {
                     anchors { fill: parent; leftMargin: 12; rightMargin: 12 }
-                    spacing: 0
+                    spacing: 12
 
-                    Column {
-                        anchors.verticalCenter: parent.verticalCenter; spacing: 4
+                    ColumnLayout {
+                        Layout.alignment: Qt.AlignVCenter
+                        spacing: 4
                         Text { text: modelData.food_name
                                font { pixelSize: 14; bold: true }
                                color: isDark ? "white" : "#0f172a" }
@@ -61,26 +69,26 @@ Item {
                                font.pixelSize: 10; color: muted }
                     }
 
-                    Item { Layout.fillWidth: true; width: 1 }
+                    Item { Layout.fillWidth: true }
 
-                    Column {
-                        anchors.verticalCenter: parent.verticalCenter
-                        spacing: 4; horizontalItemAlignment: Column.AlignRight
-
-                        Text { text: Math.round(modelData.calories) + " kcal"
-                               font { pixelSize: 13; bold: true }; color: "#06b6d4"
-                               anchors.right: parent.right }
-
-                        HealthBadge {
-                            healthy: modelData.is_healthy === 1
-                            isDark: appState.theme === "dark"
-                        }
+                    Text {
+                        text: Math.round(modelData.calories) + " kcal"
+                        font.pixelSize: 13; font.bold: true; color: "#06b6d4"
+                        Layout.alignment: Qt.AlignVCenter
                     }
 
-                    // Delete button
+                    HealthBadge {
+                        Layout.alignment: Qt.AlignVCenter
+                        Layout.leftMargin: 4
+                        healthy: modelData.is_healthy === 1
+                        isDark: root.isDark
+                    }
+
+                    // Delete button — always pinned to the right
                     Rectangle {
+                        Layout.alignment: Qt.AlignVCenter
+                        Layout.leftMargin: 8
                         width: 32; height: 32; radius: 6
-                        anchors.verticalCenter: parent.verticalCenter
                         color: "transparent"
                         Text { anchors.centerIn: parent; text: "✕"
                                font.pixelSize: 14; color: "#f87171" }

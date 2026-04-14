@@ -1,10 +1,11 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
 import "../components"
 
 Item {
+    id: root
     objectName: "Settings"
-    anchors.fill: parent
     property bool isDark: appState.theme === "dark"
     property color surface: isDark ? "#1e293b" : "#ffffff"
     property color muted:   isDark ? "#64748b" : "#94a3b8"
@@ -48,21 +49,63 @@ Item {
 
                     // Food picker (test mode only)
                     Column {
+                        id: testPicker
                         width: parent.width; spacing: 6
                         visible: appState.testMode
 
-                        Text { text: "SELECT FOOD"; font { pixelSize: 9; letterSpacing: 1 }; color: muted }
+                        // Staged selection — only pushed to AppState when the user
+                        // taps "Scan selection" below, so they can tweak weight first.
+                        // Defaults to 0 so the staged index matches what the
+                        // ComboBox visually shows before the user taps anything.
+                        property int selectedIndex: 0
+                        property real selectedWeight: 0
+
+                        Text { text: "SELECT FOOD"; font.pixelSize: 9; font.letterSpacing: 1; color: muted }
                         ComboBox {
                             width: parent.width
+                            leftPadding: 12; rightPadding: 12
+                            topPadding: 8;   bottomPadding: 8
                             model: appState.allFoods.map(f => f.name)
-                            onActivated: appState.injectFood(appState.allFoods[currentIndex].id)
+                            onActivated: testPicker.selectedIndex = currentIndex
                         }
 
-                        Text { text: "WEIGHT (g)"; font { pixelSize: 9; letterSpacing: 1 }; color: muted }
+                        Text { text: "WEIGHT (g)"; font.pixelSize: 9; font.letterSpacing: 1; color: muted }
                         TextField {
-                            width: parent.width; inputMethodHints: Qt.ImhFormattedNumbersOnly
+                            id: weightField
+                            width: parent.width
+                            leftPadding: 12; rightPadding: 12
+                            topPadding: 10;  bottomPadding: 10
+                            inputMethodHints: Qt.ImhFormattedNumbersOnly
                             placeholderText: "e.g. 182"
-                            onEditingFinished: appState.setTestWeight(parseFloat(text) || 0)
+                            onTextChanged: testPicker.selectedWeight = parseFloat(text) || 0
+                        }
+
+                        // Confirm button — triggers the simulated scan
+                        Rectangle {
+                            width: parent.width; height: 40; radius: 8
+                            anchors.topMargin: 4
+                            property bool ready: testPicker.selectedIndex >= 0 &&
+                                                 testPicker.selectedWeight > 0
+                            gradient: Gradient {
+                                orientation: Gradient.Horizontal
+                                GradientStop { position: 0.0; color: parent.ready ? "#6366f1" : "#334155" }
+                                GradientStop { position: 1.0; color: parent.ready ? "#06b6d4" : "#475569" }
+                            }
+                            Text {
+                                anchors.centerIn: parent
+                                text: "Scan selection"
+                                color: "white"
+                                font { pixelSize: 12; bold: true }
+                            }
+                            MouseArea {
+                                anchors.fill: parent
+                                enabled: parent.ready
+                                onClicked: {
+                                    appState.setTestWeight(testPicker.selectedWeight)
+                                    appState.injectFood(
+                                        appState.allFoods[testPicker.selectedIndex].id)
+                                }
+                            }
                         }
                     }
                 }
@@ -172,7 +215,7 @@ Item {
                                 }
                                 Text { anchors.centerIn: parent
                                        text: appState.activeUserName[0].toUpperCase()
-                                       font { pixelSize: 10; bold: true }; color: "white" }
+                                       font.pixelSize: 10; font.bold: true; color: "white" }
                             }
                             Text { anchors.verticalCenter: parent.verticalCenter
                                    text: appState.activeUserName

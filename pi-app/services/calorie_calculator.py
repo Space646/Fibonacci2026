@@ -37,6 +37,10 @@ def calculate_bmr(weight_kg: float, height_cm: float, age: int, sex: str) -> flo
 def calculate_daily_goal(user: UserLike) -> float:
     if user.daily_calorie_goal is not None:
         return user.daily_calorie_goal
+    # Guest / unfinished profiles won't have the metrics needed for BMR —
+    # fall back to a neutral default until a phone syncs the real profile.
+    if user.weight_kg is None or user.height_cm is None or user.age is None:
+        return 2000.0
     bmr = calculate_bmr(user.weight_kg, user.height_cm, user.age, user.sex)
     multiplier = _ACTIVITY_MULTIPLIERS.get(user.activity_level, 1.2)
     return round(bmr * multiplier, 1)

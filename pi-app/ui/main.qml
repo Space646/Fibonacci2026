@@ -33,6 +33,29 @@ ApplicationWindow {
             left: parent.left; right: parent.right; bottom: navBar.top
         }
         initialItem: Qt.resolvedUrl("screens/Dashboard.qml")
+
+        // Direction of the next replace() — set by nav bar before switching.
+        //  1  = target is to the right of current (slide new page in from right)
+        // -1  = target is to the left (slide new page in from left)
+        property int slideDir: 1
+        property int currentTabIndex: 0
+
+        replaceEnter: Transition {
+            XAnimator {
+                from: stackView.slideDir * stackView.width
+                to: 0
+                duration: 220
+                easing.type: Easing.OutCubic
+            }
+        }
+        replaceExit: Transition {
+            XAnimator {
+                from: 0
+                to: -stackView.slideDir * stackView.width
+                duration: 220
+                easing.type: Easing.OutCubic
+            }
+        }
     }
 
     // Bottom navigation bar
@@ -90,7 +113,12 @@ ApplicationWindow {
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: stackView.replace(Qt.resolvedUrl(modelData.screen))
+                        onClicked: {
+                            if (index === stackView.currentTabIndex) return
+                            stackView.slideDir = index > stackView.currentTabIndex ? 1 : -1
+                            stackView.currentTabIndex = index
+                            stackView.replace(Qt.resolvedUrl(modelData.screen))
+                        }
                     }
                 }
             }
@@ -100,6 +128,9 @@ ApplicationWindow {
     Connections {
         target: appState
         function onScanDetected(food) {
+            const scanIndex = 1
+            stackView.slideDir = scanIndex >= stackView.currentTabIndex ? 1 : -1
+            stackView.currentTabIndex = scanIndex
             stackView.replace(Qt.resolvedUrl("screens/ScanResult.qml"),
                               { detectedFood: food })
         }
