@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		065EE9829856501A962398C4 /* UserProfileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5834EFFAA1A0E4DD333A31 /* UserProfileStore.swift */; };
 		11DA62398CEC6DC3F0FD7AF2 /* HealthSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A8DD800FE2AD95E32DCEDB /* HealthSnapshot.swift */; };
 		2DFD2FFF99E80B7D3665EEF2 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597FB9857EA63FEF43814D77 /* UserProfile.swift */; };
 		4D85813522FF181DFC0573B4 /* FiboHealthApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD13B9821A0C42175F131D83 /* FiboHealthApp.swift */; };
@@ -35,6 +36,7 @@
 		3D3A9C19F0B40D5BB9F50108 /* FiboHealthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiboHealthTests.swift; sourceTree = "<group>"; };
 		597FB9857EA63FEF43814D77 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		5DAC0F54E78AF29F53028DBE /* FiboHealth.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = FiboHealth.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E5834EFFAA1A0E4DD333A31 /* UserProfileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileStore.swift; sourceTree = "<group>"; };
 		B81B9F185BE4C17515D7B7B6 /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
 		BD13B9821A0C42175F131D83 /* FiboHealthApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiboHealthApp.swift; sourceTree = "<group>"; };
 		C2BEF80057BCDEAF181D0DA6 /* FoodLogEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodLogEntry.swift; sourceTree = "<group>"; };
@@ -52,6 +54,14 @@
 			);
 			sourceTree = "<group>";
 		};
+		3D35DAC45F6907FD38634388 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				5E5834EFFAA1A0E4DD333A31 /* UserProfileStore.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		A93755AF2F8A04868464775F /* FiboHealth */ = {
 			isa = PBXGroup;
 			children = (
@@ -61,6 +71,7 @@
 				BD13B9821A0C42175F131D83 /* FiboHealthApp.swift */,
 				DF1E98F8927DF0F29BCB9FFC /* Info.plist */,
 				E3152E7AECF8E8F0985A539B /* Models */,
+				3D35DAC45F6907FD38634388 /* Services */,
 			);
 			path = FiboHealth;
 			sourceTree = "<group>";
@@ -177,6 +188,7 @@
 				11DA62398CEC6DC3F0FD7AF2 /* HealthSnapshot.swift in Sources */,
 				D23896EC4B69E36D83E99930 /* SessionState.swift in Sources */,
 				2DFD2FFF99E80B7D3665EEF2 /* UserProfile.swift in Sources */,
+				065EE9829856501A962398C4 /* UserProfileStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
