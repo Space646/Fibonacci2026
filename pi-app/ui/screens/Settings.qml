@@ -1,0 +1,198 @@
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import "../components"
+
+Item {
+    objectName: "Settings"
+    anchors.fill: parent
+    property bool isDark: appState.theme === "dark"
+    property color surface: isDark ? "#1e293b" : "#ffffff"
+    property color muted:   isDark ? "#64748b" : "#94a3b8"
+
+    Flickable {
+        anchors { fill: parent; margins: 16 }
+        contentHeight: col.implicitHeight; clip: true
+
+        Column {
+            id: col
+            width: parent.width; spacing: 12
+
+            Text { text: "Settings"; font { pixelSize: 20; bold: true }
+                   color: isDark ? "white" : "#0f172a" }
+
+            // ── Test Mode ────────────────────────────────────────────────
+            Rectangle {
+                width: parent.width; radius: 10; color: surface
+                height: testModeCol.implicitHeight + 24
+
+                Column {
+                    id: testModeCol
+                    anchors { left: parent.left; right: parent.right; top: parent.top; margins: 12 }
+                    spacing: 10
+
+                    Row {
+                        width: parent.width
+                        Column {
+                            spacing: 2
+                            Text { text: "Test Mode"; font { pixelSize: 13; bold: true }
+                                   color: isDark ? "white" : "#0f172a" }
+                            Text { text: "Override HuskyLens + scale input"
+                                   font.pixelSize: 10; color: muted }
+                        }
+                        Item { Layout.fillWidth: true; width: 1 }
+                        Switch {
+                            checked: appState.testMode
+                            onToggled: appState.setTestMode(checked)
+                        }
+                    }
+
+                    // Food picker (test mode only)
+                    Column {
+                        width: parent.width; spacing: 6
+                        visible: appState.testMode
+
+                        Text { text: "SELECT FOOD"; font { pixelSize: 9; letterSpacing: 1 }; color: muted }
+                        ComboBox {
+                            width: parent.width
+                            model: appState.allFoods.map(f => f.name)
+                            onActivated: appState.injectFood(appState.allFoods[currentIndex].id)
+                        }
+
+                        Text { text: "WEIGHT (g)"; font { pixelSize: 9; letterSpacing: 1 }; color: muted }
+                        TextField {
+                            width: parent.width; inputMethodHints: Qt.ImhFormattedNumbersOnly
+                            placeholderText: "e.g. 182"
+                            onEditingFinished: appState.setTestWeight(parseFloat(text) || 0)
+                        }
+                    }
+                }
+            }
+
+            // ── Theme ────────────────────────────────────────────────────
+            Rectangle {
+                width: parent.width; height: 56; radius: 10; color: surface
+                Row {
+                    anchors { fill: parent; margins: 12 }
+                    Column {
+                        spacing: 2; anchors.verticalCenter: parent.verticalCenter
+                        Text { text: "Theme"; font { pixelSize: 13; bold: true }
+                               color: isDark ? "white" : "#0f172a" }
+                        Text { text: "Dark Cosmos / Clean Light"
+                               font.pixelSize: 10; color: muted }
+                    }
+                    Item { Layout.fillWidth: true; width: 1 }
+                    Row {
+                        spacing: 4; anchors.verticalCenter: parent.verticalCenter
+                        Repeater {
+                            model: ["Dark", "Light"]
+                            Rectangle {
+                                width: 52; height: 28; radius: 6
+                                color: (modelData === "Dark" && appState.theme === "dark") ||
+                                       (modelData === "Light" && appState.theme === "light")
+                                       ? "#6366f1" : (isDark ? "#0f172a" : "#f1f5f9")
+                                Text { anchors.centerIn: parent; text: modelData
+                                       font.pixelSize: 11
+                                       color: (modelData === "Dark" && appState.theme === "dark") ||
+                                              (modelData === "Light" && appState.theme === "light")
+                                              ? "white" : muted }
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: appState.setTheme(modelData.toLowerCase())
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // ── HuskyLens Label Mapping ────────────────────────────────
+            Rectangle {
+                width: parent.width; radius: 10; color: surface
+                height: mappingCol.implicitHeight + 24
+
+                Column {
+                    id: mappingCol
+                    anchors { left: parent.left; right: parent.right; top: parent.top; margins: 12 }
+                    spacing: 8
+
+                    Text { text: "HuskyLens Label Mapping"
+                           font { pixelSize: 13; bold: true }
+                           color: isDark ? "white" : "#0f172a" }
+
+                    Repeater {
+                        model: appState.allFoods.filter(f => f.huskylens_label_id !== null)
+
+                        Rectangle {
+                            width: parent.width; height: 36; radius: 6
+                            color: isDark ? "#0f172a" : "#f8fafc"
+                            Row {
+                                anchors { fill: parent; leftMargin: 10; rightMargin: 10 }
+                                Text { anchors.verticalCenter: parent.verticalCenter
+                                       text: "Label ID " + modelData.huskylens_label_id
+                                       font.pixelSize: 11; color: muted; width: 80 }
+                                Text { anchors.verticalCenter: parent.verticalCenter
+                                       text: modelData.name
+                                       font { pixelSize: 12; bold: true }
+                                       color: isDark ? "white" : "#0f172a" }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // ── Paired Users ─────────────────────────────────────────────
+            Rectangle {
+                width: parent.width; radius: 10; color: surface
+                height: usersCol.implicitHeight + 24
+
+                Column {
+                    id: usersCol
+                    anchors { left: parent.left; right: parent.right; top: parent.top; margins: 12 }
+                    spacing: 8
+
+                    Text { text: "Paired Users"
+                           font { pixelSize: 13; bold: true }
+                           color: isDark ? "white" : "#0f172a" }
+
+                    Rectangle {
+                        width: parent.width; height: 40; radius: 6
+                        color: isDark ? "#0f172a" : "#f8fafc"
+                        visible: appState.userConnected
+
+                        Row {
+                            anchors { fill: parent; leftMargin: 10; rightMargin: 10 }
+                            spacing: 8
+                            Rectangle {
+                                width: 24; height: 24; radius: 12
+                                anchors.verticalCenter: parent.verticalCenter
+                                gradient: Gradient {
+                                    orientation: Gradient.Horizontal
+                                    GradientStop { position: 0.0; color: "#6366f1" }
+                                    GradientStop { position: 1.0; color: "#06b6d4" }
+                                }
+                                Text { anchors.centerIn: parent
+                                       text: appState.activeUserName[0].toUpperCase()
+                                       font { pixelSize: 10; bold: true }; color: "white" }
+                            }
+                            Text { anchors.verticalCenter: parent.verticalCenter
+                                   text: appState.activeUserName
+                                   font.pixelSize: 12; color: isDark ? "white" : "#0f172a" }
+                            Item { Layout.fillWidth: true; width: 1 }
+                            Row {
+                                spacing: 4; anchors.verticalCenter: parent.verticalCenter
+                                Rectangle { width: 6; height: 6; radius: 3; color: "#22c55e" }
+                                Text { text: "Active"; font.pixelSize: 10; color: muted }
+                            }
+                        }
+                    }
+
+                    Text {
+                        visible: !appState.userConnected
+                        text: "No device connected."
+                        font.pixelSize: 11; color: muted
+                    }
+                }
+            }
+        }
+    }
+}
