@@ -77,7 +77,18 @@ class UserSessionManager:
                ORDER BY fl.timestamp DESC""",
             (user_id,),
         ).fetchall()
-        return [dict(r) for r in rows]
+        result = []
+        for r in rows:
+            d = dict(r)
+            w = d.get("weight_g") or 0.0
+            # Per-entry grams used by iOS to build HealthKit correlation
+            # samples. Round to 2dp to keep BLE payload tight.
+            d["protein_g"] = round((d.pop("protein_per_100g") or 0.0) * w / 100.0, 2)
+            d["fat_g"]     = round((d.pop("fat_per_100g")     or 0.0) * w / 100.0, 2)
+            d["sugar_g"]   = round((d.pop("sugar_per_100g")   or 0.0) * w / 100.0, 2)
+            d["fiber_g"]   = round((d.pop("fiber_per_100g")   or 0.0) * w / 100.0, 2)
+            result.append(d)
+        return result
 
     def total_calories_today(self, user_id: int) -> float:
         result = self._conn.execute(

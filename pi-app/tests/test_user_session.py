@@ -59,3 +59,24 @@ def test_delete_log_entry(seeded_db):
     entry = mgr.log_food(user["id"], food_id=1, weight_g=100, calories=52)
     mgr.delete_log_entry(entry["id"])
     assert mgr.get_todays_log(user["id"]) == []
+
+def test_get_todays_log_includes_macro_grams(seeded_db):
+    """Each entry must carry per-entry gram values for protein/fat/sugar/fiber,
+    computed as (per_100g * weight_g / 100). iOS uses these to build HealthKit
+    correlation samples; missing keys would cause those samples to be omitted."""
+    mgr = UserSessionManager(seeded_db)
+    user = mgr.upsert_user(GUEST_MAC, {"name": None, "age": None,
+        "weight_kg": None, "height_cm": None, "sex": "other",
+        "activity_level": "sedentary", "daily_calorie_goal": None})
+    # Seed: food_id=1 is "Apple" (0.3g protein, 0.2g fat, 10.0g sugar, 2.4g fiber per 100g).
+    # Log 200g of apple.
+    mgr.log_food(user["id"], food_id=1, weight_g=200.0, calories=104.0)
+
+    rows = mgr.get_todays_log(user["id"])
+    assert len(rows) == 1
+    row = rows[0]
+    # Per-entry grams: (per_100g * weight_g / 100), rounded to 2dp
+    assert row["protein_g"] == 0.6    # 0.3 * 200 / 100
+    assert row["fat_g"]     == 0.4    # 0.2 * 200 / 100
+    assert row["sugar_g"]   == 20.0   # 10.0 * 200 / 100
+    assert row["fiber_g"]   == 4.8    # 2.4 * 200 / 100
