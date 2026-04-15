@@ -138,20 +138,20 @@ class AppState(QObject):
 
     # ── BLE Callbacks ────────────────────────────────────────────────────────
 
-    def _on_profile_received(self, mac: str, profile: dict):
-        self._active_user = self._session.upsert_user(mac, profile)
+    def _on_profile_received(self, device_id: str, profile: dict):
+        self._active_user = self._session.upsert_user(device_id, profile)
         self.userChanged.emit()
-        self._sync_to_client(mac)
+        self._sync_to_client(device_id)
 
-    def _on_health_received(self, mac: str, snapshot: dict):
+    def _on_health_received(self, device_id: str, snapshot: dict):
         self._session.update_health_snapshot(self._active_user["id"], snapshot)
         self.userChanged.emit()
-        self._sync_to_client(mac)
+        self._sync_to_client(device_id)
 
-    def _sync_to_client(self, mac: str):
+    def _sync_to_client(self, device_id: str):
         log = self._session.get_todays_log(self._active_user["id"])
-        self._ble.notify_food_log(mac, log)
-        self._ble.notify_session_state(mac, {
+        self._ble.notify_food_log(device_id, log)
+        self._ble.notify_session_state(device_id, {
             "calories_consumed": self.totalCaloriesToday,
             "calories_remaining": self.remainingCalories,
             "last_scan_food": self._last_scan.get("name", ""),
@@ -198,7 +198,7 @@ class AppState(QObject):
     @pyqtSlot()
     def simulatePhonePairing(self):
         from datetime import date
-        mock_mac = "SIMULATED:00:11:22:33:44:55"
+        mock_device_id = "SIMULATED:00:11:22:33:44:55"
         mock_profile = {
             "name": "Test User",
             "age": 28,
@@ -215,5 +215,5 @@ class AppState(QObject):
             "active_minutes": 34,
             "workouts": 1,
         }
-        self._on_profile_received(mock_mac, mock_profile)
-        self._on_health_received(mock_mac, mock_health)
+        self._on_profile_received(mock_device_id, mock_profile)
+        self._on_health_received(mock_device_id, mock_health)
