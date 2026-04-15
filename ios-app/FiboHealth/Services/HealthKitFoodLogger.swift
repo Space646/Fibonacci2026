@@ -1,6 +1,7 @@
 import HealthKit
 import Combine
 import Foundation
+import os
 
 /// Reconciles the Pi's food log into HealthKit food correlations.
 ///
@@ -15,6 +16,11 @@ final class HealthKitFoodLogger: ObservableObject {
     @Published var lastError: String?
 
     private let store = HKHealthStore()
+
+    private static let log = Logger(
+        subsystem: "com.fibohealth.app",
+        category: "HealthKitFoodLogger"
+    )
 
     private static let isoFormatter: ISO8601DateFormatter = {
         let f = ISO8601DateFormatter()
@@ -72,8 +78,11 @@ final class HealthKitFoodLogger: ObservableObject {
         // Inserts — build correlation per new entry.
         let entriesById = Dictionary(uniqueKeysWithValues: entries.map { ($0.id, $0) })
         for id in toInsert {
-            guard let entry = entriesById[id],
-                  let correlation = buildCorrelation(for: entry) else { continue }
+            guard let entry = entriesById[id] else { continue }
+            guard let correlation = buildCorrelation(for: entry) else {
+                Self.log.warning("Skipping entry id=\(id): buildCorrelation returned nil")
+                continue
+            }
             do { try await store.save(correlation) }
             catch {
                 await MainActor.run {
@@ -107,13 +116,27 @@ final class HealthKitFoodLogger: ObservableObject {
 
         let existing: [HKCorrelation]
         do { existing = try await fetchFiboHealthCorrelations(of: foodCorrelationType) }
-        catch { return (0, 0) }
+        catch {
+            Self.log.error("Failed to fetch entries: \(error.localizedDescription)")
+            await MainActor.run {
+                self.lastError = "Failed to fetch entries: \(error.localizedDescription)"
+            }
+            return (0, 0)
+        }
 
         var removed = 0
         var failed = 0
         for c in existing {
-            do { try await store.delete(c); removed += 1 }
-            catch { failed += 1 }
+            do {
+                try await store.delete(c)
+                removed += 1
+            } catch {
+                failed += 1
+                Self.log.error("HK delete failed: \(error.localizedDescription)")
+                await MainActor.run {
+                    self.lastError = "HK delete failed: \(error.localizedDescription)"
+                }
+            }
         }
         return (removed, failed)
     }
@@ -144,6 +167,7 @@ final class HealthKitFoodLogger: ObservableObject {
     /// parseable date or no calories).
     private func buildCorrelation(for entry: FoodLogEntry) -> HKCorrelation? {
         guard let date = Self.isoFormatter.date(from: entry.timestamp) else {
+            Self.log.warning("Skipping entry id=\(entry.id): unparseable timestamp '\(entry.timestamp)'")
             return nil
         }
         let metadata: [String: Any] = [
