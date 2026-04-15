@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>StringsTable</key>
+    <string>Root</string>
+    <key>PreferenceSpecifiers</key>
+    <array>
+        <dict>
+            <key>Type</key>
+            <string>PSGroupSpecifier</string>
+            <key>Title</key>
+            <string>Apple Health</string>
+            <key>FooterText</key>
+            <string>When on, food scans from your Pi are logged to Health as Dietary Energy and macronutrients. To remove previously logged entries, open FiboHealth → Profile.</string>
+        </dict>
+        <dict>
+            <key>Type</key>
+            <string>PSToggleSwitchSpecifier</string>
+            <key>Title</key>
+            <string>Log Food to Health</string>
+            <key>Key</key>
+            <string>healthkit_food_logging_enabled</string>
+            <key>DefaultValue</key>
+            <false/>
+            <key>TrueValue</key>
+            <true/>
+            <key>FalseValue</key>
+            <false/>
+        </dict>
+    </array>
+</dict>
+</plist>

@@ -26,6 +26,7 @@
 		C09C250DDB77D13AB188ED76 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5460F24741C1C27953AD87 /* ProfileView.swift */; };
 		CEB6B30DCBAF4619E74E1CFD /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C148D9E7D0D23406D700E278 /* DashboardView.swift */; };
 		D23896EC4B69E36D83E99930 /* SessionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391C3A5FDB33FA84FED0D169 /* SessionState.swift */; };
+		D44193D9C010C02945D5B253 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 625FA4E7583F1CA699F40611 /* Settings.bundle */; };
 		DDB385D2EA135CB942EDFAC9 /* FoodLogEntryDecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93D5DAD01001B98072C0088 /* FoodLogEntryDecodeTests.swift */; };
 		DE229D29E912837B4BADD160 /* FoodLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B15A98E4E59777FE1D46250 /* FoodLogView.swift */; };
 		E386C0A805DC1EA2855DBD2F /* HealthBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45EF33F80ECDD3FDB5709A1 /* HealthBadgeView.swift */; };
@@ -57,6 +58,7 @@
 		597FB9857EA63FEF43814D77 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		5DAC0F54E78AF29F53028DBE /* FiboHealth.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = FiboHealth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E5834EFFAA1A0E4DD333A31 /* UserProfileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileStore.swift; sourceTree = "<group>"; };
+		625FA4E7583F1CA699F40611 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = wrapper.cfbundle; path = Settings.bundle; sourceTree = "<group>"; };
 		96EDB029CF5410AE7A5C6E0B /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		A3B4E0A7AA829AB997CD7738 /* StatCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatCardView.swift; sourceTree = "<group>"; };
 		AF08E0713AE7E97FE7BA5BD6 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				F372DF6DE6D1D86BE4BF74C6 /* FiboHealth.entitlements */,
 				BD13B9821A0C42175F131D83 /* FiboHealthApp.swift */,
 				DF1E98F8927DF0F29BCB9FFC /* Info.plist */,
+				625FA4E7583F1CA699F40611 /* Settings.bundle */,
 				B825FE8C669FF9A0C21CC840 /* Components */,
 				E3152E7AECF8E8F0985A539B /* Models */,
 				3D35DAC45F6907FD38634388 /* Services */,
@@ -196,6 +199,7 @@
 			buildConfigurationList = A187FF91F4E9FF0E77E31BB4 /* Build configuration list for PBXNativeTarget "FiboHealth" */;
 			buildPhases = (
 				638CCA592394B2BFA1581649 /* Sources */,
+				7BB9F889B60FCEE00FB88ACC /* Resources */,
 			);
 			buildRules = (
 			);
@@ -241,6 +245,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7BB9F889B60FCEE00FB88ACC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D44193D9C010C02945D5B253 /* Settings.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		638CCA592394B2BFA1581649 /* Sources */ = {

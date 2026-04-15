@@ -19,6 +19,11 @@ targets:
     sources:
       - path: FiboHealth
         createIntermediateGroups: true
+        excludes:
+          - "Settings.bundle"
+      - path: FiboHealth/Settings.bundle
+        type: bundle
+        buildPhase: resources
     info:
       path: FiboHealth/Info.plist
       properties:
@@ -28,7 +33,7 @@ targets:
         CFBundleShortVersionString: "1.0"
         UILaunchScreen: {}
         NSHealthShareUsageDescription: "FiboHealth reads your activity data to calculate remaining daily calories."
-        NSHealthUpdateUsageDescription: "FiboHealth does not write health data."
+        NSHealthUpdateUsageDescription: "FiboHealth logs the food you scan on your Pi as dietary energy and macronutrients in Apple Health, so your daily calorie balance stays accurate."
         NSBluetoothAlwaysUsageDescription: "FiboHealth connects to your Fibonacci Pi device over Bluetooth."
         UIBackgroundModes:
           - bluetooth-central
