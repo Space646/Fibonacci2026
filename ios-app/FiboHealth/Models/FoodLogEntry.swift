@@ -9,6 +9,13 @@ struct FoodLogEntry: Codable, Identifiable {
     var healthScore: Double
     var timestamp: String
 
+    // Per-entry nutrient grams. Optional because older Pi payloads omit them;
+    // missing => the corresponding HealthKit sample is not written.
+    var proteinG: Double?
+    var fatG: Double?
+    var sugarG: Double?
+    var fiberG: Double?
+
     enum CodingKeys: String, CodingKey {
         case id
         case foodName    = "food_name"
@@ -17,10 +24,16 @@ struct FoodLogEntry: Codable, Identifiable {
         case isHealthy   = "is_healthy"
         case healthScore = "health_score"
         case timestamp
+        case proteinG    = "protein_g"
+        case fatG        = "fat_g"
+        case sugarG      = "sugar_g"
+        case fiberG      = "fiber_g"
     }
 
     init(id: Int, foodName: String, weightG: Double, calories: Double,
-         isHealthy: Bool, healthScore: Double, timestamp: String) {
+         isHealthy: Bool, healthScore: Double, timestamp: String,
+         proteinG: Double? = nil, fatG: Double? = nil,
+         sugarG: Double? = nil, fiberG: Double? = nil) {
         self.id = id
         self.foodName = foodName
         self.weightG = weightG
@@ -28,6 +41,10 @@ struct FoodLogEntry: Codable, Identifiable {
         self.isHealthy = isHealthy
         self.healthScore = healthScore
         self.timestamp = timestamp
+        self.proteinG = proteinG
+        self.fatG = fatG
+        self.sugarG = sugarG
+        self.fiberG = fiberG
     }
 
     // SQLite on the Pi stores `is_healthy` as INTEGER (0/1), which Python
@@ -49,5 +66,10 @@ struct FoodLogEntry: Codable, Identifiable {
         } else {
             isHealthy = false
         }
+
+        proteinG = try c.decodeIfPresent(Double.self, forKey: .proteinG)
+        fatG     = try c.decodeIfPresent(Double.self, forKey: .fatG)
+        sugarG   = try c.decodeIfPresent(Double.self, forKey: .sugarG)
+        fiberG   = try c.decodeIfPresent(Double.self, forKey: .fiberG)
     }
 }

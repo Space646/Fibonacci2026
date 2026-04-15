@@ -25,6 +25,7 @@
 		C09C250DDB77D13AB188ED76 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5460F24741C1C27953AD87 /* ProfileView.swift */; };
 		CEB6B30DCBAF4619E74E1CFD /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C148D9E7D0D23406D700E278 /* DashboardView.swift */; };
 		D23896EC4B69E36D83E99930 /* SessionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391C3A5FDB33FA84FED0D169 /* SessionState.swift */; };
+		DDB385D2EA135CB942EDFAC9 /* FoodLogEntryDecodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93D5DAD01001B98072C0088 /* FoodLogEntryDecodeTests.swift */; };
 		DE229D29E912837B4BADD160 /* FoodLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B15A98E4E59777FE1D46250 /* FoodLogView.swift */; };
 		E386C0A805DC1EA2855DBD2F /* HealthBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45EF33F80ECDD3FDB5709A1 /* HealthBadgeView.swift */; };
 		E3CDCD2A51996FCD3BC0AC07 /* DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81B9F185BE4C17515D7B7B6 /* DesignTokens.swift */; };
@@ -51,7 +52,7 @@
 		3B15A98E4E59777FE1D46250 /* FoodLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodLogView.swift; sourceTree = "<group>"; };
 		3D3A9C19F0B40D5BB9F50108 /* FiboHealthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiboHealthTests.swift; sourceTree = "<group>"; };
 		597FB9857EA63FEF43814D77 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
-		5DAC0F54E78AF29F53028DBE /* FiboHealth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FiboHealth.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5DAC0F54E78AF29F53028DBE /* FiboHealth.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = FiboHealth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E5834EFFAA1A0E4DD333A31 /* UserProfileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileStore.swift; sourceTree = "<group>"; };
 		96EDB029CF5410AE7A5C6E0B /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		A3B4E0A7AA829AB997CD7738 /* StatCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatCardView.swift; sourceTree = "<group>"; };
@@ -63,6 +64,7 @@
 		C2BEF80057BCDEAF181D0DA6 /* FoodLogEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodLogEntry.swift; sourceTree = "<group>"; };
 		CD463E0D1725E896B2F018EB /* CalorieRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalorieRingView.swift; sourceTree = "<group>"; };
 		D73694EC51BB2802A8AFA548 /* DeviceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceView.swift; sourceTree = "<group>"; };
+		D93D5DAD01001B98072C0088 /* FoodLogEntryDecodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodLogEntryDecodeTests.swift; sourceTree = "<group>"; };
 		DF1E98F8927DF0F29BCB9FFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EB448ED04DF73D36AF1414E0 /* HealthKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitService.swift; sourceTree = "<group>"; };
 		EBDD54409B48EFBC597FEC32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				3D3A9C19F0B40D5BB9F50108 /* FiboHealthTests.swift */,
+				D93D5DAD01001B98072C0088 /* FoodLogEntryDecodeTests.swift */,
 				EBDD54409B48EFBC597FEC32 /* Info.plist */,
 			);
 			path = FiboHealthTests;
@@ -207,6 +210,11 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					7B38803E1EA09E03DAE8CAAA = {
+						DevelopmentTeam = "";
+					};
+				};
 			};
 			buildConfigurationList = CB659AD1B21C4B73145E024A /* Build configuration list for PBXProject "FiboHealth" */;
 			developmentRegion = en;
@@ -262,6 +270,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE03C703D4998FB1B7278BDE /* FiboHealthTests.swift in Sources */,
+				DDB385D2EA135CB942EDFAC9 /* FoodLogEntryDecodeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,7 +354,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FiboHealth/FiboHealth.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = S7WWCVL5XU;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = FiboHealth/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -441,7 +450,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FiboHealth/FiboHealth.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = S7WWCVL5XU;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = FiboHealth/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
