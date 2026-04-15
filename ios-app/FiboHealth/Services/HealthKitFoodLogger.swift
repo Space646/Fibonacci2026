@@ -4,12 +4,10 @@ import Foundation
 
 final class HealthKitFoodLogger: ObservableObject {
     // Reconciliation core — pure, testable.
-    static func diff(piIds: [Int], hkIds: [Int])
-        -> (toInsert: [Int], toDelete: [Int])
+    static func diff(piIds: Set<Int>, hkIds: Set<Int>)
+        -> (toInsert: Set<Int>, toDelete: Set<Int>)
     {
-        let piSet = Set(piIds)
-        let hkSet = Set(hkIds)
-        return (toInsert: piSet.subtracting(hkSet).sorted(),
-                toDelete: hkSet.subtracting(piSet).sorted())
+        return (toInsert: piIds.subtracting(hkIds),
+                toDelete: hkIds.subtracting(piIds))
     }
 }
