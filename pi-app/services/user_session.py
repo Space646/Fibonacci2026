@@ -1,3 +1,10 @@
+"""User session persistence.
+
+The column ``bluetooth_mac`` is legacy-named; values are iOS-generated device
+UUIDs (``device_id``), not real Bluetooth MAC addresses. The column name is
+kept as-is for zero-migration reuse of the existing schema.
+"""
+
 import sqlite3
 from typing import Optional
 
@@ -10,18 +17,23 @@ class UserSessionManager:
         self._conn = conn
 
     def upsert_user(self, device_id: str, profile: dict) -> dict:
+        """Insert or update a user keyed by ``device_id`` (iOS UUID).
+
+        ``device_id`` is stored in the legacy ``bluetooth_mac`` column; it is
+        not a real MAC. Column name kept for schema-compatibility.
+        """
         self._conn.execute(
             """INSERT INTO users
                (bluetooth_mac, name, age, weight_kg, height_cm, sex,
                 activity_level, daily_calorie_goal)
-               VALUES (:mac,:name,:age,:weight_kg,:height_cm,:sex,
+               VALUES (:device_id,:name,:age,:weight_kg,:height_cm,:sex,
                        :activity_level,:daily_calorie_goal)
                ON CONFLICT(bluetooth_mac) DO UPDATE SET
                  name=excluded.name, age=excluded.age,
                  weight_kg=excluded.weight_kg, height_cm=excluded.height_cm,
                  sex=excluded.sex, activity_level=excluded.activity_level,
                  daily_calorie_goal=excluded.daily_calorie_goal""",
-            {"mac": device_id, **profile},
+            {"device_id": device_id, **profile},
         )
         self._conn.commit()
         row = self._conn.execute(
@@ -30,6 +42,11 @@ class UserSessionManager:
         return dict(row)
 
     def get_user_by_device(self, device_id: str) -> Optional[dict]:
+        """Look up a user by iOS ``device_id``.
+
+        The SQL filters the legacy ``bluetooth_mac`` column, which actually
+        stores iOS-generated device UUIDs, not Bluetooth MAC addresses.
+        """
         row = self._conn.execute(
             "SELECT * FROM users WHERE bluetooth_mac = ?", (device_id,)
         ).fetchone()
