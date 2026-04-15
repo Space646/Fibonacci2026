@@ -20,9 +20,24 @@ final class HealthKitService: ObservableObject {
         return types
     }()
 
+    // Nutrition write set — used for the food-logging feature. Calories +
+    // four macros (carbohydrates intentionally omitted; see spec).
+    static let nutritionShareTypes: Set<HKSampleType> = {
+        var types = Set<HKSampleType>()
+        let ids: [HKQuantityTypeIdentifier] = [
+            .dietaryEnergyConsumed, .dietaryProtein, .dietaryFatTotal,
+            .dietarySugar, .dietaryFiber
+        ]
+        for id in ids {
+            if let t = HKQuantityType.quantityType(forIdentifier: id) { types.insert(t) }
+        }
+        return types
+    }()
+
     func requestAuthorization() {
         guard HKHealthStore.isHealthDataAvailable() else { return }
-        store.requestAuthorization(toShare: [], read: readTypes) { [weak self] success, _ in
+        store.requestAuthorization(toShare: HealthKitService.nutritionShareTypes,
+                                   read: readTypes) { [weak self] success, _ in
             DispatchQueue.main.async {
                 self?.isAuthorized = success
                 if success { self?.fetchToday() }
