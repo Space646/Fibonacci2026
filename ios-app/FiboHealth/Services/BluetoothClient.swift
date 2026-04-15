@@ -95,15 +95,17 @@ extension BluetoothClient: CBCentralManagerDelegate {
     }
 
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        isConnected = true
+        DispatchQueue.main.async { self.isConnected = true }
         peripheral.delegate = self
         peripheral.discoverServices([serviceUUID])
     }
 
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral,
                         error: Error?) {
-        isConnected = false
-        characteristics = [:]
+        DispatchQueue.main.async {
+            self.isConnected = false
+            self.characteristics = [:]
+        }
         // Auto-reconnect
         startScanning()
     }
