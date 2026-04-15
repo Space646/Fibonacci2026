@@ -51,7 +51,7 @@
 		3B15A98E4E59777FE1D46250 /* FoodLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodLogView.swift; sourceTree = "<group>"; };
 		3D3A9C19F0B40D5BB9F50108 /* FiboHealthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiboHealthTests.swift; sourceTree = "<group>"; };
 		597FB9857EA63FEF43814D77 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
-		5DAC0F54E78AF29F53028DBE /* FiboHealth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FiboHealth.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5DAC0F54E78AF29F53028DBE /* FiboHealth.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = FiboHealth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E5834EFFAA1A0E4DD333A31 /* UserProfileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileStore.swift; sourceTree = "<group>"; };
 		96EDB029CF5410AE7A5C6E0B /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		A3B4E0A7AA829AB997CD7738 /* StatCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatCardView.swift; sourceTree = "<group>"; };
@@ -207,6 +207,11 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					7B38803E1EA09E03DAE8CAAA = {
+						DevelopmentTeam = "";
+					};
+				};
 			};
 			buildConfigurationList = CB659AD1B21C4B73145E024A /* Build configuration list for PBXProject "FiboHealth" */;
 			developmentRegion = en;
@@ -345,7 +350,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FiboHealth/FiboHealth.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = S7WWCVL5XU;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = FiboHealth/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -441,7 +446,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FiboHealth/FiboHealth.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = S7WWCVL5XU;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = FiboHealth/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -4,6 +4,7 @@ import Foundation
 @Model
 final class UserProfile {
     var id: UUID
+    var deviceId: UUID
     var name: String
     var age: Int
     var weightKg: Double
@@ -17,6 +18,7 @@ final class UserProfile {
          heightCm: Double = 170, sex: String = "other",
          activityLevel: String = "moderate", dailyCalorieGoal: Double? = nil) {
         self.id = UUID()
+        self.deviceId = UUID()
         self.name = name
         self.age = age
         self.weightKg = weightKg
@@ -30,6 +32,7 @@ final class UserProfile {
     /// JSON payload sent to Pi over BLE
     func blePayload() -> [String: Any] {
         [
+            "device_id": deviceId.uuidString,
             "name": name,
             "age": age,
             "weight_kg": weightKg,
