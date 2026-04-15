@@ -11,3 +11,7 @@ ios-app/FiboHealth.xcodeproj/xcuserdata/
 ios-app/DerivedData/
 ios-app/build/
 *.xcuserstate
+
+# py2app (macOS dev bundle)
+pi-app/build/
+pi-app/dist/
