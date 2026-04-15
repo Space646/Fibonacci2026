@@ -42,7 +42,7 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.fibonacci.fibohealth
         INFOPLIST_FILE: FiboHealth/Info.plist
         CODE_SIGN_ENTITLEMENTS: FiboHealth/FiboHealth.entitlements
-        DEVELOPMENT_TEAM: ""
+        DEVELOPMENT_TEAM: "S7WWCVL5XU"
         SWIFT_VERSION: "5.9"
 
   FiboHealthTests:

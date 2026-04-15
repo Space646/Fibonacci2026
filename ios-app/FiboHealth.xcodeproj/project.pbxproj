@@ -212,7 +212,7 @@
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					7B38803E1EA09E03DAE8CAAA = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = S7WWCVL5XU;
 					};
 				};
 			};
@@ -354,7 +354,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FiboHealth/FiboHealth.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = S7WWCVL5XU;
 				INFOPLIST_FILE = FiboHealth/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -450,7 +450,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FiboHealth/FiboHealth.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = S7WWCVL5XU;
 				INFOPLIST_FILE = FiboHealth/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
