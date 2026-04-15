@@ -1,83 +1,248 @@
+"""BLE GATT peripheral for FiboHealth.
+
+Sync facade over an asyncio bless server. The bless library handles the
+per-platform backend (CoreBluetooth on macOS, BlueZ/D-Bus on Linux/RPi).
+
+Public API matches the sync, signal-slot style the rest of the Pi app uses:
+callbacks fire from a background thread; Qt signals emitted from those
+callbacks are safely marshalled to the main thread by Qt's queued-connection
+mechanism.
+"""
+
+from __future__ import annotations
+
+import asyncio
 import json
+import logging
+import platform
 import threading
 from typing import Callable, Optional
 
-# UUIDs for the FiboHealth GATT service
+log = logging.getLogger(__name__)
+
+# UUIDs for the FiboHealth GATT service — must match iOS BluetoothClient
 SERVICE_UUID        = "12345678-1234-5678-1234-56789abcdef0"
 CHAR_USER_PROFILE   = "12345678-1234-5678-1234-56789abcdef1"
 CHAR_HEALTH_SNAP    = "12345678-1234-5678-1234-56789abcdef2"
 CHAR_FOOD_LOG_SYNC  = "12345678-1234-5678-1234-56789abcdef3"
 CHAR_SESSION_STATE  = "12345678-1234-5678-1234-56789abcdef4"
 
+PERIPHERAL_NAME = "FiboHealth-Pi"
+
 
 class BluetoothServer:
-    """
-    BLE GATT peripheral. Runs only on systems with BlueZ/dbus.
-    on_profile_received(mac, profile_dict) — called when iOS writes UserProfile
-    on_health_received(mac, snapshot_dict) — called when iOS writes HealthSnapshot
+    """BLE GATT peripheral.
+
+    Parameters
+    ----------
+    on_profile_received : callable(device_id: str, profile: dict)
+        Invoked when iOS writes the UserProfile characteristic.
+    on_health_received : callable(device_id: str, snapshot: dict)
+        Invoked when iOS writes the HealthSnapshot characteristic.
+    enabled : bool
+        If False, the server is a complete no-op (no thread, no bless import).
+        Use for tests and for Test Mode on the Pi app.
     """
 
     def __init__(
         self,
-        on_profile_received: Optional[Callable] = None,
-        on_health_received: Optional[Callable] = None,
+        on_profile_received: Optional[Callable[[str, dict], None]] = None,
+        on_health_received: Optional[Callable[[str, dict], None]] = None,
         enabled: bool = True,
     ):
         self._on_profile = on_profile_received
         self._on_health = on_health_received
-        self._clients: dict[str, object] = {}  # mac → connection
         self._enabled = enabled
-        self._app = None
+        self._loop: Optional[asyncio.AbstractEventLoop] = None
+        self._thread: Optional[threading.Thread] = None
+        self._server = None  # bless BlessServer, populated on the loop thread
+        self._ready_evt = threading.Event()
+        self.started = False
 
         if enabled:
             self._start()
 
-    def _start(self):
+    # ── Lifecycle ────────────────────────────────────────────────────────────
+
+    def _start(self) -> None:
+        """Launch the asyncio loop in a background thread and bring bless up."""
+        log.info("BLE peripheral: starting on %s", platform.system())
         try:
-            import dbus  # type: ignore
-            import dbus.mainloop.glib  # type: ignore
-            from gi.repository import GLib  # type: ignore
-            dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
-            self._loop = GLib.MainLoop()
-            t = threading.Thread(target=self._run_loop, daemon=True)
-            t.start()
-        except ImportError:
-            pass  # Not on RPi — BLE silently disabled
+            import bless  # noqa: F401 — import check only
+        except ImportError as exc:
+            log.warning("BLE unavailable — import failed: %s", exc)
+            return
 
-    def _run_loop(self):
-        # Full BlueZ GATT application registration omitted for brevity;
-        # implement using the bluez GATT API (register_application, register_advertisement).
-        # The _handle_write method below is the key entry point.
-        if self._loop:
-            self._loop.run()
+        self._thread = threading.Thread(
+            target=self._thread_main, name="BluetoothServer", daemon=True
+        )
+        self._thread.start()
+        # Wait up to 5 s for the server to finish its async setup
+        if self._ready_evt.wait(timeout=5.0):
+            self.started = True
+            log.info("BLE peripheral: advertising as %r", PERIPHERAL_NAME)
+        else:
+            log.warning("BLE peripheral: startup timed out (5s)")
 
-    def _handle_write(self, char_uuid: str, value: bytes, client_mac: str):
-        """Called by BlueZ when the iOS app writes a characteristic."""
+    def _thread_main(self) -> None:
+        """Run the asyncio loop for the lifetime of the server."""
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        self._loop = loop
+        try:
+            loop.run_until_complete(self._async_setup())
+            loop.run_forever()
+        except Exception:
+            log.exception("BLE peripheral crashed")
+        finally:
+            try:
+                loop.run_until_complete(self._async_teardown())
+            except Exception:
+                log.exception("BLE teardown error")
+            loop.close()
+
+    async def _async_setup(self) -> None:
+        """Build the BlessServer, register service + characteristics, start advertising."""
+        from bless import (
+            BlessServer,
+            GATTCharacteristicProperties,
+            GATTAttributePermissions,
+        )
+
+        server = BlessServer(name=PERIPHERAL_NAME, loop=self._loop)
+        server.read_request_func = self._on_read_request
+        server.write_request_func = self._on_write_request
+
+        # Service
+        await server.add_new_service(SERVICE_UUID)
+
+        # Writable characteristics (iOS → Pi)
+        write_props = (
+            GATTCharacteristicProperties.write
+            | GATTCharacteristicProperties.write_without_response
+        )
+        write_perms = GATTAttributePermissions.writeable
+        await server.add_new_characteristic(
+            SERVICE_UUID, CHAR_USER_PROFILE, write_props, b"", write_perms
+        )
+        await server.add_new_characteristic(
+            SERVICE_UUID, CHAR_HEALTH_SNAP, write_props, b"", write_perms
+        )
+
+        # Notify characteristics (Pi → iOS)
+        notify_props = GATTCharacteristicProperties.notify | GATTCharacteristicProperties.read
+        notify_perms = GATTAttributePermissions.readable
+        await server.add_new_characteristic(
+            SERVICE_UUID, CHAR_FOOD_LOG_SYNC, notify_props, b"[]", notify_perms
+        )
+        await server.add_new_characteristic(
+            SERVICE_UUID, CHAR_SESSION_STATE, notify_props, b"{}", notify_perms
+        )
+
+        await server.start()
+        self._server = server
+        self._ready_evt.set()
+
+    async def _async_teardown(self) -> None:
+        if self._server is not None:
+            try:
+                await self._server.stop()
+            except Exception:
+                log.exception("BlessServer.stop() failed")
+
+    # ── bless callbacks (called on the loop thread) ──────────────────────────
+
+    def _on_read_request(self, characteristic, **kwargs):
+        """Return the characteristic's current cached value on read requests."""
+        return characteristic.value
+
+    def _on_write_request(self, characteristic, value, **kwargs):
+        """Dispatched by bless on every write. Route by UUID."""
+        try:
+            char_uuid = str(characteristic.uuid).lower()
+        except Exception:
+            return
+        self._route_write(char_uuid, bytes(value))
+
+    # ── Routing (pure Python, unit-tested) ───────────────────────────────────
+
+    def _route_write(self, char_uuid: str, value: bytes) -> None:
+        """Decode a write payload and dispatch to the appropriate callback.
+
+        Pure Python — no bless types in its signature, so it is unit-testable.
+        """
+        char_uuid = char_uuid.lower()
         try:
             data = json.loads(value.decode("utf-8"))
         except Exception:
+            log.warning("BLE write: invalid JSON, dropped")
             return
 
-        if char_uuid == CHAR_USER_PROFILE and self._on_profile:
-            self._on_profile(client_mac, data)
-        elif char_uuid == CHAR_HEALTH_SNAP and self._on_health:
-            self._on_health(client_mac, data)
+        if not isinstance(data, dict):
+            log.warning("BLE write: non-object JSON, dropped")
+            return
 
-    def notify_food_log(self, client_mac: str, log_entries: list) -> None:
-        """Send food log entries to connected iOS client."""
-        payload = json.dumps(log_entries).encode("utf-8")
-        self._notify_client(client_mac, CHAR_FOOD_LOG_SYNC, payload)
+        device_id = data.pop("device_id", None)
+        if not device_id:
+            log.warning("BLE write: missing device_id, dropped")
+            return
 
-    def notify_session_state(self, client_mac: str, state: dict) -> None:
-        """Send session state (remaining calories etc.) to connected iOS client."""
-        payload = json.dumps(state).encode("utf-8")
-        self._notify_client(client_mac, CHAR_SESSION_STATE, payload)
+        if char_uuid == CHAR_USER_PROFILE.lower():
+            if self._on_profile is not None:
+                self._on_profile(device_id, data)
+        elif char_uuid == CHAR_HEALTH_SNAP.lower():
+            if self._on_health is not None:
+                self._on_health(device_id, data)
+        # Writes to notify-only characteristics are silently dropped.
 
-    def _notify_client(self, mac: str, char_uuid: str, payload: bytes):
-        # In full implementation, look up the characteristic object by UUID
-        # and call .PropertiesChanged() to trigger notification
-        pass
+    # ── Notifications (called from Qt main thread) ───────────────────────────
 
-    def stop(self):
-        if self._loop:
-            self._loop.quit()
+    def notify_food_log(self, device_id: str, log_entries: list) -> None:
+        """Send food log array to connected iOS central.
+
+        `device_id` is accepted for API symmetry but not used — bless delivers
+        notifications to all currently-subscribed centrals (we only ever expect
+        one active phone in practice).
+        """
+        payload = json.dumps(log_entries, default=str).encode("utf-8")
+        self._schedule_notify(CHAR_FOOD_LOG_SYNC, payload)
+
+    def notify_session_state(self, device_id: str, state: dict) -> None:
+        """Send session-state object to connected iOS central."""
+        payload = json.dumps(state, default=str).encode("utf-8")
+        self._schedule_notify(CHAR_SESSION_STATE, payload)
+
+    def _schedule_notify(self, char_uuid: str, payload: bytes) -> None:
+        if not self.started or self._loop is None or self._server is None:
+            return  # No-op when BLE is disabled / not up
+        try:
+            asyncio.run_coroutine_threadsafe(
+                self._do_notify(char_uuid, payload), self._loop
+            )
+        except Exception:
+            log.exception("Failed to schedule BLE notification")
+
+    async def _do_notify(self, char_uuid: str, payload: bytes) -> None:
+        try:
+            char = self._server.get_characteristic(char_uuid)
+            if char is None:
+                log.warning("BLE notify: characteristic %s not found", char_uuid)
+                return
+            char.value = payload
+            self._server.update_value(SERVICE_UUID, char_uuid)
+        except Exception:
+            log.exception("BLE notify for %s failed", char_uuid)
+
+    # ── Shutdown ─────────────────────────────────────────────────────────────
+
+    def stop(self) -> None:
+        """Stop advertising and tear down the server. Safe to call repeatedly."""
+        if self._loop is None:
+            return
+        try:
+            self._loop.call_soon_threadsafe(self._loop.stop)
+        except RuntimeError:
+            pass  # loop already stopped
+        if self._thread is not None:
+            self._thread.join(timeout=2.0)
+        self.started = False
