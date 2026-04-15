@@ -125,27 +125,36 @@ class BluetoothServer:
         # Service
         await server.add_new_service(SERVICE_UUID)
 
-        # Writable characteristics (iOS → Pi)
+        # Writable characteristics (iOS → Pi).
+        # IMPORTANT: pass value=None. CoreBluetooth raises
+        # NSInternalInconsistencyException("Characteristics with cached values
+        # must be read-only") if any non-read-only characteristic is created
+        # with a cached value. BlueZ tolerates initial values, but for
+        # portability we use None everywhere and let _on_read_request supply
+        # sensible defaults.
         write_props = (
             GATTCharacteristicProperties.write
             | GATTCharacteristicProperties.write_without_response
         )
         write_perms = GATTAttributePermissions.writeable
         await server.add_new_characteristic(
-            SERVICE_UUID, CHAR_USER_PROFILE, write_props, b"", write_perms
+            SERVICE_UUID, CHAR_USER_PROFILE, write_props, None, write_perms
         )
         await server.add_new_characteristic(
-            SERVICE_UUID, CHAR_HEALTH_SNAP, write_props, b"", write_perms
+            SERVICE_UUID, CHAR_HEALTH_SNAP, write_props, None, write_perms
         )
 
-        # Notify characteristics (Pi → iOS)
+        # Notify characteristics (Pi → iOS). `.read` is kept so iOS can pull
+        # the latest value on connect before the first notification arrives;
+        # the cached value restriction only triggers when an initial value is
+        # supplied at creation time, so passing None is fine.
         notify_props = GATTCharacteristicProperties.notify | GATTCharacteristicProperties.read
         notify_perms = GATTAttributePermissions.readable
         await server.add_new_characteristic(
-            SERVICE_UUID, CHAR_FOOD_LOG_SYNC, notify_props, b"[]", notify_perms
+            SERVICE_UUID, CHAR_FOOD_LOG_SYNC, notify_props, None, notify_perms
         )
         await server.add_new_characteristic(
-            SERVICE_UUID, CHAR_SESSION_STATE, notify_props, b"{}", notify_perms
+            SERVICE_UUID, CHAR_SESSION_STATE, notify_props, None, notify_perms
         )
 
         await server.start()
@@ -166,8 +175,22 @@ class BluetoothServer:
     # ── bless callbacks (called on the loop thread) ──────────────────────────
 
     def _on_read_request(self, characteristic, **kwargs):
-        """Return the characteristic's current cached value on read requests."""
-        return characteristic.value
+        """Return the characteristic's current value on read requests.
+
+        Characteristics are created with `value=None` (CoreBluetooth rejects
+        cached values on non-read-only characteristics). If a central reads
+        before the first notify has set a value, fall back to an empty
+        payload shaped for the UUID.
+        """
+        value = getattr(characteristic, "value", None)
+        if value:
+            return value
+        char_uuid = str(getattr(characteristic, "uuid", "")).lower()
+        if char_uuid == CHAR_FOOD_LOG_SYNC.lower():
+            return b"[]"
+        if char_uuid == CHAR_SESSION_STATE.lower():
+            return b"{}"
+        return b""
 
     def _on_write_request(self, characteristic, value, **kwargs):
         """Dispatched by bless on every write. Route by UUID."""
