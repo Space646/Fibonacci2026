@@ -2,14 +2,14 @@ import sqlite3
 from typing import Optional
 
 
-GUEST_MAC = "00:00:00:00:00:00"
+GUEST_MAC = "00:00:00:00:00:00"  # sentinel device_id for the guest session
 
 
 class UserSessionManager:
     def __init__(self, conn: sqlite3.Connection):
         self._conn = conn
 
-    def upsert_user(self, bluetooth_mac: str, profile: dict) -> dict:
+    def upsert_user(self, device_id: str, profile: dict) -> dict:
         self._conn.execute(
             """INSERT INTO users
                (bluetooth_mac, name, age, weight_kg, height_cm, sex,
@@ -21,17 +21,17 @@ class UserSessionManager:
                  weight_kg=excluded.weight_kg, height_cm=excluded.height_cm,
                  sex=excluded.sex, activity_level=excluded.activity_level,
                  daily_calorie_goal=excluded.daily_calorie_goal""",
-            {"mac": bluetooth_mac, **profile},
+            {"mac": device_id, **profile},
         )
         self._conn.commit()
         row = self._conn.execute(
-            "SELECT * FROM users WHERE bluetooth_mac = ?", (bluetooth_mac,)
+            "SELECT * FROM users WHERE bluetooth_mac = ?", (device_id,)
         ).fetchone()
         return dict(row)
 
-    def get_user_by_mac(self, bluetooth_mac: str) -> Optional[dict]:
+    def get_user_by_device(self, device_id: str) -> Optional[dict]:
         row = self._conn.execute(
-            "SELECT * FROM users WHERE bluetooth_mac = ?", (bluetooth_mac,)
+            "SELECT * FROM users WHERE bluetooth_mac = ?", (device_id,)
         ).fetchone()
         return dict(row) if row else None
 
