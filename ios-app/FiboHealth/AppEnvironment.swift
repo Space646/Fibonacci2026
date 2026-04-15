@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import Combine
 
 @MainActor
 final class AppEnvironment: ObservableObject {
@@ -7,20 +8,38 @@ final class AppEnvironment: ObservableObject {
 
     let profileStore: UserProfileStore
     let healthKit: HealthKitService
+    let healthKitFoodLogger: HealthKitFoodLogger
     let bluetooth: BluetoothClient
+
+    static let healthLoggingEnabledKey = "healthkit_food_logging_enabled"
+
+    private var cancellables = Set<AnyCancellable>()
 
     init(modelContext: ModelContext) {
         self.profileStore = UserProfileStore(modelContext: modelContext)
         self.healthKit = HealthKitService()
+        self.healthKitFoodLogger = HealthKitFoodLogger()
         self.bluetooth = BluetoothClient()
 
-        // Wire up: BLE pending payloads start from the current profile + snapshot
         self.bluetooth.pendingDeviceId = profileStore.profile.deviceId.uuidString
         self.bluetooth.pendingProfile = profileStore.profile.blePayload()
         self.bluetooth.pendingSnapshot = healthKit.snapshot
 
-        // Request HealthKit on startup
         self.healthKit.requestAuthorization()
+
+        self.bluetooth.$foodLog
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] entries in
+                self?.reconcileIfEnabled(entries: entries)
+            }
+            .store(in: &cancellables)
+
+        NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.handleToggleChangeIfNeeded()
+            }
+            .store(in: &cancellables)
     }
 
     /// Push the latest profile + health snapshot to the Pi. If already
@@ -31,5 +50,26 @@ final class AppEnvironment: ObservableObject {
         bluetooth.pendingProfile = profileStore.profile.blePayload()
         bluetooth.pendingSnapshot = healthKit.snapshot
         bluetooth.resync()
+    }
+
+    private var lastSeenToggle: Bool = UserDefaults.standard
+        .bool(forKey: AppEnvironment.healthLoggingEnabledKey)
+
+    private func reconcileIfEnabled(entries: [FoodLogEntry]) {
+        guard UserDefaults.standard.bool(forKey: Self.healthLoggingEnabledKey) else { return }
+        Task { await healthKitFoodLogger.reconcile(with: entries) }
+    }
+
+    private func handleToggleChangeIfNeeded() {
+        let now = UserDefaults.standard.bool(forKey: Self.healthLoggingEnabledKey)
+        guard now != lastSeenToggle else { return }
+        lastSeenToggle = now
+        if now {
+            let entries = bluetooth.foodLog
+            Task {
+                await healthKitFoodLogger.requestWriteAuthorization()
+                await healthKitFoodLogger.reconcile(with: entries)
+            }
+        }
     }
 }

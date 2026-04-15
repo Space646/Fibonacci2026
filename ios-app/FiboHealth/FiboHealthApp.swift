@@ -29,6 +29,7 @@ private struct InnerView: View {
             .environmentObject(env)
             .environmentObject(env.profileStore)
             .environmentObject(env.healthKit)
+            .environmentObject(env.healthKitFoodLogger)
             .environmentObject(env.bluetooth)
             .onAppear {
                 env.theme = colorScheme == .dark ? .dark : .light
