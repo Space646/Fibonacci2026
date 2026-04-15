@@ -56,7 +56,12 @@ Item {
 
                 Item { width: 1; Layout.fillWidth: true }
 
-                // Connect prompt when no user
+                // Connect prompt when no user.
+                //  • BLE advertising  → static hint telling the user to open
+                //    the iOS app. The Pi is the peripheral, it cannot
+                //    initiate pairing, so tapping should be a no-op here.
+                //  • BLE not running  → dev shortcut: simulate a phone
+                //    pairing so the UI can be exercised.
                 Rectangle {
                     visible: !appState.userConnected
                     color: surface; radius: 6; height: 28
@@ -65,11 +70,14 @@ Item {
                     Text {
                         id: connectText
                         anchors.centerIn: parent
-                        text: "Connect phone"
+                        text: appState.bleAvailable
+                              ? "Open FiboHealth on your phone"
+                              : "Simulate phone"
                         color: "#6366f1"; font.pixelSize: 10
                     }
                     MouseArea {
                         anchors.fill: parent
+                        enabled: !appState.bleAvailable
                         onClicked: appState.simulatePhonePairing()
                     }
                 }

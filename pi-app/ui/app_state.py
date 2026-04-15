@@ -189,12 +189,21 @@ class AppState(QObject):
         from services.user_session import GUEST_MAC
         return self._active_user.get("bluetooth_mac") != GUEST_MAC
 
-    # ── Simulated pairing (dev / macOS) ─────────────────────────────────────
-    # The real BLE GATT peripheral lives in services/bluetooth_server.py and
-    # only runs on BlueZ (Linux/RPi). On macOS or any platform without dbus
-    # the BLE server is a no-op, so tapping "Connect phone" has nothing to
-    # bind to. This slot mocks the payload an iOS client would have written
-    # so the UI can be exercised end-to-end without a phone.
+    @pyqtProperty(bool, constant=True)
+    def bleAvailable(self) -> bool:
+        """True when the real BLE GATT peripheral is advertising.
+
+        QML uses this to decide whether to offer the real "open app on your
+        phone" prompt or the simulated-pairing shortcut.
+        """
+        return bool(getattr(self._ble, "started", False))
+
+    # ── Simulated pairing (dev / fallback) ───────────────────────────────────
+    # The real BLE GATT peripheral lives in services/bluetooth_server.py.
+    # When that peripheral isn't advertising (test mode, bless import failed,
+    # or macOS refusing Bluetooth permission), tapping "Connect phone" has
+    # nothing to bind to. This slot mocks the payload an iOS client would
+    # have written so the UI can be exercised end-to-end without a phone.
     @pyqtSlot()
     def simulatePhonePairing(self):
         from datetime import date
