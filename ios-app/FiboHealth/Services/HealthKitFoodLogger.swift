@@ -16,6 +16,7 @@ final class HealthKitFoodLogger: ObservableObject {
     @Published var lastError: String?
 
     private let store = HKHealthStore()
+    private var activeReconcile: Task<Void, Never>?
 
     private static let log = Logger(
         subsystem: "com.fibohealth.app",
@@ -41,6 +42,7 @@ final class HealthKitFoodLogger: ObservableObject {
     // MARK: - Authorization
 
     func requestWriteAuthorization() async {
+        await MainActor.run { self.lastError = nil }
         guard HKHealthStore.isHealthDataAvailable() else { return }
         do {
             try await store.requestAuthorization(
@@ -56,6 +58,22 @@ final class HealthKitFoodLogger: ObservableObject {
     /// Add HK correlations for entries newly seen on the Pi; delete HK
     /// correlations whose `pi_food_id` no longer appears in the Pi log.
     func reconcile(with entries: [FoodLogEntry]) async {
+        // Issue 3: clear stale error at the start of every run.
+        await MainActor.run { self.lastError = nil }
+
+        // Issue 1: single-flight serialization — wait for any in-flight reconcile
+        // before starting a new one so two concurrent callers cannot both read
+        // hkIds before either writes and produce duplicate correlations.
+        await activeReconcile?.value
+        let task = Task<Void, Never> { [weak self] in
+            guard let self else { return }
+            await self._reconcileBody(entries: entries)
+        }
+        activeReconcile = task
+        await task.value
+    }
+
+    private func _reconcileBody(entries: [FoodLogEntry]) async {
         guard HKHealthStore.isHealthDataAvailable() else { return }
         guard let foodCorrelationType = HKObjectType.correlationType(
             forIdentifier: .food
@@ -69,11 +87,43 @@ final class HealthKitFoodLogger: ObservableObject {
             return
         }
 
-        let hkIds: Set<Int> = Set(existing.compactMap {
-            ($0.metadata?[Self.metaPiId] as? String).flatMap(Int.init)
-        })
+        // Issue 2: group fetched correlations by pi_food_id to detect duplicates.
+        var grouped: [Int: [HKCorrelation]] = [:]
+        for c in existing {
+            guard let s = c.metadata?[Self.metaPiId] as? String,
+                  let i = Int(s) else { continue }
+            grouped[i, default: []].append(c)
+        }
+
         let piIds: Set<Int> = Set(entries.map { $0.id })
-        let (toInsert, toDelete) = Self.diff(piIds: piIds, hkIds: hkIds)
+
+        // Prune duplicates: for ids present in piIds keep first, delete rest;
+        // for ids absent from piIds all copies will be handled in the delete loop.
+        var toDeleteDuplicateUUIDs: Set<UUID> = []
+        var toDeleteDuplicates: [HKCorrelation] = []
+        for (id, copies) in grouped where copies.count > 1 {
+            Self.log.warning("Found \(copies.count) duplicate correlations for pi_food_id=\(id); pruning.")
+            // Keep the first copy if the id still belongs in HK; delete the rest.
+            let extras = piIds.contains(id) ? Array(copies.dropFirst()) : copies
+            toDeleteDuplicates.append(contentsOf: extras)
+            extras.forEach { toDeleteDuplicateUUIDs.insert($0.uuid) }
+        }
+        for c in toDeleteDuplicates {
+            do { try await store.delete(c) }
+            catch {
+                await MainActor.run {
+                    self.lastError = "HK duplicate prune failed: \(error.localizedDescription)"
+                }
+            }
+        }
+
+        // Recompute surviving hkIds after duplicate pruning so the diff is accurate.
+        let survivingHkIds: Set<Int> = Set(grouped.compactMap { id, copies -> Int? in
+            let surviving = copies.filter { !toDeleteDuplicateUUIDs.contains($0.uuid) }
+            return surviving.isEmpty ? nil : id
+        })
+
+        let (toInsert, toDelete) = Self.diff(piIds: piIds, hkIds: survivingHkIds)
 
         // Inserts — build correlation per new entry.
         let entriesById = Dictionary(uniqueKeysWithValues: entries.map { ($0.id, $0) })
@@ -91,8 +141,9 @@ final class HealthKitFoodLogger: ObservableObject {
             }
         }
 
-        // Deletes — find correlations matching pi ids in toDelete.
+        // Deletes — find surviving correlations matching pi ids in toDelete.
         let toDeleteCorrelations = existing.filter {
+            guard !toDeleteDuplicateUUIDs.contains($0.uuid) else { return false }
             guard let s = $0.metadata?[Self.metaPiId] as? String,
                   let i = Int(s) else { return false }
             return toDelete.contains(i)
@@ -109,6 +160,7 @@ final class HealthKitFoodLogger: ObservableObject {
 
     /// Delete every food correlation this app has written. Returns counts.
     func removeAllFiboHealthEntries() async -> (removed: Int, failed: Int) {
+        await MainActor.run { self.lastError = nil }
         guard HKHealthStore.isHealthDataAvailable() else { return (0, 0) }
         guard let foodCorrelationType = HKObjectType.correlationType(
             forIdentifier: .food
