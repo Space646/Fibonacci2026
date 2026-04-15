@@ -14,7 +14,8 @@ final class AppEnvironment: ObservableObject {
         self.healthKit = HealthKitService()
         self.bluetooth = BluetoothClient()
 
-        // Wire up: when profile or health data changes, update BLE pending payloads
+        // Wire up: BLE pending payloads start from the current profile + snapshot
+        self.bluetooth.pendingDeviceId = profileStore.profile.deviceId.uuidString
         self.bluetooth.pendingProfile = profileStore.profile.blePayload()
         self.bluetooth.pendingSnapshot = healthKit.snapshot
 
@@ -22,12 +23,13 @@ final class AppEnvironment: ObservableObject {
         self.healthKit.requestAuthorization()
     }
 
+    /// Push the latest profile + health snapshot to the Pi. If already
+    /// connected, writes immediately; otherwise updates the pending payloads
+    /// which will be sent on next connect.
     func syncToPi() {
+        bluetooth.pendingDeviceId = profileStore.profile.deviceId.uuidString
         bluetooth.pendingProfile = profileStore.profile.blePayload()
         bluetooth.pendingSnapshot = healthKit.snapshot
-        if bluetooth.isConnected {
-            // Trigger a re-connect write by disconnecting and reconnecting
-            // (or call sendProfile/sendSnapshot directly if exposed)
-        }
+        bluetooth.resync()
     }
 }
