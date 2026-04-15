@@ -20,9 +20,10 @@ final class BluetoothClient: NSObject, ObservableObject {
     private var peripheral: CBPeripheral?
     private var characteristics: [CBUUID: CBCharacteristic] = [:]
 
-    // Data to send on next connect (set before scan)
+    // Data to send on next connect (set before scan); also used by resync()
     var pendingProfile: [String: Any]?
     var pendingSnapshot: HealthSnapshot?
+    var pendingDeviceId: String?
 
     override init() {
         super.init()
@@ -39,17 +40,41 @@ final class BluetoothClient: NSObject, ObservableObject {
         if let p = peripheral { central.cancelPeripheralConnection(p) }
     }
 
-    private func sendProfile() {
+    /// Re-push the current profile + snapshot to the Pi without disconnecting.
+    /// Safe to call when not connected (no-op).
+    func resync() {
+        guard isConnected else { return }
+        sendProfile()
+        sendSnapshot()
+    }
+
+    // MARK: - Writes (internal so AppEnvironment/resync can trigger them)
+
+    func sendProfile() {
         guard let char = characteristics[charUserProfile],
-              let payload = pendingProfile,
-              let data = try? JSONSerialization.data(withJSONObject: payload) else { return }
+              var payload = pendingProfile else { return }
+        // Ensure device_id is present — pendingProfile from UserProfile.blePayload
+        // already includes it, but inject pendingDeviceId as a fallback.
+        if payload["device_id"] == nil, let did = pendingDeviceId {
+            payload["device_id"] = did
+        }
+        guard let data = try? JSONSerialization.data(withJSONObject: payload) else { return }
         peripheral?.writeValue(data, for: char, type: .withResponse)
     }
 
-    private func sendSnapshot() {
+    func sendSnapshot() {
         guard let char = characteristics[charHealthSnap],
               let snap = pendingSnapshot,
-              let data = try? JSONEncoder().encode(snap) else { return }
+              let deviceId = pendingDeviceId else { return }
+        let payload: [String: Any] = [
+            "device_id": deviceId,
+            "date": snap.date,
+            "steps": snap.steps,
+            "calories_burned": snap.caloriesBurned,
+            "active_minutes": snap.activeMinutes,
+            "workouts": snap.workouts,
+        ]
+        guard let data = try? JSONSerialization.data(withJSONObject: payload) else { return }
         peripheral?.writeValue(data, for: char, type: .withResponse)
     }
 }
