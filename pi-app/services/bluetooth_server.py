@@ -33,6 +33,10 @@ PERIPHERAL_NAME = "FiboHealth-Pi"
 class BluetoothServer:
     """BLE GATT peripheral.
 
+    Threading: the supplied callbacks fire on the BLE background thread.
+    Callers are responsible for marshalling to their UI / main thread — Qt
+    signal connections handle this automatically via queued delivery.
+
     Parameters
     ----------
     on_profile_received : callable(device_id: str, profile: dict)
@@ -57,6 +61,8 @@ class BluetoothServer:
         self._thread: Optional[threading.Thread] = None
         self._server = None  # bless BlessServer, populated on the loop thread
         self._ready_evt = threading.Event()
+        self._stop_lock = threading.Lock()
+        self._stopped = False
         self.started = False
 
         if enabled:
@@ -77,9 +83,12 @@ class BluetoothServer:
             target=self._thread_main, name="BluetoothServer", daemon=True
         )
         self._thread.start()
-        # Wait up to 5 s for the server to finish its async setup
+        # Wait up to 5 s for the server to finish its async setup.
+        # `self.started` is set by `_async_setup` on the loop thread before
+        # `_ready_evt.set()`, so by the time `wait` returns True it is already
+        # True — avoiding a race where a notification fires between
+        # `_ready_evt.set()` and the main thread setting `started = True`.
         if self._ready_evt.wait(timeout=5.0):
-            self.started = True
             log.info("BLE peripheral: advertising as %r", PERIPHERAL_NAME)
         else:
             log.warning("BLE peripheral: startup timed out (5s)")
@@ -141,6 +150,10 @@ class BluetoothServer:
 
         await server.start()
         self._server = server
+        # Set `started` on the loop thread BEFORE signalling ready, so that
+        # any notification scheduled by the main thread immediately after
+        # `_ready_evt.wait()` returns observes `started == True`.
+        self.started = True
         self._ready_evt.set()
 
     async def _async_teardown(self) -> None:
@@ -237,12 +250,17 @@ class BluetoothServer:
 
     def stop(self) -> None:
         """Stop advertising and tear down the server. Safe to call repeatedly."""
-        if self._loop is None:
-            return
-        try:
-            self._loop.call_soon_threadsafe(self._loop.stop)
-        except RuntimeError:
-            pass  # loop already stopped
-        if self._thread is not None:
-            self._thread.join(timeout=2.0)
-        self.started = False
+        with self._stop_lock:
+            if self._stopped:
+                return
+            if self._loop is None:
+                self._stopped = True
+                return
+            try:
+                self._loop.call_soon_threadsafe(self._loop.stop)
+            except RuntimeError:
+                pass  # loop already stopped
+            if self._thread is not None:
+                self._thread.join(timeout=2.0)
+            self.started = False
+            self._stopped = True
