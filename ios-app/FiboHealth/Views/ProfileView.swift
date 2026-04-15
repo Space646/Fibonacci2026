@@ -2,6 +2,12 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var env: AppEnvironment
+    @EnvironmentObject var healthKitFoodLogger: HealthKitFoodLogger
+    @AppStorage(AppEnvironment.healthLoggingEnabledKey) private var healthLoggingEnabled: Bool = false
+
+    @State private var showRemoveConfirm = false
+    @State private var showRemoveResult = false
+    @State private var removeResultMessage = ""
 
     // Fields that use number pads have no return key — we attach a
     // keyboard toolbar Done button, wired via FocusState, so the user
@@ -56,6 +62,29 @@ struct ProfileView: View {
                         .foregroundColor(env.theme.textMuted)
                         .font(.system(size: 12))
                 }
+                Section("Health Integration") {
+                    HStack {
+                        Text("Log Food to Health")
+                            .foregroundColor(env.theme.textPrimary)
+                        Spacer()
+                        Image(systemName: healthLoggingEnabled
+                              ? "checkmark.circle.fill" : "xmark.circle")
+                            .foregroundColor(healthLoggingEnabled ? .green : env.theme.textMuted)
+                    }
+                    Text("Manage in Settings → FiboHealth.")
+                        .foregroundColor(env.theme.textMuted)
+                        .font(.system(size: 12))
+                    if let err = healthKitFoodLogger.lastError {
+                        Text(err)
+                            .foregroundColor(env.theme.textMuted)
+                            .font(.system(size: 11))
+                    }
+                    Button(role: .destructive) {
+                        showRemoveConfirm = true
+                    } label: {
+                        Text("Remove FiboHealth Food Entries from Health")
+                    }
+                }
                 Section {
                     Button("Save & Sync to Pi") {
                         focusedField = nil
@@ -74,6 +103,28 @@ struct ProfileView: View {
             .scrollContentBackground(.hidden)
             .background(env.theme.bgPrimary.ignoresSafeArea())
             .navigationTitle("Profile")
+            .alert("Remove Food Entries from Health?",
+                   isPresented: $showRemoveConfirm) {
+                Button("Cancel", role: .cancel) { }
+                Button("Remove", role: .destructive) {
+                    Task {
+                        let r = await healthKitFoodLogger.removeAllFiboHealthEntries()
+                        await MainActor.run {
+                            removeResultMessage = r.failed == 0
+                                ? "Removed \(r.removed) entries."
+                                : "Removed \(r.removed) entries, \(r.failed) failed."
+                            showRemoveResult = true
+                        }
+                    }
+                }
+            } message: {
+                Text("This will permanently delete all food entries FiboHealth has written to Apple Health. Activity data and entries from other apps are not affected. This cannot be undone.")
+            }
+            .alert("Done", isPresented: $showRemoveResult) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(removeResultMessage)
+            }
             .toolbar {
                 // Number-pad/decimal-pad keyboards have no return key, so
                 // without this toolbar the user can't commit an edit.
