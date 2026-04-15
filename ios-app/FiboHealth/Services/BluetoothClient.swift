@@ -20,6 +20,12 @@ final class BluetoothClient: NSObject, ObservableObject {
     private var peripheral: CBPeripheral?
     private var characteristics: [CBUUID: CBCharacteristic] = [:]
 
+    // Per-characteristic chunk reassembly buffer. Pi frames large payloads
+    // (notably the food log) as [0xFB][seq][total][slice...] because a single
+    // BLE notification is capped at MTU−3 (~180 bytes).
+    private var chunkBuffers: [CBUUID: (total: Int, chunks: [Int: Data])] = [:]
+    private static let chunkMagic: UInt8 = 0xFB
+
     // Data to send on next connect (set before scan); also used by resync()
     var pendingProfile: [String: Any]?
     var pendingSnapshot: HealthSnapshot?
@@ -137,19 +143,61 @@ extension BluetoothClient: CBPeripheralDelegate {
 
     func peripheral(_ peripheral: CBPeripheral,
                     didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-        guard let data = characteristic.value else { return }
+        guard let data = characteristic.value, !data.isEmpty else { return }
+
+        guard let payload = reassemble(data, for: characteristic.uuid) else {
+            // Mid-batch chunk — wait for remaining frames.
+            return
+        }
 
         if characteristic.uuid == charFoodLogSync {
-            if let entries = try? JSONDecoder().decode([FoodLogEntry].self, from: data) {
+            if let entries = try? JSONDecoder().decode([FoodLogEntry].self, from: payload) {
                 DispatchQueue.main.async { self.foodLog = entries }
             }
         } else if characteristic.uuid == charSessionState {
-            if let state = try? JSONDecoder().decode(SessionState.self, from: data) {
+            if let state = try? JSONDecoder().decode(SessionState.self, from: payload) {
                 DispatchQueue.main.async {
                     self.sessionState = state
                     self.lastSyncTime = Date()
                 }
             }
         }
+    }
+
+    /// Returns the full payload if `data` is either a complete un-framed
+    /// notification or the final chunk of a framed batch. Returns nil while
+    /// still accumulating chunks.
+    private func reassemble(_ data: Data, for uuid: CBUUID) -> Data? {
+        // Legacy / unchunked: starts with '[' (0x5B) or '{' (0x7B).
+        guard data.first == BluetoothClient.chunkMagic, data.count >= 3 else {
+            chunkBuffers[uuid] = nil
+            return data
+        }
+        let seq = Int(data[data.startIndex + 1])
+        let total = Int(data[data.startIndex + 2])
+        let chunk = data.subdata(in: (data.startIndex + 3)..<data.endIndex)
+
+        var state = chunkBuffers[uuid] ?? (total: total, chunks: [:])
+        if state.total != total {
+            // New batch arrived mid-accumulation — reset.
+            state = (total: total, chunks: [:])
+        }
+        state.chunks[seq] = chunk
+
+        guard state.chunks.count == total else {
+            chunkBuffers[uuid] = state
+            return nil
+        }
+
+        var combined = Data()
+        for i in 0..<total {
+            guard let part = state.chunks[i] else {
+                chunkBuffers[uuid] = nil
+                return nil
+            }
+            combined.append(part)
+        }
+        chunkBuffers[uuid] = nil
+        return combined
     }
 }

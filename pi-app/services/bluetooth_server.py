@@ -157,7 +157,12 @@ class BluetoothServer:
             SERVICE_UUID, CHAR_SESSION_STATE, notify_props, None, notify_perms
         )
 
-        await server.start()
+        # prioritize_local_name=False keeps the service UUID in the
+        # advertisement packet. bless's CoreBluetooth backend otherwise drops
+        # it whenever the local name is >10 bytes ("FiboHealth-Pi" is 13), and
+        # iOS scans with a service-UUID filter — so without the UUID in adv,
+        # the iPhone never discovers the peripheral. BlueZ ignores the kwarg.
+        await server.start(prioritize_local_name=False)
         self._server = server
         # Set `started` on the loop thread BEFORE signalling ready, so that
         # any notification scheduled by the main thread immediately after
@@ -233,6 +238,18 @@ class BluetoothServer:
 
     # ── Notifications (called from Qt main thread) ───────────────────────────
 
+    # ── Chunked framing ──────────────────────────────────────────────────────
+    # CoreBluetooth drops notifications larger than the subscribed central's
+    # `maximumUpdateValueLength` (MTU − 3; typically ~180 bytes). Multi-entry
+    # food-log arrays exceed that easily, which is why only the first scan
+    # reached the phone pre-chunking. Food-log payloads are framed:
+    #   [0xFB][seq:u8][total:u8][payload_slice...]
+    # iOS reassembles and then JSON-decodes. Magic byte 0xFB is non-ASCII so
+    # the receiver can distinguish framed notifications from legacy raw JSON
+    # (which starts with '[' / '{').
+    CHUNK_MAGIC = 0xFB
+    CHUNK_SIZE = 150  # conservative — fits under typical 182-byte MTU-3 window
+
     def notify_food_log(self, device_id: str, log_entries: list) -> None:
         """Send food log array to connected iOS central.
 
@@ -241,11 +258,12 @@ class BluetoothServer:
         one active phone in practice).
         """
         payload = json.dumps(log_entries, default=str).encode("utf-8")
-        self._schedule_notify(CHAR_FOOD_LOG_SYNC, payload)
+        self._schedule_chunked_notify(CHAR_FOOD_LOG_SYNC, payload)
 
     def notify_session_state(self, device_id: str, state: dict) -> None:
         """Send session-state object to connected iOS central."""
         payload = json.dumps(state, default=str).encode("utf-8")
+        # Session state is tiny (<200 bytes) — send unchunked.
         self._schedule_notify(CHAR_SESSION_STATE, payload)
 
     def _schedule_notify(self, char_uuid: str, payload: bytes) -> None:
@@ -258,6 +276,25 @@ class BluetoothServer:
         except Exception:
             log.exception("Failed to schedule BLE notification")
 
+    def _schedule_chunked_notify(self, char_uuid: str, payload: bytes) -> None:
+        if not self.started or self._loop is None or self._server is None:
+            return
+        total = max(1, (len(payload) + self.CHUNK_SIZE - 1) // self.CHUNK_SIZE)
+        if total > 255:
+            log.warning("BLE notify: payload too large to chunk (%d bytes)", len(payload))
+            return
+        frames = [
+            bytes([self.CHUNK_MAGIC, i, total])
+            + payload[i * self.CHUNK_SIZE:(i + 1) * self.CHUNK_SIZE]
+            for i in range(total)
+        ]
+        try:
+            asyncio.run_coroutine_threadsafe(
+                self._do_chunked_notify(char_uuid, frames), self._loop
+            )
+        except Exception:
+            log.exception("Failed to schedule chunked BLE notification")
+
     async def _do_notify(self, char_uuid: str, payload: bytes) -> None:
         try:
             char = self._server.get_characteristic(char_uuid)
@@ -268,6 +305,23 @@ class BluetoothServer:
             self._server.update_value(SERVICE_UUID, char_uuid)
         except Exception:
             log.exception("BLE notify for %s failed", char_uuid)
+
+    async def _do_chunked_notify(self, char_uuid: str, frames: list) -> None:
+        try:
+            char = self._server.get_characteristic(char_uuid)
+            if char is None:
+                log.warning("BLE notify: characteristic %s not found", char_uuid)
+                return
+            for frame in frames:
+                char.value = frame
+                self._server.update_value(SERVICE_UUID, char_uuid)
+                # Pacing: CoreBluetooth silently drops rapid successive
+                # updateValue calls until peripheralManagerIsReadyToUpdateSubscribers
+                # fires. A short sleep lets the transmit queue drain between
+                # chunks. 30 ms keeps ~5-frame logs under 200 ms end-to-end.
+                await asyncio.sleep(0.03)
+        except Exception:
+            log.exception("Chunked BLE notify for %s failed", char_uuid)
 
     # ── Shutdown ─────────────────────────────────────────────────────────────
 

@@ -62,44 +62,39 @@ struct DashboardView: View {
                     HStack(spacing: 8) {
                         StatCardView(
                             value: "\(Int(bluetooth.sessionState.caloriesConsumed))",
-                            label: "eaten",
+                            label: "Consumed",
                             valueColor: Color(hex: "06b6d4")
                         )
                         StatCardView(
                             value: "\(Int(env.profileStore.profile.calculatedDailyGoal))",
-                            label: "goal",
+                            label: "Goal",
                             valueColor: Color(hex: "22c55e")
-                        )
-                        StatCardView(
-                            value: "\(Int(healthKit.snapshot.caloriesBurned))",
-                            label: "burned",
-                            valueColor: env.theme.caloriesBurned
                         )
                     }
 
-                    // HealthKit strip
+                    // Activity strip (matches Pi Dashboard.qml)
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("HEALTHKIT · TODAY")
+                        Text("ACTIVITY TODAY")
                             .font(.system(size: 9))
                             .tracking(1)
                             .foregroundColor(env.theme.textMuted)
                         HStack {
                             StatCardView(value: "\(healthKit.snapshot.steps)",
-                                         label: "steps", valueColor: Color(hex: "6366f1"))
+                                         label: "Steps", valueColor: Color(hex: "6366f1"))
                             StatCardView(value: "\(healthKit.snapshot.activeMinutes)",
-                                         label: "active min", valueColor: Color(hex: "06b6d4"))
-                            StatCardView(value: "\(healthKit.snapshot.workouts)",
-                                         label: "workouts", valueColor: Color(hex: "22c55e"))
+                                         label: "Active minutes", valueColor: Color(hex: "06b6d4"))
+                            StatCardView(value: "\(Int(healthKit.snapshot.caloriesBurned))",
+                                         label: "Burned", valueColor: env.theme.caloriesBurned)
                         }
                     }
                     .padding(12)
                     .background(env.theme.bgSurface)
                     .cornerRadius(10)
 
-                    // Recent scans from Pi
+                    // Last scans from Pi (up to 3)
                     if !bluetooth.foodLog.isEmpty {
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("RECENT SCANS FROM PI")
+                            Text("LAST SCANS")
                                 .font(.system(size: 9))
                                 .tracking(1)
                                 .foregroundColor(env.theme.textMuted)
@@ -133,6 +128,14 @@ struct DashboardView: View {
                     }
                 }
                 .padding(16)
+            }
+            .refreshable {
+                // Pull-to-refresh: refresh HealthKit, re-push to Pi so it
+                // re-broadcasts the current food log + session state.
+                healthKit.requestAuthorization()
+                env.syncToPi()
+                // Give the Pi a moment to respond with fresh notifications.
+                try? await Task.sleep(nanoseconds: 600_000_000)
             }
             .background(env.theme.bgPrimary.ignoresSafeArea())
             .navigationTitle("")

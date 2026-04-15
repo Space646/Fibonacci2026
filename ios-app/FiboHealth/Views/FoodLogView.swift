@@ -2,14 +2,16 @@ import SwiftUI
 
 struct FoodLogView: View {
     @EnvironmentObject var env: AppEnvironment
+    @EnvironmentObject var healthKit: HealthKitService
     @EnvironmentObject var bluetooth: BluetoothClient
 
     var body: some View {
         NavigationStack {
-            Group {
+            // Always use a List so `.refreshable` has a scrollable host in
+            // both the empty and populated states.
+            List {
                 if bluetooth.foodLog.isEmpty {
                     VStack(spacing: 12) {
-                        Spacer()
                         Image(systemName: "fork.knife")
                             .font(.system(size: 40))
                             .foregroundColor(env.theme.textMuted)
@@ -17,10 +19,13 @@ struct FoodLogView: View {
                             .multilineTextAlignment(.center)
                             .font(.system(size: 14))
                             .foregroundColor(env.theme.textMuted)
-                        Spacer()
                     }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 60)
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
                 } else {
-                    List(bluetooth.foodLog) { entry in
+                    ForEach(bluetooth.foodLog) { entry in
                         HStack {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(entry.foodName)
@@ -40,8 +45,14 @@ struct FoodLogView: View {
                         }
                         .listRowBackground(env.theme.bgSurface)
                     }
-                    .scrollContentBackground(.hidden)
                 }
+            }
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
+            .refreshable {
+                healthKit.requestAuthorization()
+                env.syncToPi()
+                try? await Task.sleep(nanoseconds: 600_000_000)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(env.theme.bgPrimary.ignoresSafeArea())

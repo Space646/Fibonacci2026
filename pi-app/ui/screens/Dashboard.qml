@@ -21,12 +21,13 @@ Item {
             spacing: 12
 
             // Header
-            Row {
+            RowLayout {
                 width: parent.width
                 spacing: 10
 
                 Rectangle {
-                    width: 40; height: 40; radius: 20
+                    Layout.preferredWidth: 40; Layout.preferredHeight: 40
+                    radius: 20
                     gradient: Gradient {
                         orientation: Gradient.Horizontal
                         GradientStop { position: 0.0; color: "#6366f1" }
@@ -41,7 +42,7 @@ Item {
                 }
 
                 Column {
-                    anchors.verticalCenter: parent.verticalCenter
+                    Layout.alignment: Qt.AlignVCenter
                     spacing: 2
                     Text {
                         text: appState.activeUserName
@@ -54,7 +55,7 @@ Item {
                     }
                 }
 
-                Item { width: 1; Layout.fillWidth: true }
+                Item { Layout.fillWidth: true }
 
                 // Connect prompt when no user.
                 //  • BLE advertising  → static hint telling the user to open
@@ -64,9 +65,10 @@ Item {
                 //    pairing so the UI can be exercised.
                 Rectangle {
                     visible: !appState.userConnected
-                    color: surface; radius: 6; height: 28
-                    width: connectText.implicitWidth + 16
-                    anchors.verticalCenter: parent.verticalCenter
+                    color: surface; radius: 6
+                    Layout.preferredHeight: 28
+                    Layout.preferredWidth: connectText.implicitWidth + 16
+                    Layout.alignment: Qt.AlignVCenter
                     Text {
                         id: connectText
                         anchors.centerIn: parent
@@ -79,6 +81,38 @@ Item {
                         anchors.fill: parent
                         enabled: !appState.bleAvailable
                         onClicked: appState.simulatePhonePairing()
+                    }
+                }
+
+                // Refresh button: reload today's log + re-broadcast state
+                // to any connected phone.
+                Rectangle {
+                    id: refreshBtn
+                    Layout.preferredWidth: 28; Layout.preferredHeight: 28
+                    Layout.alignment: Qt.AlignVCenter
+                    radius: 14
+                    color: surface
+                    Text {
+                        anchors.centerIn: parent
+                        text: "\u21bb"            // ↻
+                        color: "#6366f1"
+                        font { pixelSize: 16; bold: true }
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            refreshBtn.scale = 0.88
+                            appState.refreshHome()
+                            spinReset.restart()
+                        }
+                    }
+                    Timer {
+                        id: spinReset
+                        interval: 120
+                        onTriggered: refreshBtn.scale = 1.0
+                    }
+                    Behavior on scale {
+                        NumberAnimation { duration: 120; easing.type: Easing.OutQuad }
                     }
                 }
             }
@@ -97,68 +131,16 @@ Item {
                 width: parent.width
                 spacing: 8
                 StatCard {
-                    width: (parent.width - 16) / 3
+                    width: (parent.width - 8) / 2
                     value: Math.round(appState.totalCaloriesToday).toString()
-                    label: "consumed"; isDark: root.isDark
+                    label: "Consumed"; isDark: root.isDark
                     valueColor: "#06b6d4"
                 }
                 StatCard {
-                    width: (parent.width - 16) / 3
+                    width: (parent.width - 8) / 2
                     value: Math.round(appState.dailyGoal).toString()
-                    label: "goal"; isDark: root.isDark
+                    label: "Goal"; isDark: root.isDark
                     valueColor: "#22c55e"
-                }
-                StatCard {
-                    width: (parent.width - 16) / 3
-                    value: Math.round(appState.healthSnapshot.calories_burned || 0).toString()
-                    label: "burned"; isDark: root.isDark
-                    valueColor: "#f59e0b"
-                }
-            }
-
-            // Last scan card
-            Rectangle {
-                width: parent.width; radius: 10; color: surface
-                height: lastScanCol.implicitHeight + 24
-                visible: appState.todaysLog.length > 0
-
-                Column {
-                    id: lastScanCol
-                    anchors { left: parent.left; right: parent.right; top: parent.top; margins: 12 }
-                    spacing: 8
-
-                    Text {
-                        text: "LAST SCAN"
-                        font { pixelSize: 9; letterSpacing: 1 }
-                        color: muted
-                    }
-                    RowLayout {
-                        width: parent.width
-                        spacing: 12
-
-                        ColumnLayout {
-                            Layout.alignment: Qt.AlignVCenter
-                            spacing: 2
-                            Text {
-                                text: appState.todaysLog[0] ? appState.todaysLog[0].food_name : ""
-                                font { pixelSize: 15; bold: true }
-                                color: isDark ? "white" : "#0f172a"
-                            }
-                            Text {
-                                text: appState.todaysLog[0]
-                                      ? (appState.todaysLog[0].weight_g + "g · " +
-                                         Math.round(appState.todaysLog[0].calories) + " kcal")
-                                      : ""
-                                font.pixelSize: 10; color: muted
-                            }
-                        }
-                        Item { Layout.fillWidth: true }
-                        HealthBadge {
-                            Layout.alignment: Qt.AlignVCenter
-                            healthy: appState.todaysLog[0] ? appState.todaysLog[0].is_healthy === 1 : true
-                            isDark: root.isDark
-                        }
-                    }
                 }
             }
 
@@ -176,22 +158,70 @@ Item {
                         StatCard {
                             width: (parent.width - 2) / 3; height: 40
                             value: (appState.healthSnapshot.steps || 0).toString()
-                            label: "steps"; isDark: root.isDark
+                            label: "Steps"; isDark: root.isDark
                             valueColor: "#6366f1"
                         }
                         Rectangle { width: 1; height: 40; color: isDark ? "#334155" : "#e2e8f0" }
                         StatCard {
                             width: (parent.width - 2) / 3; height: 40
                             value: (appState.healthSnapshot.active_minutes || 0).toString()
-                            label: "active min"; isDark: root.isDark
+                            label: "Active minutes"; isDark: root.isDark
                             valueColor: "#06b6d4"
                         }
                         Rectangle { width: 1; height: 40; color: isDark ? "#334155" : "#e2e8f0" }
                         StatCard {
                             width: (parent.width - 2) / 3; height: 40
                             value: Math.round(appState.healthSnapshot.calories_burned || 0).toString()
-                            label: "kcal burned"; isDark: root.isDark
+                            label: "Burned"; isDark: root.isDark
                             valueColor: "#f59e0b"
+                        }
+                    }
+                }
+            }
+
+            // Last scans card (up to 3)
+            Rectangle {
+                width: parent.width; radius: 10; color: surface
+                height: lastScanCol.implicitHeight + 24
+                visible: appState.todaysLog.length > 0
+
+                Column {
+                    id: lastScanCol
+                    anchors { left: parent.left; right: parent.right; top: parent.top; margins: 12 }
+                    spacing: 8
+
+                    Text {
+                        text: "LAST SCANS"
+                        font { pixelSize: 9; letterSpacing: 1 }
+                        color: muted
+                    }
+
+                    Repeater {
+                        model: Math.min(3, appState.todaysLog.length)
+                        RowLayout {
+                            width: lastScanCol.width
+                            spacing: 12
+
+                            ColumnLayout {
+                                Layout.alignment: Qt.AlignVCenter
+                                spacing: 2
+                                Text {
+                                    text: appState.todaysLog[index].food_name
+                                    font { pixelSize: 14; bold: true }
+                                    color: isDark ? "white" : "#0f172a"
+                                }
+                                Text {
+                                    text: appState.todaysLog[index].weight_g + "g · " +
+                                          Math.round(appState.todaysLog[index].calories) + " kcal"
+                                    font.pixelSize: 10; color: muted
+                                }
+                            }
+                            Item { Layout.fillWidth: true }
+                            HealthBadge {
+                                Layout.alignment: Qt.AlignVCenter
+                                healthy: appState.todaysLog[index].is_healthy === 1
+                                isDark: root.isDark
+                            }
                         }
                     }
                 }

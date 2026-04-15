@@ -119,11 +119,32 @@ class AppState(QObject):
         self._session.log_food(self._active_user["id"], food_id, weight_g, calories)
         self._last_scan_kcal = calories
         self.logUpdated.emit()
+        self._push_state_to_phone()
 
     @pyqtSlot(int)
     def deleteLogEntry(self, entry_id: int):
         self._session.delete_log_entry(entry_id)
         self.logUpdated.emit()
+        self._push_state_to_phone()
+
+    @pyqtSlot()
+    def refreshHome(self):
+        """Dashboard refresh button: re-emit log/user so QML re-binds, and
+        re-broadcast state to any connected phone."""
+        self.logUpdated.emit()
+        self.userChanged.emit()
+        self._push_state_to_phone()
+
+    def _push_state_to_phone(self):
+        """Send today's log + session state over BLE to the connected phone.
+
+        No-op when the active session is the guest (no phone paired).
+        """
+        from services.user_session import GUEST_MAC
+        device_id = self._active_user.get("bluetooth_mac")
+        if not device_id or device_id == GUEST_MAC:
+            return
+        self._sync_to_client(device_id)
 
     @pyqtProperty(list, notify=logUpdated)
     def todaysLog(self):

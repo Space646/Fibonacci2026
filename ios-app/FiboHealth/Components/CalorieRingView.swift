@@ -5,8 +5,21 @@ struct CalorieRingView: View {
     let goal: Double
     @EnvironmentObject var env: AppEnvironment
 
-    private var progress: Double { goal > 0 ? min(consumed / goal, 1.0) : 0 }
+    private var rawRatio: Double { goal > 0 ? consumed / goal : 0 }
+    private var progress: Double { min(rawRatio, 1.0) }
     private var remaining: Double { max(goal - consumed, 0) }
+
+    // Match Pi CalorieRing.qml: color shifts with progress toward daily goal.
+    //   <60%  green   (plenty of room)
+    //   60-85% indigo (on track)
+    //   85-100% amber (approaching goal)
+    //   >=100% red    (at / over goal)
+    private var progressColor: Color {
+        if rawRatio >= 1.0  { return Color(hex: "ef4444") }
+        if rawRatio >= 0.85 { return Color(hex: "f59e0b") }
+        if rawRatio >= 0.60 { return Color(hex: "6366f1") }
+        return Color(hex: "22c55e")
+    }
 
     var body: some View {
         ZStack {
@@ -15,14 +28,12 @@ struct CalorieRingView: View {
             Circle()
                 .trim(from: 0, to: progress)
                 .stroke(
-                    AngularGradient(
-                        gradient: Gradient(colors: [Color(hex: "6366f1"), Color(hex: "06b6d4")]),
-                        center: .center
-                    ),
+                    progressColor,
                     style: StrokeStyle(lineWidth: 14, lineCap: .round)
                 )
                 .rotationEffect(.degrees(-90))
                 .animation(.easeInOut(duration: 0.5), value: progress)
+                .animation(.easeInOut(duration: 0.26), value: progressColor)
             VStack(spacing: 2) {
                 Text("\(Int(remaining))")
                     .font(.system(size: 28, weight: .bold))
