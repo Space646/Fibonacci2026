@@ -1,6 +1,5 @@
 package com.fibonacci.fibohealth.data.model
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.*
 
@@ -11,7 +10,7 @@ data class FoodLogEntry(
     val weightG: Float,
     val calories: Float,
     val isHealthy: Boolean,
-    val healthScore: Int,
+    val healthScore: Float,
     val timestamp: String,
     val proteinG: Float? = null,
     val fatG: Float? = null,
@@ -43,7 +42,7 @@ object FoodLogEntrySerializer : kotlinx.serialization.KSerializer<FoodLogEntry> 
             weightG     = obj["weight_g"]!!.jsonPrimitive.float,
             calories    = obj["calories"]!!.jsonPrimitive.float,
             isHealthy   = isHealthy,
-            healthScore = obj["health_score"]?.jsonPrimitive?.intOrNull ?: 0,
+            healthScore = obj["health_score"]?.jsonPrimitive?.floatOrNull ?: 0f,
             timestamp   = obj["timestamp"]!!.jsonPrimitive.content,
             proteinG    = obj["protein_g"]?.jsonPrimitive?.floatOrNull,
             fatG        = obj["fat_g"]?.jsonPrimitive?.floatOrNull,

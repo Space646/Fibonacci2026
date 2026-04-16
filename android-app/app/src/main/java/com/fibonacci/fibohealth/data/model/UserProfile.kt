@@ -3,8 +3,11 @@ package com.fibonacci.fibohealth.data.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonNull
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import kotlin.math.roundToInt
 
 @Entity(tableName = "user_profile")
@@ -25,23 +28,23 @@ data class UserProfile(
         else
             (10 * weightKg) + (6.25f * heightCm) - (5 * age) - 161
         val multiplier = when (activityLevel) {
-            "sedentary"   -> 1.2f
-            "light"       -> 1.375f
-            "moderate"    -> 1.55f
-            "active"      -> 1.725f
-            "very_active" -> 1.9f
-            else          -> 1.55f
+            "sedentary" -> 1.2f
+            "light"     -> 1.375f
+            "moderate"  -> 1.55f
+            "active"    -> 1.725f
+            else        -> 1.55f
         }
         return (bmr * multiplier).roundToInt()
     }
 
-    fun blePayload(): ByteArray = Json.encodeToString(
-        mapOf(
-            "device_id" to deviceId, "name" to name,
-            "age" to age.toString(), "weight_kg" to weightKg.toString(),
-            "height_cm" to heightCm.toString(), "sex" to sex,
-            "activity_level" to activityLevel,
-            "daily_calorie_goal" to (dailyCalorieGoal?.toString() ?: "null")
-        )
-    ).toByteArray(Charsets.UTF_8)
+    fun blePayload(): ByteArray = buildJsonObject {
+        put("device_id", deviceId)
+        put("name", name)
+        put("age", age)
+        put("weight_kg", weightKg)
+        put("height_cm", heightCm)
+        put("sex", sex)
+        put("activity_level", activityLevel)
+        put("daily_calorie_goal", dailyCalorieGoal?.let { JsonPrimitive(it) } ?: JsonNull)
+    }.toString().toByteArray(Charsets.UTF_8)
 }
