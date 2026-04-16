@@ -1,0 +1,3 @@
+<resources>
+    <style name="Theme.FiboHealth" parent="android:Theme.Material.NoTitleBar"/>
+</resources>
