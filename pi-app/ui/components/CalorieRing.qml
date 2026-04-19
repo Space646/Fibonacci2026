@@ -3,7 +3,7 @@ import QtQuick.Shapes 1.15
 
 Item {
     id: root
-    width: 180; height: 180
+    width: 240; height: 240
 
     property real consumed: 0
     property real goal: 2000
@@ -27,12 +27,12 @@ Item {
         anchors.fill: parent
         ShapePath {
             strokeColor: isDark ? "#1e293b" : "#e2e8f0"
-            strokeWidth: 14
+            strokeWidth: 18
             fillColor: "transparent"
             capStyle: ShapePath.RoundCap
             PathAngleArc {
                 centerX: root.width / 2; centerY: root.height / 2
-                radiusX: root.width / 2 - 10; radiusY: root.height / 2 - 10
+                radiusX: root.width / 2 - 14; radiusY: root.height / 2 - 14
                 startAngle: -90; sweepAngle: 360
             }
         }
@@ -44,7 +44,7 @@ Item {
         visible: root.progress > 0
         ShapePath {
             strokeColor: root.progressColor
-            strokeWidth: 14
+            strokeWidth: 18
             fillColor: "transparent"
             capStyle: ShapePath.RoundCap
 
@@ -54,7 +54,7 @@ Item {
 
             PathAngleArc {
                 centerX: root.width / 2; centerY: root.height / 2
-                radiusX: root.width / 2 - 10; radiusY: root.height / 2 - 10
+                radiusX: root.width / 2 - 14; radiusY: root.height / 2 - 14
                 startAngle: -90
                 sweepAngle: 360 * root.progress
             }
@@ -69,13 +69,13 @@ Item {
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
             text: Math.max(0, Math.round(goal - consumed))
-            font { pixelSize: 28; bold: true }
+            font { pixelSize: 50; bold: true }
             color: isDark ? "#ffffff" : "#0f172a"
         }
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
             text: "kcal left"
-            font.pixelSize: 11
+            font.pixelSize: 20
             color: isDark ? "#64748b" : "#94a3b8"
         }
     }

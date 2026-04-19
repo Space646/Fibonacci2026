@@ -10,8 +10,8 @@ Item {
     property color muted:   isDark ? "#64748b" : "#94a3b8"
 
     Column {
-        anchors { fill: parent; margins: 16 }
-        spacing: 12
+        anchors { fill: parent; margins: 24 }
+        spacing: 20
 
         // Header
         RowLayout {
@@ -20,40 +20,40 @@ Item {
 
             Text {
                 text: "Today's Log"
-                font { pixelSize: 20; bold: true }
+                font { pixelSize: 36; bold: true }
                 color: isDark ? "white" : "#0f172a"
             }
             Item { Layout.fillWidth: true }
             Text {
                 text: Math.round(appState.totalCaloriesToday) + " kcal total"
-                font.pixelSize: 12; color: "#06b6d4"
+                font.pixelSize: 22; color: "#06b6d4"
                 Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
             }
         }
 
         // Empty state
         Item {
-            width: parent.width; height: 120
+            width: parent.width; height: 180
             visible: appState.todaysLog.length === 0
             Text {
                 anchors.centerIn: parent
                 text: "No foods logged yet.\nScan something!"
                 horizontalAlignment: Text.AlignHCenter
-                font.pixelSize: 14; color: muted
+                font.pixelSize: 26; color: muted
             }
         }
 
         // Log list
         ListView {
             width: parent.width
-            height: parent.height - 60
+            height: parent.height - 80
             model: appState.todaysLog
-            spacing: 8
+            spacing: 12
             clip: true
 
             delegate: Rectangle {
                 width: ListView.view ? ListView.view.width : 0
-                height: 60; radius: 10; color: surface
+                height: 90; radius: 12; color: surface
 
                 RowLayout {
                     anchors { fill: parent; leftMargin: 12; rightMargin: 12 }
@@ -63,17 +63,17 @@ Item {
                         Layout.alignment: Qt.AlignVCenter
                         spacing: 4
                         Text { text: modelData.food_name
-                               font { pixelSize: 14; bold: true }
+                               font { pixelSize: 26; bold: true }
                                color: isDark ? "white" : "#0f172a" }
                         Text { text: modelData.weight_g + "g"
-                               font.pixelSize: 10; color: muted }
+                               font.pixelSize: 18; color: muted }
                     }
 
                     Item { Layout.fillWidth: true }
 
                     Text {
                         text: Math.round(modelData.calories) + " kcal"
-                        font.pixelSize: 13; font.bold: true; color: "#06b6d4"
+                        font.pixelSize: 24; font.bold: true; color: "#06b6d4"
                         Layout.alignment: Qt.AlignVCenter
                     }
 
@@ -88,10 +88,10 @@ Item {
                     Rectangle {
                         Layout.alignment: Qt.AlignVCenter
                         Layout.leftMargin: 8
-                        width: 32; height: 32; radius: 6
+                        width: 48; height: 48; radius: 8
                         color: "transparent"
                         Text { anchors.centerIn: parent; text: "✕"
-                               font.pixelSize: 14; color: "#f87171" }
+                               font.pixelSize: 26; color: "#f87171" }
                         MouseArea {
                             anchors.fill: parent
                             onClicked: appState.deleteLogEntry(modelData.id)

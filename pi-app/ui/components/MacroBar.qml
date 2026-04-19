@@ -2,7 +2,7 @@ import QtQuick 2.15
 
 Item {
     id: root
-    height: 20
+    height: 32
     property string label: "Fiber"
     property real value: 0
     property real maxValue: 10
@@ -14,15 +14,15 @@ Item {
         spacing: 8
 
         Text {
-            width: 48; height: parent.height
+            width: 72; height: parent.height
             text: root.label
-            font.pixelSize: 11
+            font.pixelSize: 20
             color: root.barColor
             verticalAlignment: Text.AlignVCenter
         }
 
         Rectangle {
-            height: 5; width: parent.width - 48 - 8 - 32
+            height: 8; width: parent.width - 72 - 8 - 48
             anchors.verticalCenter: parent.verticalCenter
             radius: 3
             color: root.isDark ? "#0f172a" : "#e2e8f0"
@@ -36,9 +36,9 @@ Item {
         }
 
         Text {
-            width: 32; height: parent.height
+            width: 48; height: parent.height
             text: root.value + "g"
-            font.pixelSize: 11
+            font.pixelSize: 20
             color: root.barColor
             horizontalAlignment: Text.AlignRight
             verticalAlignment: Text.AlignVCenter

@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.15
 ApplicationWindow {
     id: root
     visible: true
+    visibility: Window.FullScreen
     width: 720
     height: 1280
     title: "Fibonacci Health"
@@ -15,14 +16,14 @@ ApplicationWindow {
         id: testBanner
         visible: appState.testMode
         anchors { top: parent.top; left: parent.left; right: parent.right }
-        height: 32
+        height: 48
         color: "#92400e"
         z: 100
         Text {
             anchors.centerIn: parent
             text: "⚠  TEST MODE ACTIVE"
             color: "#fbbf24"
-            font { pixelSize: 11; bold: true; letterSpacing: 1 }
+            font { pixelSize: 20; bold: true; letterSpacing: 1 }
         }
     }
 
@@ -62,7 +63,7 @@ ApplicationWindow {
     Rectangle {
         id: navBar
         anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
-        height: 64
+        height: 90
         color: appState.theme === "dark" ? "#0f172a" : "#ffffff"
 
         Rectangle {
@@ -93,7 +94,7 @@ ApplicationWindow {
                         spacing: 4
 
                         Rectangle {
-                            width: 24; height: 3; radius: 2
+                            width: 36; height: 4; radius: 2
                             anchors.horizontalCenter: parent.horizontalCenter
                             color: stackView.currentItem &&
                                    stackView.currentItem.objectName === modelData.label
@@ -104,7 +105,7 @@ ApplicationWindow {
                         Text {
                             anchors.horizontalCenter: parent.horizontalCenter
                             text: modelData.label
-                            font.pixelSize: 11
+                            font.pixelSize: 20
                             color: stackView.currentItem &&
                                    stackView.currentItem.objectName === modelData.label
                                    ? "#6366f1"

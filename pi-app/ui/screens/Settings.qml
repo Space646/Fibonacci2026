@@ -11,14 +11,14 @@ Item {
     property color muted:   isDark ? "#64748b" : "#94a3b8"
 
     Flickable {
-        anchors { fill: parent; margins: 16 }
+        anchors { fill: parent; margins: 24 }
         contentHeight: col.implicitHeight; clip: true
 
         Column {
             id: col
-            width: parent.width; spacing: 12
+            width: parent.width; spacing: 20
 
-            Text { text: "Settings"; font { pixelSize: 20; bold: true }
+            Text { text: "Settings"; font { pixelSize: 36; bold: true }
                    color: isDark ? "white" : "#0f172a" }
 
             // ── Test Mode ────────────────────────────────────────────────
@@ -39,10 +39,10 @@ Item {
                             anchors.left: parent.left
                             anchors.verticalCenter: parent.verticalCenter
                             spacing: 2
-                            Text { text: "Test Mode"; font { pixelSize: 13; bold: true }
+                            Text { text: "Test Mode"; font { pixelSize: 24; bold: true }
                                    color: isDark ? "white" : "#0f172a" }
                             Text { text: "Override HuskyLens + scale input"
-                                   font.pixelSize: 10; color: muted }
+                                   font.pixelSize: 18; color: muted }
                         }
                         Switch {
                             id: testSwitch
@@ -66,7 +66,7 @@ Item {
                         property int selectedIndex: 0
                         property real selectedWeight: 0
 
-                        Text { text: "SELECT FOOD"; font.pixelSize: 9; font.letterSpacing: 1; color: muted }
+                        Text { text: "SELECT FOOD"; font.pixelSize: 16; font.letterSpacing: 1; color: muted }
                         ComboBox {
                             width: parent.width
                             leftPadding: 12; rightPadding: 12
@@ -75,7 +75,7 @@ Item {
                             onActivated: testPicker.selectedIndex = currentIndex
                         }
 
-                        Text { text: "WEIGHT (g)"; font.pixelSize: 9; font.letterSpacing: 1; color: muted }
+                        Text { text: "WEIGHT (g)"; font.pixelSize: 16; font.letterSpacing: 1; color: muted }
                         TextField {
                             id: weightField
                             width: parent.width
@@ -88,7 +88,7 @@ Item {
 
                         // Confirm button — triggers the simulated scan
                         Rectangle {
-                            width: parent.width; height: 40; radius: 8
+                            width: parent.width; height: 60; radius: 10
                             anchors.topMargin: 4
                             property bool ready: testPicker.selectedIndex >= 0 &&
                                                  testPicker.selectedWeight > 0
@@ -101,7 +101,7 @@ Item {
                                 anchors.centerIn: parent
                                 text: "Scan selection"
                                 color: "white"
-                                font { pixelSize: 12; bold: true }
+                                font { pixelSize: 22; bold: true }
                             }
                             MouseArea {
                                 anchors.fill: parent
@@ -119,16 +119,16 @@ Item {
 
             // ── Theme ────────────────────────────────────────────────────
             Rectangle {
-                width: parent.width; height: 56; radius: 10; color: surface
+                width: parent.width; height: 80; radius: 12; color: surface
                 Item {
                     anchors { fill: parent; margins: 12 }
                     Column {
                         spacing: 2; anchors.left: parent.left
                         anchors.verticalCenter: parent.verticalCenter
-                        Text { text: "Theme"; font { pixelSize: 13; bold: true }
+                        Text { text: "Theme"; font { pixelSize: 24; bold: true }
                                color: isDark ? "white" : "#0f172a" }
                         Text { text: "Dark Cosmos / Clean Light"
-                               font.pixelSize: 10; color: muted }
+                               font.pixelSize: 18; color: muted }
                     }
                     Row {
                         spacing: 4
@@ -137,12 +137,12 @@ Item {
                         Repeater {
                             model: ["Dark", "Light"]
                             Rectangle {
-                                width: 52; height: 28; radius: 6
+                                width: 72; height: 42; radius: 8
                                 color: (modelData === "Dark" && appState.theme === "dark") ||
                                        (modelData === "Light" && appState.theme === "light")
                                        ? "#6366f1" : (isDark ? "#0f172a" : "#f1f5f9")
                                 Text { anchors.centerIn: parent; text: modelData
-                                       font.pixelSize: 11
+                                       font.pixelSize: 20
                                        color: (modelData === "Dark" && appState.theme === "dark") ||
                                               (modelData === "Light" && appState.theme === "light")
                                               ? "white" : muted }
@@ -167,7 +167,7 @@ Item {
                     spacing: 8
 
                     Text { text: "HuskyLens Label Mapping"
-                           font { pixelSize: 13; bold: true }
+                           font { pixelSize: 24; bold: true }
                            color: isDark ? "white" : "#0f172a" }
 
                     Repeater {
@@ -176,18 +176,18 @@ Item {
                                 .sort((a, b) => a.huskylens_label_id - b.huskylens_label_id)
 
                         Rectangle {
-                            width: parent.width; height: 36; radius: 6
+                            width: parent.width; height: 52; radius: 8
                             color: isDark ? "#0f172a" : "#f8fafc"
                             Item {
                                 anchors { fill: parent; leftMargin: 10; rightMargin: 10 }
                                 Text { anchors.left: parent.left
                                        anchors.verticalCenter: parent.verticalCenter
                                        text: "Label ID " + modelData.huskylens_label_id
-                                       font.pixelSize: 11; color: muted }
+                                       font.pixelSize: 20; color: muted }
                                 Text { anchors.right: parent.right
                                        anchors.verticalCenter: parent.verticalCenter
                                        text: modelData.name
-                                       font { pixelSize: 12; bold: true }
+                                       font { pixelSize: 22; bold: true }
                                        color: isDark ? "white" : "#0f172a" }
                             }
                         }
@@ -206,19 +206,19 @@ Item {
                     spacing: 8
 
                     Text { text: "Paired Users"
-                           font { pixelSize: 13; bold: true }
+                           font { pixelSize: 24; bold: true }
                            color: isDark ? "white" : "#0f172a" }
 
                     Rectangle {
-                        width: parent.width; height: 40; radius: 6
+                        width: parent.width; height: 60; radius: 8
                         color: isDark ? "#0f172a" : "#f8fafc"
                         visible: appState.userConnected
 
                         Row {
-                            anchors { fill: parent; leftMargin: 10; rightMargin: 10 }
-                            spacing: 8
+                            anchors { fill: parent; leftMargin: 14; rightMargin: 14 }
+                            spacing: 12
                             Rectangle {
-                                width: 24; height: 24; radius: 12
+                                width: 36; height: 36; radius: 18
                                 anchors.verticalCenter: parent.verticalCenter
                                 gradient: Gradient {
                                     orientation: Gradient.Horizontal
@@ -227,16 +227,16 @@ Item {
                                 }
                                 Text { anchors.centerIn: parent
                                        text: appState.activeUserName[0].toUpperCase()
-                                       font.pixelSize: 10; font.bold: true; color: "white" }
+                                       font.pixelSize: 18; font.bold: true; color: "white" }
                             }
                             Text { anchors.verticalCenter: parent.verticalCenter
                                    text: appState.activeUserName
-                                   font.pixelSize: 12; color: isDark ? "white" : "#0f172a" }
+                                   font.pixelSize: 22; color: isDark ? "white" : "#0f172a" }
                             Item { Layout.fillWidth: true; width: 1 }
                             Row {
                                 spacing: 4; anchors.verticalCenter: parent.verticalCenter
                                 Rectangle { width: 6; height: 6; radius: 3; color: "#22c55e" }
-                                Text { text: "Active"; font.pixelSize: 10; color: muted }
+                                Text { text: "Active"; font.pixelSize: 18; color: muted }
                             }
                         }
                     }
@@ -244,7 +244,7 @@ Item {
                     Text {
                         visible: !appState.userConnected
                         text: "No device connected."
-                        font.pixelSize: 11; color: muted
+                        font.pixelSize: 20; color: muted
                     }
                 }
             }

@@ -11,23 +11,23 @@ Item {
     property color muted:   isDark ? "#64748b" : "#94a3b8"
 
     Flickable {
-        anchors { fill: parent; margins: 16 }
+        anchors { fill: parent; margins: 24 }
         contentHeight: col.implicitHeight
         clip: true
 
         Column {
             id: col
             width: parent.width
-            spacing: 12
+            spacing: 20
 
             // Header
             RowLayout {
                 width: parent.width
-                spacing: 10
+                spacing: 14
 
                 Rectangle {
-                    Layout.preferredWidth: 40; Layout.preferredHeight: 40
-                    radius: 20
+                    Layout.preferredWidth: 56; Layout.preferredHeight: 56
+                    radius: 28
                     gradient: Gradient {
                         orientation: Gradient.Horizontal
                         GradientStop { position: 0.0; color: "#6366f1" }
@@ -37,7 +37,7 @@ Item {
                         anchors.centerIn: parent
                         text: appState.activeUserName.length > 0
                               ? appState.activeUserName[0].toUpperCase() : "G"
-                        color: "white"; font { pixelSize: 16; bold: true }
+                        color: "white"; font { pixelSize: 28; bold: true }
                     }
                 }
 
@@ -47,11 +47,11 @@ Item {
                     Text {
                         text: appState.activeUserName
                         color: isDark ? "white" : "#0f172a"
-                        font { pixelSize: 14; bold: true }
+                        font { pixelSize: 26; bold: true }
                     }
                     Text {
                         text: Qt.formatDate(new Date(), "dddd d MMM")
-                        color: muted; font.pixelSize: 10
+                        color: muted; font.pixelSize: 18
                     }
                 }
 
@@ -65,9 +65,9 @@ Item {
                 //    pairing so the UI can be exercised.
                 Rectangle {
                     visible: !appState.userConnected
-                    color: surface; radius: 6
-                    Layout.preferredHeight: 28
-                    Layout.preferredWidth: connectText.implicitWidth + 16
+                    color: surface; radius: 8
+                    Layout.preferredHeight: 42
+                    Layout.preferredWidth: connectText.implicitWidth + 20
                     Layout.alignment: Qt.AlignVCenter
                     Text {
                         id: connectText
@@ -75,7 +75,7 @@ Item {
                         text: appState.bleAvailable
                               ? "Open FiboHealth on your phone"
                               : "Simulate phone"
-                        color: "#6366f1"; font.pixelSize: 10
+                        color: "#6366f1"; font.pixelSize: 18
                     }
                     MouseArea {
                         anchors.fill: parent
@@ -88,15 +88,15 @@ Item {
                 // to any connected phone.
                 Rectangle {
                     id: refreshBtn
-                    Layout.preferredWidth: 28; Layout.preferredHeight: 28
+                    Layout.preferredWidth: 42; Layout.preferredHeight: 42
                     Layout.alignment: Qt.AlignVCenter
-                    radius: 14
+                    radius: 21
                     color: surface
                     Text {
                         anchors.centerIn: parent
                         text: "\u21bb"            // ↻
                         color: "#6366f1"
-                        font { pixelSize: 16; bold: true }
+                        font { pixelSize: 28; bold: true }
                     }
                     MouseArea {
                         anchors.fill: parent
@@ -120,7 +120,7 @@ Item {
             // Calorie ring
             CalorieRing {
                 anchors.horizontalCenter: parent.horizontalCenter
-                width: 180; height: 180
+                width: 240; height: 240
                 consumed: appState.totalCaloriesToday
                 goal: appState.dailyGoal
                 isDark: root.isDark
@@ -129,7 +129,7 @@ Item {
             // Stats row
             Row {
                 width: parent.width
-                spacing: 8
+                spacing: 12
                 StatCard {
                     width: (parent.width - 8) / 2
                     value: Math.round(appState.totalCaloriesToday).toString()
@@ -146,31 +146,31 @@ Item {
 
             // Activity strip
             Rectangle {
-                width: parent.width; radius: 10; color: surface; height: 72
+                width: parent.width; radius: 12; color: surface; height: 110
 
                 Column {
-                    anchors { fill: parent; margins: 12 }
-                    spacing: 6
-                    Text { text: "ACTIVITY TODAY"; font.pixelSize: 9; font.letterSpacing: 1; color: muted }
+                    anchors { fill: parent; margins: 16 }
+                    spacing: 10
+                    Text { text: "ACTIVITY TODAY"; font.pixelSize: 16; font.letterSpacing: 1; color: muted }
                     Row {
                         width: parent.width
                         spacing: 0
                         StatCard {
-                            width: (parent.width - 2) / 3; height: 40
+                            width: (parent.width - 2) / 3; height: 60
                             value: (appState.healthSnapshot.steps || 0).toString()
                             label: "Steps"; isDark: root.isDark
                             valueColor: "#6366f1"
                         }
-                        Rectangle { width: 1; height: 40; color: isDark ? "#334155" : "#e2e8f0" }
+                        Rectangle { width: 1; height: 60; color: isDark ? "#334155" : "#e2e8f0" }
                         StatCard {
-                            width: (parent.width - 2) / 3; height: 40
+                            width: (parent.width - 2) / 3; height: 60
                             value: (appState.healthSnapshot.active_minutes || 0).toString()
                             label: "Active minutes"; isDark: root.isDark
                             valueColor: "#06b6d4"
                         }
-                        Rectangle { width: 1; height: 40; color: isDark ? "#334155" : "#e2e8f0" }
+                        Rectangle { width: 1; height: 60; color: isDark ? "#334155" : "#e2e8f0" }
                         StatCard {
-                            width: (parent.width - 2) / 3; height: 40
+                            width: (parent.width - 2) / 3; height: 60
                             value: Math.round(appState.healthSnapshot.calories_burned || 0).toString()
                             label: "Burned"; isDark: root.isDark
                             valueColor: "#f59e0b"
@@ -192,7 +192,7 @@ Item {
 
                     Text {
                         text: "LAST SCANS"
-                        font { pixelSize: 9; letterSpacing: 1 }
+                        font { pixelSize: 16; letterSpacing: 1 }
                         color: muted
                     }
 
@@ -207,13 +207,13 @@ Item {
                                 spacing: 2
                                 Text {
                                     text: appState.todaysLog[index].food_name
-                                    font { pixelSize: 14; bold: true }
+                                    font { pixelSize: 26; bold: true }
                                     color: isDark ? "white" : "#0f172a"
                                 }
                                 Text {
                                     text: appState.todaysLog[index].weight_g + "g · " +
                                           Math.round(appState.todaysLog[index].calories) + " kcal"
-                                    font.pixelSize: 10; color: muted
+                                    font.pixelSize: 18; color: muted
                                 }
                             }
                             Item { Layout.fillWidth: true }

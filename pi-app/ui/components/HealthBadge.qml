@@ -6,8 +6,8 @@ Rectangle {
     property bool isDark: true
     property string customText: ""
 
-    height: 24; radius: 12
-    width: badgeText.implicitWidth + 20
+    height: 36; radius: 18
+    width: badgeText.implicitWidth + 28
     color: healthy
            ? (isDark ? "#064e3b" : "#d1fae5")
            : (isDark ? "#450a0a" : "#fee2e2")
@@ -18,7 +18,7 @@ Rectangle {
         text: root.customText !== ""
               ? root.customText
               : (root.healthy ? "✓ Healthy" : "✗ Unhealthy")
-        font { pixelSize: 11; bold: true }
+        font { pixelSize: 20; bold: true }
         color: root.healthy
                ? (root.isDark ? "#34d399" : "#065f46")
                : (root.isDark ? "#f87171" : "#991b1b")

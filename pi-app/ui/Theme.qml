@@ -28,13 +28,13 @@ QtObject {
 
     // Typography
     property string fontFamily: "Inter, system-ui, sans-serif"
-    property int fontSizeSmall:  11
-    property int fontSizeBody:   14
-    property int fontSizeTitle:  20
-    property int fontSizeHero:   28
+    property int fontSizeSmall:  20
+    property int fontSizeBody:   26
+    property int fontSizeTitle:  36
+    property int fontSizeHero:   50
 
     // Spacing
-    property int radiusCard:   10
-    property int radiusButton:  8
-    property int paddingPage:  16
+    property int radiusCard:   14
+    property int radiusButton:  12
+    property int paddingPage:  24
 }
