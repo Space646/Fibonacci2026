@@ -10,7 +10,6 @@ data class FoodLogEntry(
     val weightG: Float,
     val calories: Float,
     val isHealthy: Boolean,
-    val healthScore: Float,
     val timestamp: String,
     val proteinG: Float? = null,
     val fatG: Float? = null,
@@ -37,17 +36,16 @@ object FoodLogEntrySerializer : kotlinx.serialization.KSerializer<FoodLogEntry> 
             }
         } ?: false
         return FoodLogEntry(
-            id          = obj["id"]!!.jsonPrimitive.int,
-            foodName    = obj["food_name"]!!.jsonPrimitive.content,
-            weightG     = obj["weight_g"]!!.jsonPrimitive.float,
-            calories    = obj["calories"]!!.jsonPrimitive.float,
-            isHealthy   = isHealthy,
-            healthScore = obj["health_score"]?.jsonPrimitive?.floatOrNull ?: 0f,
-            timestamp   = obj["timestamp"]!!.jsonPrimitive.content,
-            proteinG    = obj["protein_g"]?.jsonPrimitive?.floatOrNull,
-            fatG        = obj["fat_g"]?.jsonPrimitive?.floatOrNull,
-            sugarG      = obj["sugar_g"]?.jsonPrimitive?.floatOrNull,
-            fiberG      = obj["fiber_g"]?.jsonPrimitive?.floatOrNull
+            id        = obj["id"]!!.jsonPrimitive.int,
+            foodName  = obj["food_name"]!!.jsonPrimitive.content,
+            weightG   = obj["weight_g"]!!.jsonPrimitive.float,
+            calories  = obj["calories"]!!.jsonPrimitive.float,
+            isHealthy = isHealthy,
+            timestamp = obj["timestamp"]!!.jsonPrimitive.content,
+            proteinG  = obj["protein_g"]?.jsonPrimitive?.floatOrNull,
+            fatG      = obj["fat_g"]?.jsonPrimitive?.floatOrNull,
+            sugarG    = obj["sugar_g"]?.jsonPrimitive?.floatOrNull,
+            fiberG    = obj["fiber_g"]?.jsonPrimitive?.floatOrNull
         )
     }
 }
