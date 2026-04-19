@@ -1,15 +1,6 @@
 from database.db import get_connection, run_migrations
 
 
-def compute_health_score(protein, fiber, sugar, fat):
-    score = 50.0
-    score += min(fiber * 10, 20)
-    score += min(protein * 5, 20)
-    score -= min(sugar * 8, 20)
-    score -= min(fat * 10, 20)
-    return round(max(0.0, min(100.0, score)), 1)
-
-
 # (name, kcal/100g, protein, fat, sugar, fiber, is_healthy, huskylens_label_id)
 FOODS = [
     ("Apple",          52,  0.3, 0.2, 10.0, 2.4, 1, 1),
@@ -42,14 +33,13 @@ FOODS = [
 
 def seed_foods(conn):
     for (name, kcal, protein, fat, sugar, fiber, healthy, label_id) in FOODS:
-        score = compute_health_score(protein, fiber, sugar, fat)
         conn.execute(
             """INSERT OR IGNORE INTO foods
                (name, calories_per_100g, protein_per_100g, fat_per_100g,
-                sugar_per_100g, fiber_per_100g, is_healthy, health_score,
+                sugar_per_100g, fiber_per_100g, is_healthy,
                 huskylens_label_id)
-               VALUES (?,?,?,?,?,?,?,?,?)""",
-            (name, kcal, protein, fat, sugar, fiber, healthy, score, label_id),
+               VALUES (?,?,?,?,?,?,?,?)""",
+            (name, kcal, protein, fat, sugar, fiber, healthy, label_id),
         )
     conn.commit()
 
