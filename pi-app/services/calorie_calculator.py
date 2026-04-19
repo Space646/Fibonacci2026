@@ -25,12 +25,12 @@ def calculate_calories(calories_per_100g: float, weight_g: float) -> float:
 def calculate_bmr(weight_kg: float, height_cm: float, age: int, sex: str) -> float:
     base = 10 * weight_kg + 6.25 * height_cm - 5 * age
     if sex == "male":
-        return base + 25
+        return base + 5
     elif sex == "female":
-        return base - 136
+        return base - 161
     else:
-        male_bmr = base + 25
-        female_bmr = base - 136
+        male_bmr = base + 5
+        female_bmr = base - 161
         return (male_bmr + female_bmr) / 2
 
 

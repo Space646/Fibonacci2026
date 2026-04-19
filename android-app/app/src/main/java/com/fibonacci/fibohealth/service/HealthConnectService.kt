@@ -73,4 +73,24 @@ class HealthConnectService @Inject constructor(
             workouts        = sessions.size
         )
     }
+
+    suspend fun fetchWeekCaloriesBurned(): List<Int> {
+        val today = LocalDate.now()
+        return (6 downTo 0).map { daysAgo ->
+            val date  = today.minusDays(daysAgo.toLong())
+            val start = date.atStartOfDay(ZoneId.systemDefault()).toInstant()
+            val end   = if (daysAgo == 0) Instant.now()
+                        else date.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()
+            val range = TimeRangeFilter.between(start, end)
+            runCatching {
+                val active = client.aggregate(
+                    AggregateRequest(setOf(ActiveCaloriesBurnedRecord.ACTIVE_CALORIES_TOTAL), range)
+                )[ActiveCaloriesBurnedRecord.ACTIVE_CALORIES_TOTAL]?.inKilocalories?.toFloat() ?: 0f
+                val basal  = client.aggregate(
+                    AggregateRequest(setOf(BasalMetabolicRateRecord.BASAL_CALORIES_TOTAL), range)
+                )[BasalMetabolicRateRecord.BASAL_CALORIES_TOTAL]?.inKilocalories?.toFloat() ?: 0f
+                (active + basal).toInt()
+            }.getOrDefault(0)
+        }
+    }
 }

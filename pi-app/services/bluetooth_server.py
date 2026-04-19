@@ -27,7 +27,7 @@ CHAR_HEALTH_SNAP    = "12345678-1234-5678-1234-56789abcdef2"
 CHAR_FOOD_LOG_SYNC  = "12345678-1234-5678-1234-56789abcdef3"
 CHAR_SESSION_STATE  = "12345678-1234-5678-1234-56789abcdef4"
 
-PERIPHERAL_NAME = "FiboHealth-Pi"
+PERIPHERAL_NAME = "Fibo-Pi"
 
 
 class BluetoothServer:
@@ -159,9 +159,12 @@ class BluetoothServer:
 
         # prioritize_local_name=False keeps the service UUID in the
         # advertisement packet. bless's CoreBluetooth backend otherwise drops
-        # it whenever the local name is >10 bytes ("FiboHealth-Pi" is 13), and
-        # iOS scans with a service-UUID filter — so without the UUID in adv,
-        # the iPhone never discovers the peripheral. BlueZ ignores the kwarg.
+        # it whenever the local name pushes the ADV payload over 31 bytes —
+        # and both iOS and Android scan with a service-UUID filter, so without
+        # the UUID in adv the central never discovers the peripheral. The
+        # peripheral name is also kept to <10 chars ("Fibo-Pi") so that name +
+        # UUID fit together even on bless/CoreBluetooth versions that don't
+        # honour this kwarg reliably. BlueZ ignores the kwarg entirely.
         await server.start(prioritize_local_name=False)
         self._server = server
         # Set `started` on the loop thread BEFORE signalling ready, so that

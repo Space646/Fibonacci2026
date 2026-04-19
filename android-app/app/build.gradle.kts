@@ -5,24 +5,31 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.room)
 }
 
 android {
     namespace = "com.fibonacci.fibohealth"
-    compileSdk = 35
+    compileSdk = 36
     defaultConfig {
         applicationId = "com.fibonacci.fibohealth"
         minSdk = 34
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
     }
     buildFeatures { compose = true }
-    room { schemaDirectory("$projectDir/schemas") }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
 }
 
 dependencies {
+    implementation(libs.material)
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling)

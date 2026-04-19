@@ -25,7 +25,7 @@
 	<key>NSHealthShareUsageDescription</key>
 	<string>FiboHealth reads your activity data to calculate remaining daily calories.</string>
 	<key>NSHealthUpdateUsageDescription</key>
-	<string>FiboHealth does not write health data.</string>
+	<string>FiboHealth logs the food you scan on your Pi as dietary energy and macronutrients in Apple Health, so your daily calorie balance stays accurate.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-central</string>

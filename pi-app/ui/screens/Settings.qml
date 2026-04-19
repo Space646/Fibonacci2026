@@ -31,17 +31,23 @@ Item {
                     anchors { left: parent.left; right: parent.right; top: parent.top; margins: 12 }
                     spacing: 10
 
-                    Row {
+                    Item {
                         width: parent.width
+                        height: Math.max(testLabelCol.height, testSwitch.height)
                         Column {
+                            id: testLabelCol
+                            anchors.left: parent.left
+                            anchors.verticalCenter: parent.verticalCenter
                             spacing: 2
                             Text { text: "Test Mode"; font { pixelSize: 13; bold: true }
                                    color: isDark ? "white" : "#0f172a" }
                             Text { text: "Override HuskyLens + scale input"
                                    font.pixelSize: 10; color: muted }
                         }
-                        Item { Layout.fillWidth: true; width: 1 }
                         Switch {
+                            id: testSwitch
+                            anchors.right: parent.right
+                            anchors.verticalCenter: parent.verticalCenter
                             checked: appState.testMode
                             onToggled: appState.setTestMode(checked)
                         }
@@ -114,18 +120,20 @@ Item {
             // ── Theme ────────────────────────────────────────────────────
             Rectangle {
                 width: parent.width; height: 56; radius: 10; color: surface
-                Row {
+                Item {
                     anchors { fill: parent; margins: 12 }
                     Column {
-                        spacing: 2; anchors.verticalCenter: parent.verticalCenter
+                        spacing: 2; anchors.left: parent.left
+                        anchors.verticalCenter: parent.verticalCenter
                         Text { text: "Theme"; font { pixelSize: 13; bold: true }
                                color: isDark ? "white" : "#0f172a" }
                         Text { text: "Dark Cosmos / Clean Light"
                                font.pixelSize: 10; color: muted }
                     }
-                    Item { Layout.fillWidth: true; width: 1 }
                     Row {
-                        spacing: 4; anchors.verticalCenter: parent.verticalCenter
+                        spacing: 4
+                        anchors.right: parent.right
+                        anchors.verticalCenter: parent.verticalCenter
                         Repeater {
                             model: ["Dark", "Light"]
                             Rectangle {
@@ -163,17 +171,21 @@ Item {
                            color: isDark ? "white" : "#0f172a" }
 
                     Repeater {
-                        model: appState.allFoods.filter(f => f.huskylens_label_id !== null)
+                        model: appState.allFoods
+                                .filter(f => f.huskylens_label_id !== null)
+                                .sort((a, b) => a.huskylens_label_id - b.huskylens_label_id)
 
                         Rectangle {
                             width: parent.width; height: 36; radius: 6
                             color: isDark ? "#0f172a" : "#f8fafc"
-                            Row {
+                            Item {
                                 anchors { fill: parent; leftMargin: 10; rightMargin: 10 }
-                                Text { anchors.verticalCenter: parent.verticalCenter
+                                Text { anchors.left: parent.left
+                                       anchors.verticalCenter: parent.verticalCenter
                                        text: "Label ID " + modelData.huskylens_label_id
-                                       font.pixelSize: 11; color: muted; width: 80 }
-                                Text { anchors.verticalCenter: parent.verticalCenter
+                                       font.pixelSize: 11; color: muted }
+                                Text { anchors.right: parent.right
+                                       anchors.verticalCenter: parent.verticalCenter
                                        text: modelData.name
                                        font { pixelSize: 12; bold: true }
                                        color: isDark ? "white" : "#0f172a" }

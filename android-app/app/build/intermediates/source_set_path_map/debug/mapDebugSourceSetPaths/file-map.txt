@@ -1,0 +1,84 @@
+com.fibonacci.fibohealth.app-navigation-common-2.8.0-0 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/007c50b0667c348425ed4a4d32625022/transformed/navigation-common-2.8.0/res
+com.fibonacci.fibohealth.app-jetified-animation-core-release-1 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/026608e1fa23d374b011b4834852d22c/transformed/jetified-animation-core-release/res
+com.fibonacci.fibohealth.app-jetified-window-core-release-2 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/06df61322f96190a946d16213c568a53/transformed/jetified-window-core-release/res
+com.fibonacci.fibohealth.app-jetified-emoji2-views-helper-1.3.0-3 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/07633cc3873e046d3421cd35d41642bd/transformed/jetified-emoji2-views-helper-1.3.0/res
+com.fibonacci.fibohealth.app-jetified-annotation-experimental-1.4.1-4 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/129874ec7e229d89d9cba0b6694f909d/transformed/jetified-annotation-experimental-1.4.1/res
+com.fibonacci.fibohealth.app-jetified-ui-unit-release-5 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/162bd8bc4b846014e992a5827561c144/transformed/jetified-ui-unit-release/res
+com.fibonacci.fibohealth.app-jetified-runtime-saveable-release-6 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/18b037e6a33a96a5c2a9e1eb19971dcd/transformed/jetified-runtime-saveable-release/res
+com.fibonacci.fibohealth.app-appcompat-1.6.1-7 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/18b1c3bb6c66e526af0e62855a7842d0/transformed/appcompat-1.6.1/res
+com.fibonacci.fibohealth.app-jetified-emoji2-1.3.0-8 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/1936f8c1dba218c560a39ef4c817cb19/transformed/jetified-emoji2-1.3.0/res
+com.fibonacci.fibohealth.app-transition-1.5.0-9 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/1b4c6af48102426e717b00e09e18cfe3/transformed/transition-1.5.0/res
+com.fibonacci.fibohealth.app-jetified-datastore-core-release-10 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/235e2fc2813611793558e174178df64e/transformed/jetified-datastore-core-release/res
+com.fibonacci.fibohealth.app-jetified-graphics-path-1.0.1-11 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/2633010741456e5c45ebf26843ccc6da/transformed/jetified-graphics-path-1.0.1/res
+com.fibonacci.fibohealth.app-jetified-datastore-release-12 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/2891a5e6d36e12c0182fa289f3a7e5b5/transformed/jetified-datastore-release/res
+com.fibonacci.fibohealth.app-jetified-material-icons-core-release-13 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/297ab88e4d7429e916bb8c8a2685f076/transformed/jetified-material-icons-core-release/res
+com.fibonacci.fibohealth.app-jetified-ui-graphics-release-14 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/2bf48ab07c050ed1f61640ec41957f0b/transformed/jetified-ui-graphics-release/res
+com.fibonacci.fibohealth.app-jetified-lifecycle-runtime-ktx-release-15 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/2c32e46f4649972864b09de3d28875b0/transformed/jetified-lifecycle-runtime-ktx-release/res
+com.fibonacci.fibohealth.app-jetified-customview-poolingcontainer-1.0.0-16 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/2c78d443f93dde1dab8b4c53d2531adb/transformed/jetified-customview-poolingcontainer-1.0.0/res
+com.fibonacci.fibohealth.app-jetified-viewpager2-1.0.0-17 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/2ce3cc20891cb6d6667ffbe4d09b1470/transformed/jetified-viewpager2-1.0.0/res
+com.fibonacci.fibohealth.app-jetified-material3-release-18 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/406b9b4ea184e279d141f9ee05bf0e91/transformed/jetified-material3-release/res
+com.fibonacci.fibohealth.app-jetified-ui-release-19 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/437e05fb14fe5e3dbaec0989e3d257bf/transformed/jetified-ui-release/res
+com.fibonacci.fibohealth.app-jetified-adaptive-layout-release-20 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/440e1484c1d1a555cab3c7040aac96be/transformed/jetified-adaptive-layout-release/res
+com.fibonacci.fibohealth.app-material-1.12.0-21 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/44a9479e01c0deb165b697e9eb129771/transformed/material-1.12.0/res
+com.fibonacci.fibohealth.app-jetified-window-1.3.0-22 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/44d172aa650f7e385868ea1e0077163e/transformed/jetified-window-1.3.0/res
+com.fibonacci.fibohealth.app-navigation-runtime-2.8.0-23 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/47be059e48bcf157a1366d5b877a9c13/transformed/navigation-runtime-2.8.0/res
+com.fibonacci.fibohealth.app-jetified-appcompat-resources-1.6.1-24 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/543c882e7cac68406b90affd270b04ba/transformed/jetified-appcompat-resources-1.6.1/res
+com.fibonacci.fibohealth.app-jetified-connect-client-1.1.0-rc02-25 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/5f28d545fcf4743be8258c69a897df8a/transformed/jetified-connect-client-1.1.0-rc02/res
+com.fibonacci.fibohealth.app-jetified-lifecycle-process-2.8.3-26 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/603f3f1872906407e6e4a8067e92ad16/transformed/jetified-lifecycle-process-2.8.3/res
+com.fibonacci.fibohealth.app-jetified-ui-tooling-preview-release-27 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/6d764d24dda323877fc6325b5786e0f9/transformed/jetified-ui-tooling-preview-release/res
+com.fibonacci.fibohealth.app-jetified-adaptive-navigation-release-28 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/7724116727513336efc4fb89e2ff6680/transformed/jetified-adaptive-navigation-release/res
+com.fibonacci.fibohealth.app-drawerlayout-1.1.1-29 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/77a17d018d5dc3c09e3bb6111d21b60a/transformed/drawerlayout-1.1.1/res
+com.fibonacci.fibohealth.app-jetified-lifecycle-livedata-core-ktx-2.8.3-30 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/7ff501bfb7990a77b335d646ec30f592/transformed/jetified-lifecycle-livedata-core-ktx-2.8.3/res
+com.fibonacci.fibohealth.app-constraintlayout-2.0.1-31 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/8ce553122667461f257430056c494498/transformed/constraintlayout-2.0.1/res
+com.fibonacci.fibohealth.app-jetified-core-ktx-1.13.1-32 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/9025fbf9d83e8966c9cd953871843702/transformed/jetified-core-ktx-1.13.1/res
+com.fibonacci.fibohealth.app-jetified-lifecycle-runtime-compose-release-33 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/941a0ac1bdb81e7e146841ff0798ea7e/transformed/jetified-lifecycle-runtime-compose-release/res
+com.fibonacci.fibohealth.app-lifecycle-livedata-core-2.8.3-34 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/951d4d4ec7f2ef296b6622d172a1bc31/transformed/lifecycle-livedata-core-2.8.3/res
+com.fibonacci.fibohealth.app-jetified-ui-geometry-release-35 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/9578aa9ebf23a56d070844c01991f417/transformed/jetified-ui-geometry-release/res
+com.fibonacci.fibohealth.app-jetified-lifecycle-viewmodel-ktx-2.8.3-36 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/989ad0a31b746f5f2e71eb58084cbb71/transformed/jetified-lifecycle-viewmodel-ktx-2.8.3/res
+com.fibonacci.fibohealth.app-jetified-lifecycle-viewmodel-savedstate-2.8.3-37 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/99cdf858a588abf7fe4567ef25f65508/transformed/jetified-lifecycle-viewmodel-savedstate-2.8.3/res
+com.fibonacci.fibohealth.app-sqlite-2.4.0-38 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/9a14520068d0020776307b0ef609670d/transformed/sqlite-2.4.0/res
+com.fibonacci.fibohealth.app-jetified-hilt-navigation-compose-1.2.0-39 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/9d86635f1253408221cd55125ef79755/transformed/jetified-hilt-navigation-compose-1.2.0/res
+com.fibonacci.fibohealth.app-jetified-hilt-navigation-1.2.0-40 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/9eb8635837971360c4a96596311410de/transformed/jetified-hilt-navigation-1.2.0/res
+com.fibonacci.fibohealth.app-lifecycle-livedata-2.8.3-41 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/9f1fde986e3ff154c87e8db57dbdc305/transformed/lifecycle-livedata-2.8.3/res
+com.fibonacci.fibohealth.app-jetified-profileinstaller-1.3.1-42 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/res
+com.fibonacci.fibohealth.app-sqlite-framework-2.4.0-43 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a26e3ea311c1ef4f659603b4182d05c8/transformed/sqlite-framework-2.4.0/res
+com.fibonacci.fibohealth.app-jetified-savedstate-ktx-1.2.1-44 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a39bbb40f9aceb14a423328ef33aa7bc/transformed/jetified-savedstate-ktx-1.2.1/res
+com.fibonacci.fibohealth.app-core-runtime-2.2.0-45 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a9651ba587829ba01e2474a5e36a1db9/transformed/core-runtime-2.2.0/res
+com.fibonacci.fibohealth.app-jetified-lifecycle-runtime-release-46 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/aa7a0338326180dac82e5b3c29dfc8fc/transformed/jetified-lifecycle-runtime-release/res
+com.fibonacci.fibohealth.app-recyclerview-1.1.0-47 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/b2a79e379061525a2d488fea0e98344e/transformed/recyclerview-1.1.0/res
+com.fibonacci.fibohealth.app-coordinatorlayout-1.1.0-48 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/b5e006b03d3405d9494a9f3357e98fd2/transformed/coordinatorlayout-1.1.0/res
+com.fibonacci.fibohealth.app-jetified-startup-runtime-1.1.1-49 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/b8246da643e78c7c7ab290b3793704be/transformed/jetified-startup-runtime-1.1.1/res
+com.fibonacci.fibohealth.app-navigation-common-ktx-2.8.0-50 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/b94b8091061fe5ff249e0640a000155d/transformed/navigation-common-ktx-2.8.0/res
+com.fibonacci.fibohealth.app-jetified-adaptive-release-51 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/ba86e8ab5c79a3d8d0101d617d75e29d/transformed/jetified-adaptive-release/res
+com.fibonacci.fibohealth.app-jetified-animation-release-52 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/bb9397469eaeea5c66aa6b9d2706e81e/transformed/jetified-animation-release/res
+com.fibonacci.fibohealth.app-jetified-lifecycle-viewmodel-compose-release-53 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/bddef3267763b2fbc4598ad1911a233e/transformed/jetified-lifecycle-viewmodel-compose-release/res
+com.fibonacci.fibohealth.app-jetified-activity-ktx-1.9.0-54 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/cb0fe71f6ab432c6ce203399a44d3ad5/transformed/jetified-activity-ktx-1.9.0/res
+com.fibonacci.fibohealth.app-jetified-navigation-compose-2.8.0-55 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/cf9cbf5aff0183037fda8c3bb95ad841/transformed/jetified-navigation-compose-2.8.0/res
+com.fibonacci.fibohealth.app-jetified-foundation-release-56 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/d0de667ee08c709fb5b21afbb96cead7/transformed/jetified-foundation-release/res
+com.fibonacci.fibohealth.app-jetified-room-ktx-2.6.1-57 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/d0f83c991645e11c0ddff414942b160f/transformed/jetified-room-ktx-2.6.1/res
+com.fibonacci.fibohealth.app-core-1.13.1-58 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/d5c15b3f6626b09a528a523f5f05682a/transformed/core-1.13.1/res
+com.fibonacci.fibohealth.app-jetified-savedstate-1.2.1-59 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/d6bdb9b6c5a26421f97272c01b07d98e/transformed/jetified-savedstate-1.2.1/res
+com.fibonacci.fibohealth.app-jetified-ui-util-release-60 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/d794a2bb2fb91d15c19a199297dbf4b8/transformed/jetified-ui-util-release/res
+com.fibonacci.fibohealth.app-jetified-lifecycle-viewmodel-release-61 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/d91d793519c928bf93e60a4d5e9f52b6/transformed/jetified-lifecycle-viewmodel-release/res
+com.fibonacci.fibohealth.app-jetified-activity-1.9.0-62 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/d98ce28587e4f6f4dbc056c2c57d72d2/transformed/jetified-activity-1.9.0/res
+com.fibonacci.fibohealth.app-room-runtime-2.6.1-63 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/dabb2344a055535cfe1871b2675aa537/transformed/room-runtime-2.6.1/res
+com.fibonacci.fibohealth.app-navigation-runtime-ktx-2.8.0-64 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/dbf04f252e99617a49271ad9eb01047c/transformed/navigation-runtime-ktx-2.8.0/res
+com.fibonacci.fibohealth.app-jetified-foundation-layout-release-65 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/dee47dbf267caadd1a31c4dc091f7cff/transformed/jetified-foundation-layout-release/res
+com.fibonacci.fibohealth.app-cardview-1.0.0-66 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/df6e04e0952c7096ae5382419cb7d6a9/transformed/cardview-1.0.0/res
+com.fibonacci.fibohealth.app-jetified-core-1.0.0-67 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/e654f56b2b4ef685fc51c3bd0dd96f38/transformed/jetified-core-1.0.0/res
+com.fibonacci.fibohealth.app-jetified-ui-text-release-68 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/e748dccf145084b641eecf14a07203a8/transformed/jetified-ui-text-release/res
+com.fibonacci.fibohealth.app-jetified-material3-adaptive-navigation-suite-release-69 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/e84ac9826dec90478c25f2994e988ef8/transformed/jetified-material3-adaptive-navigation-suite-release/res
+com.fibonacci.fibohealth.app-jetified-runtime-release-70 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/e9de0c973159d311ab99cc8391f80a99/transformed/jetified-runtime-release/res
+com.fibonacci.fibohealth.app-fragment-1.5.1-71 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/eea82bb4b24eabaea0ff15f5562e06d5/transformed/fragment-1.5.1/res
+com.fibonacci.fibohealth.app-jetified-material-ripple-release-72 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/efe1ebebae283225737b0c87e2478fc4/transformed/jetified-material-ripple-release/res
+com.fibonacci.fibohealth.app-jetified-datastore-preferences-release-73 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/f41ea65da2272be297c4430ad0c23ed6/transformed/jetified-datastore-preferences-release/res
+com.fibonacci.fibohealth.app-jetified-material-icons-extended-release-74 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/f868a7e67bf227d7fc7bd6d5d537440f/transformed/jetified-material-icons-extended-release/res
+com.fibonacci.fibohealth.app-jetified-activity-compose-1.9.0-75 /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/fd160690a9ae456f174982e90821fd3d/transformed/jetified-activity-compose-1.9.0/res
+com.fibonacci.fibohealth.app-pngs-76 /Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/build/generated/res/pngs/debug
+com.fibonacci.fibohealth.app-resValues-77 /Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/build/generated/res/resValues/debug
+com.fibonacci.fibohealth.app-updated_navigation_xml-78 /Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/build/generated/updated_navigation_xml/debug
+com.fibonacci.fibohealth.app-packageDebugResources-79 /Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/build/intermediates/incremental/debug/packageDebugResources/merged.dir
+com.fibonacci.fibohealth.app-packageDebugResources-80 /Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/build/intermediates/incremental/debug/packageDebugResources/stripped.dir
+com.fibonacci.fibohealth.app-debug-81 /Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/build/intermediates/merged_res/debug/mergeDebugResources
+com.fibonacci.fibohealth.app-debug-82 /Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/debug/res
+com.fibonacci.fibohealth.app-main-83 /Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/res

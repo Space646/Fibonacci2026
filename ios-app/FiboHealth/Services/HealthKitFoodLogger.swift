@@ -109,7 +109,7 @@ final class HealthKitFoodLogger: ObservableObject {
             extras.forEach { toDeleteDuplicateUUIDs.insert($0.uuid) }
         }
         for c in toDeleteDuplicates {
-            do { try await store.delete(c) }
+            do { try await store.delete([c] + Array(c.objects)) }
             catch {
                 await MainActor.run {
                     self.lastError = "HK duplicate prune failed: \(error.localizedDescription)"
@@ -149,7 +149,7 @@ final class HealthKitFoodLogger: ObservableObject {
             return toDelete.contains(i)
         }
         for c in toDeleteCorrelations {
-            do { try await store.delete(c) }
+            do { try await store.delete([c] + Array(c.objects)) }
             catch {
                 await MainActor.run {
                     self.lastError = "HK delete failed: \(error.localizedDescription)"
@@ -180,7 +180,7 @@ final class HealthKitFoodLogger: ObservableObject {
         var failed = 0
         for c in existing {
             do {
-                try await store.delete(c)
+                try await store.delete([c] + Array(c.objects))
                 removed += 1
             } catch {
                 failed += 1

@@ -87,7 +87,7 @@ class HealthConnectFoodLogger @Inject constructor(
             sugar      = sugarG?.let  { Mass.grams(it.toDouble()) },
             dietaryFiber = fiberG?.let { Mass.grams(it.toDouble()) },
             name       = foodName,
-            metadata   = Metadata(clientRecordId = "pi_$id")
+            metadata   = Metadata.manualEntry(clientRecordId = "pi_$id")
         )
     }
 

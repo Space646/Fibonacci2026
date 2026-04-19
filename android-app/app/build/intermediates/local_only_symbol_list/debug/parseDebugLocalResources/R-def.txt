@@ -1,0 +1,9 @@
+R_DEF: Internal format may change without notice
+local
+drawable ic_bluetooth
+string app_name
+string ble_permission_rationale
+string hc_read_rationale
+string hc_write_rationale
+style Theme.FiboHealth
+xml health_permissions

@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "com.fibonacci.fibohealth.app-debug-80:/xml_health_permissions.xml.flat",
+        "source": "com.fibonacci.fibohealth.app-main-82:/xml/health_permissions.xml"
+    },
+    {
+        "merged": "com.fibonacci.fibohealth.app-debug-80:/drawable_ic_bluetooth.xml.flat",
+        "source": "com.fibonacci.fibohealth.app-main-82:/drawable/ic_bluetooth.xml"
+    }
+]

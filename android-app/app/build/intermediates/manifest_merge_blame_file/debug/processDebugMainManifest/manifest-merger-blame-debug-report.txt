@@ -1,0 +1,238 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.fibonacci.fibohealth"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="34"
+9        android:targetSdkVersion="36" />
+10
+11    <!-- Bluetooth -->
+12    <uses-permission
+12-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:5:5-6:57
+13        android:name="android.permission.BLUETOOTH_SCAN"
+13-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:5:22-70
+14        android:usesPermissionFlags="neverForLocation" />
+14-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:6:9-55
+15    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+15-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:7:5-75
+15-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:7:22-73
+16    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+16-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:8:5-76
+16-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:8:22-74
+17    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
+17-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:9:5-93
+17-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:9:22-91
+18
+19    <!-- Health Connect -->
+20    <uses-permission android:name="android.permission.health.READ_STEPS" />
+20-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:12:5-75
+20-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:12:22-73
+21    <uses-permission android:name="android.permission.health.READ_ACTIVE_CALORIES_BURNED" />
+21-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:13:5-92
+21-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:13:22-90
+22    <uses-permission android:name="android.permission.health.READ_BASAL_METABOLIC_RATE" />
+22-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:14:5-90
+22-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:14:22-88
+23    <uses-permission android:name="android.permission.health.READ_EXERCISE" />
+23-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:15:5-78
+23-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:15:22-76
+24    <uses-permission android:name="android.permission.health.WRITE_NUTRITION" />
+24-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:16:5-80
+24-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:16:22-78
+25
+26    <permission
+26-->[androidx.core:core:1.13.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/d5c15b3f6626b09a528a523f5f05682a/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47
+27        android:name="com.fibonacci.fibohealth.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+27-->[androidx.core:core:1.13.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/d5c15b3f6626b09a528a523f5f05682a/transformed/core-1.13.1/AndroidManifest.xml:23:9-81
+28        android:protectionLevel="signature" />
+28-->[androidx.core:core:1.13.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/d5c15b3f6626b09a528a523f5f05682a/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
+29
+30    <uses-permission android:name="com.fibonacci.fibohealth.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+30-->[androidx.core:core:1.13.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/d5c15b3f6626b09a528a523f5f05682a/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
+30-->[androidx.core:core:1.13.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/d5c15b3f6626b09a528a523f5f05682a/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
+31
+32    <application
+32-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:18:5-56:19
+33        android:name="com.fibonacci.fibohealth.FiboHealthApp"
+33-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:19:9-38
+34        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+34-->[androidx.core:core:1.13.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/d5c15b3f6626b09a528a523f5f05682a/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
+35        android:debuggable="true"
+36        android:extractNativeLibs="false"
+37        android:label="@string/app_name"
+37-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:20:9-41
+38        android:testOnly="true"
+39        android:theme="@style/Theme.FiboHealth" >
+39-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:21:9-48
+40        <activity
+40-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:23:9-38:20
+41            android:name="com.fibonacci.fibohealth.MainActivity"
+41-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:24:13-41
+42            android:exported="true"
+42-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:25:13-36
+43            android:windowSoftInputMode="adjustResize" >
+43-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:26:13-55
+44            <intent-filter>
+44-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:27:13-30:29
+45                <action android:name="android.intent.action.MAIN" />
+45-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:28:17-68
+45-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:28:25-66
+46
+47                <category android:name="android.intent.category.LAUNCHER" />
+47-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:29:17-76
+47-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:29:27-74
+48            </intent-filter>
+49            <!-- Required by Health Connect for privacy policy display -->
+50            <intent-filter>
+50-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:32:13-34:29
+51                <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
+51-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:33:17-91
+51-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:33:25-89
+52            </intent-filter>
+53
+54            <meta-data
+54-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:35:13-37:61
+55                android:name="health_permissions"
+55-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:36:17-50
+56                android:resource="@xml/health_permissions" />
+56-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:37:17-59
+57        </activity>
+58
+59        <activity-alias
+59-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:40:9-49:26
+60            android:name="com.fibonacci.fibohealth.ViewPermissionUsageActivity"
+60-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:41:13-55
+61            android:exported="true"
+61-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:42:13-36
+62            android:permission="android.permission.START_VIEW_PERMISSION_USAGE"
+62-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:44:13-80
+63            android:targetActivity="com.fibonacci.fibohealth.MainActivity" >
+63-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:43:13-51
+64            <intent-filter>
+64-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:45:13-48:29
+65                <action android:name="android.intent.action.VIEW_PERMISSION_USAGE" />
+65-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:46:17-85
+65-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:46:25-83
+66
+67                <category android:name="android.intent.category.HEALTH_PERMISSIONS" />
+67-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:47:17-86
+67-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:47:27-84
+68            </intent-filter>
+69        </activity-alias>
+70
+71        <service
+71-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:51:9-54:39
+72            android:name="com.fibonacci.fibohealth.service.BleService"
+72-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:52:13-47
+73            android:exported="false"
+73-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:54:13-37
+74            android:foregroundServiceType="connectedDevice" />
+74-->/Users/wilhelmurbanek/Documents/GitHub/Fibonacci 2026/android-app/app/src/main/AndroidManifest.xml:53:13-60
+75        <service
+75-->[androidx.health.connect:connect-client:1.1.0-rc02] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/5f28d545fcf4743be8258c69a897df8a/transformed/jetified-connect-client-1.1.0-rc02/AndroidManifest.xml:24:9-32:19
+76            android:name="androidx.health.platform.client.impl.sdkservice.HealthDataSdkService"
+76-->[androidx.health.connect:connect-client:1.1.0-rc02] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/5f28d545fcf4743be8258c69a897df8a/transformed/jetified-connect-client-1.1.0-rc02/AndroidManifest.xml:25:13-96
+77            android:enabled="true"
+77-->[androidx.health.connect:connect-client:1.1.0-rc02] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/5f28d545fcf4743be8258c69a897df8a/transformed/jetified-connect-client-1.1.0-rc02/AndroidManifest.xml:26:13-35
+78            android:exported="true" >
+78-->[androidx.health.connect:connect-client:1.1.0-rc02] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/5f28d545fcf4743be8258c69a897df8a/transformed/jetified-connect-client-1.1.0-rc02/AndroidManifest.xml:27:13-36
+79            <intent-filter>
+79-->[androidx.health.connect:connect-client:1.1.0-rc02] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/5f28d545fcf4743be8258c69a897df8a/transformed/jetified-connect-client-1.1.0-rc02/AndroidManifest.xml:29:13-31:29
+80                <action android:name="androidx.health.platform.client.ACTION_BIND_SDK_SERVICE" />
+80-->[androidx.health.connect:connect-client:1.1.0-rc02] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/5f28d545fcf4743be8258c69a897df8a/transformed/jetified-connect-client-1.1.0-rc02/AndroidManifest.xml:30:17-98
+80-->[androidx.health.connect:connect-client:1.1.0-rc02] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/5f28d545fcf4743be8258c69a897df8a/transformed/jetified-connect-client-1.1.0-rc02/AndroidManifest.xml:30:25-95
+81            </intent-filter>
+82        </service>
+83
+84        <provider
+84-->[androidx.emoji2:emoji2:1.3.0] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/1936f8c1dba218c560a39ef4c817cb19/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+85            android:name="androidx.startup.InitializationProvider"
+85-->[androidx.emoji2:emoji2:1.3.0] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/1936f8c1dba218c560a39ef4c817cb19/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:25:13-67
+86            android:authorities="com.fibonacci.fibohealth.androidx-startup"
+86-->[androidx.emoji2:emoji2:1.3.0] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/1936f8c1dba218c560a39ef4c817cb19/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:26:13-68
+87            android:exported="false" >
+87-->[androidx.emoji2:emoji2:1.3.0] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/1936f8c1dba218c560a39ef4c817cb19/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:27:13-37
+88            <meta-data
+88-->[androidx.emoji2:emoji2:1.3.0] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/1936f8c1dba218c560a39ef4c817cb19/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+89                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+89-->[androidx.emoji2:emoji2:1.3.0] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/1936f8c1dba218c560a39ef4c817cb19/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:30:17-75
+90                android:value="androidx.startup" />
+90-->[androidx.emoji2:emoji2:1.3.0] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/1936f8c1dba218c560a39ef4c817cb19/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:31:17-49
+91            <meta-data
+91-->[androidx.lifecycle:lifecycle-process:2.8.3] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/603f3f1872906407e6e4a8067e92ad16/transformed/jetified-lifecycle-process-2.8.3/AndroidManifest.xml:29:13-31:52
+92                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+92-->[androidx.lifecycle:lifecycle-process:2.8.3] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/603f3f1872906407e6e4a8067e92ad16/transformed/jetified-lifecycle-process-2.8.3/AndroidManifest.xml:30:17-78
+93                android:value="androidx.startup" />
+93-->[androidx.lifecycle:lifecycle-process:2.8.3] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/603f3f1872906407e6e4a8067e92ad16/transformed/jetified-lifecycle-process-2.8.3/AndroidManifest.xml:31:17-49
+94            <meta-data
+94-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
+95                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+95-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
+96                android:value="androidx.startup" />
+96-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
+97        </provider>
+98
+99        <uses-library
+99-->[androidx.window:window:1.3.0] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/44d172aa650f7e385868ea1e0077163e/transformed/jetified-window-1.3.0/AndroidManifest.xml:23:9-25:40
+100            android:name="androidx.window.extensions"
+100-->[androidx.window:window:1.3.0] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/44d172aa650f7e385868ea1e0077163e/transformed/jetified-window-1.3.0/AndroidManifest.xml:24:13-54
+101            android:required="false" />
+101-->[androidx.window:window:1.3.0] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/44d172aa650f7e385868ea1e0077163e/transformed/jetified-window-1.3.0/AndroidManifest.xml:25:13-37
+102        <uses-library
+102-->[androidx.window:window:1.3.0] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/44d172aa650f7e385868ea1e0077163e/transformed/jetified-window-1.3.0/AndroidManifest.xml:26:9-28:40
+103            android:name="androidx.window.sidecar"
+103-->[androidx.window:window:1.3.0] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/44d172aa650f7e385868ea1e0077163e/transformed/jetified-window-1.3.0/AndroidManifest.xml:27:13-51
+104            android:required="false" />
+104-->[androidx.window:window:1.3.0] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/44d172aa650f7e385868ea1e0077163e/transformed/jetified-window-1.3.0/AndroidManifest.xml:28:13-37
+105
+106        <service
+106-->[androidx.room:room-runtime:2.6.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/dabb2344a055535cfe1871b2675aa537/transformed/room-runtime-2.6.1/AndroidManifest.xml:24:9-28:63
+107            android:name="androidx.room.MultiInstanceInvalidationService"
+107-->[androidx.room:room-runtime:2.6.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/dabb2344a055535cfe1871b2675aa537/transformed/room-runtime-2.6.1/AndroidManifest.xml:25:13-74
+108            android:directBootAware="true"
+108-->[androidx.room:room-runtime:2.6.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/dabb2344a055535cfe1871b2675aa537/transformed/room-runtime-2.6.1/AndroidManifest.xml:26:13-43
+109            android:exported="false" />
+109-->[androidx.room:room-runtime:2.6.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/dabb2344a055535cfe1871b2675aa537/transformed/room-runtime-2.6.1/AndroidManifest.xml:27:13-37
+110
+111        <receiver
+111-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
+112            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+112-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
+113            android:directBootAware="false"
+113-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
+114            android:enabled="true"
+114-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
+115            android:exported="true"
+115-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
+116            android:permission="android.permission.DUMP" >
+116-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
+117            <intent-filter>
+117-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
+118                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+118-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
+118-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
+119            </intent-filter>
+120            <intent-filter>
+120-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
+121                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+121-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
+121-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
+122            </intent-filter>
+123            <intent-filter>
+123-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
+124                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+124-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
+124-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
+125            </intent-filter>
+126            <intent-filter>
+126-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
+127                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+127-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
+127-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/wilhelmurbanek/.gradle/caches/9.0.0/transforms/a164cdeafaa10f75f6e1fe52d4f858c5/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:50:25-92
+128            </intent-filter>
+129        </receiver>
+130    </application>
+131
+132</manifest>

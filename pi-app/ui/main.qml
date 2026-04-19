@@ -32,7 +32,7 @@ ApplicationWindow {
             top: appState.testMode ? testBanner.bottom : parent.top
             left: parent.left; right: parent.right; bottom: navBar.top
         }
-        initialItem: Qt.resolvedUrl("screens/Dashboard.qml")
+        initialItem: Qt.createComponent(Qt.resolvedUrl("screens/Dashboard.qml"))
 
         // Direction of the next replace() — set by nav bar before switching.
         //  1  = target is to the right of current (slide new page in from right)
@@ -97,7 +97,8 @@ ApplicationWindow {
                             anchors.horizontalCenter: parent.horizontalCenter
                             color: stackView.currentItem &&
                                    stackView.currentItem.objectName === modelData.label
-                                   ? "#6366f1" : "transparent"
+                                   ? "#6366f1"
+                                   : (appState.theme === "dark" ? "#475569" : "#94a3b8")
                         }
 
                         Text {
@@ -114,8 +115,10 @@ ApplicationWindow {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            if (index === stackView.currentTabIndex) return
-                            stackView.slideDir = index > stackView.currentTabIndex ? 1 : -1
+                            var alreadyHere = stackView.currentItem &&
+                                              stackView.currentItem.objectName === modelData.label
+                            if (alreadyHere) return
+                            stackView.slideDir = index >= stackView.currentTabIndex ? 1 : -1
                             stackView.currentTabIndex = index
                             stackView.replace(Qt.resolvedUrl(modelData.screen))
                         }

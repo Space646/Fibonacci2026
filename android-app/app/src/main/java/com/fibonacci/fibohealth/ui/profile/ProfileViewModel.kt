@@ -32,9 +32,26 @@ class ProfileViewModel @Inject constructor(
         .map { it[HC_LOGGING_KEY] ?: false }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), false)
 
+    init {
+        // Re-arm BLE profile payload on every app launch so a reconnect
+        // after restart still sends the profile to the Pi.
+        viewModelScope.launch {
+            val saved = profileRepo.getOrDefault()
+            if (saved.deviceId.isNotBlank()) bleClient.profilePayload = saved.blePayload()
+        }
+    }
+
     fun save(profile: UserProfile) = viewModelScope.launch {
-        profileRepo.save(profile)
-        bleClient.profilePayload = profile.blePayload()
+        // Mint a stable per-install deviceId on first save. The Pi rejects
+        // writes with an empty device_id (treated as falsy), and the screen
+        // has no UI field for this — matching iOS, which generates a UUID
+        // in its UserProfile.init.
+        val toSave = if (profile.deviceId.isBlank())
+            profile.copy(deviceId = java.util.UUID.randomUUID().toString())
+        else profile
+        profileRepo.save(toSave)
+        bleClient.profilePayload = toSave.blePayload()
+        bleClient.resync()
     }
 
     fun setHcLogging(enabled: Boolean) = viewModelScope.launch {
