@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.fibonacci.fibohealth.BleChunkReassemblerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-04-19T22:00:42.037Z" hostname="Wilhelms-MacBook-Pro.local" time="0.014">
+  <properties/>
+  <testcase name="two chunks reassemble in order" classname="com.fibonacci.fibohealth.BleChunkReassemblerTest" time="0.013"/>
+  <testcase name="single-chunk payload returns immediately" classname="com.fibonacci.fibohealth.BleChunkReassemblerTest" time="0.0"/>
+  <testcase name="non-framed data returns as-is" classname="com.fibonacci.fibohealth.BleChunkReassemblerTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

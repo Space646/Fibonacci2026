@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.fibonacci.fibohealth.FoodLogEntryDecoderTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-04-19T22:00:42.058Z" hostname="Wilhelms-MacBook-Pro.local" time="0.015">
+  <properties/>
+  <testcase name="decodes full payload with macros" classname="com.fibonacci.fibohealth.FoodLogEntryDecoderTest" time="0.015"/>
+  <testcase name="decodes legacy payload missing macros" classname="com.fibonacci.fibohealth.FoodLogEntryDecoderTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

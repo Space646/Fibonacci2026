@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.fibonacci.fibohealth.CalorieCalculatorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-04-19T22:00:42.052Z" hostname="Wilhelms-MacBook-Pro.local" time="0.001">
+  <properties/>
+  <testcase name="male moderate activity TDEE" classname="com.fibonacci.fibohealth.CalorieCalculatorTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
