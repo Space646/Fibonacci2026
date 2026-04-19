@@ -1,7 +1,7 @@
 import sqlite3
 import pytest
 from database.db import get_connection, run_migrations
-from database.seed_foods import seed_foods, compute_health_score
+from database.seed_foods import seed_foods
 
 def test_migrations_create_tables():
     conn = get_connection(":memory:")
@@ -20,8 +20,9 @@ def test_foods_table_columns():
     assert cols >= {
         "id", "name", "calories_per_100g", "protein_per_100g",
         "fat_per_100g", "sugar_per_100g", "fiber_per_100g",
-        "is_healthy", "health_score", "huskylens_label_id"
+        "is_healthy", "huskylens_label_id"
     }
+    assert "health_score" not in cols
 
 def test_users_table_columns():
     conn = get_connection(":memory:")
@@ -45,11 +46,3 @@ def test_food_log_foreign_keys():
 def test_seed_inserts_foods(seeded_db):
     count = seeded_db.execute("SELECT COUNT(*) FROM foods").fetchone()[0]
     assert count == 25
-
-def test_health_score_high_fiber_protein():
-    score = compute_health_score(17, 10.6, 1, 7)
-    assert score > 60
-
-def test_health_score_low_sugar_junk():
-    score = compute_health_score(0, 0, 60, 50)
-    assert score < 30
