@@ -6,7 +6,6 @@ struct FoodLogEntry: Codable, Identifiable {
     var weightG: Double
     var calories: Double
     var isHealthy: Bool
-    var healthScore: Double
     var timestamp: String
 
     // Per-entry nutrient grams. Optional because older Pi payloads omit them;
@@ -22,7 +21,6 @@ struct FoodLogEntry: Codable, Identifiable {
         case weightG     = "weight_g"
         case calories
         case isHealthy   = "is_healthy"
-        case healthScore = "health_score"
         case timestamp
         case proteinG    = "protein_g"
         case fatG        = "fat_g"
@@ -31,7 +29,7 @@ struct FoodLogEntry: Codable, Identifiable {
     }
 
     init(id: Int, foodName: String, weightG: Double, calories: Double,
-         isHealthy: Bool, healthScore: Double, timestamp: String,
+         isHealthy: Bool, timestamp: String,
          proteinG: Double? = nil, fatG: Double? = nil,
          sugarG: Double? = nil, fiberG: Double? = nil) {
         self.id = id
@@ -39,7 +37,6 @@ struct FoodLogEntry: Codable, Identifiable {
         self.weightG = weightG
         self.calories = calories
         self.isHealthy = isHealthy
-        self.healthScore = healthScore
         self.timestamp = timestamp
         self.proteinG = proteinG
         self.fatG = fatG
@@ -56,7 +53,6 @@ struct FoodLogEntry: Codable, Identifiable {
         foodName = try c.decode(String.self, forKey: .foodName)
         weightG = try c.decode(Double.self, forKey: .weightG)
         calories = try c.decode(Double.self, forKey: .calories)
-        healthScore = try c.decodeIfPresent(Double.self, forKey: .healthScore) ?? 0
         timestamp = try c.decodeIfPresent(String.self, forKey: .timestamp) ?? ""
 
         if let b = try? c.decode(Bool.self, forKey: .isHealthy) {
