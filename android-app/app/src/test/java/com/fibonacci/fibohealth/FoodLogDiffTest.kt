@@ -6,7 +6,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 // Helper to make a minimal FoodLogEntry
-private fun entry(id: Int) = FoodLogEntry(id, "Food$id", 100f, 50f, true, 80f, "2026-04-16T00:00:00Z")
+private fun entry(id: Int) = FoodLogEntry(id, "Food$id", 100f, 50f, true, "2026-04-16T00:00:00Z")
 
 class FoodLogDiffTest {
     @Test fun `new entries are inserted`() {
