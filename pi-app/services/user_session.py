@@ -67,7 +67,7 @@ class UserSessionManager:
 
     def get_todays_log(self, user_id: int) -> list[dict]:
         rows = self._conn.execute(
-            """SELECT fl.*, f.name as food_name, f.is_healthy, f.health_score,
+            """SELECT fl.*, f.name as food_name, f.is_healthy,
                       f.protein_per_100g, f.fat_per_100g,
                       f.sugar_per_100g, f.fiber_per_100g
                FROM food_log fl
