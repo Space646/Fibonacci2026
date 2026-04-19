@@ -117,7 +117,7 @@ fun DashboardScreen(vm: DashboardViewModel = hiltViewModel()) {
                         ) {
                             StatCard(fmtK(goal), "Goal kcal", Indigo, Modifier.weight(1f))
                             StatCard(fmtK(eaten), "Eaten kcal", Cyan, Modifier.weight(1f))
-                            StatCard(fmtK(remaining), "Left kcal", StatusGreen, Modifier.weight(1f))
+                            StatCard(fmtK(remaining), "Left kcal", StatusGreen, Modifier.weight(1f), Alignment.End)
                         }
                     }
                 }
@@ -224,7 +224,7 @@ private fun MacroMiniCard(
         shape = RoundedCornerShape(14.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
-        Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(label, fontSize = 11.sp, fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
             Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(3.dp)) {

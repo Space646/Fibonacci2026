@@ -11,9 +11,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun StatCard(value: String, label: String, valueColor: Color, modifier: Modifier = Modifier) {
+fun StatCard(
+    value: String,
+    label: String,
+    valueColor: Color,
+    modifier: Modifier = Modifier,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally
+) {
     Card(modifier.padding(4.dp)) {
-        Column(Modifier.padding(12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(Modifier.padding(12.dp), horizontalAlignment = horizontalAlignment) {
             Text(value, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = valueColor)
             Text(label, style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)

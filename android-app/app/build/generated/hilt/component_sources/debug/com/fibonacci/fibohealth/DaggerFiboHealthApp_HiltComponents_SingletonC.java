@@ -411,30 +411,30 @@ public final class DaggerFiboHealthApp_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String com_fibonacci_fibohealth_ui_profile_ProfileViewModel = "com.fibonacci.fibohealth.ui.profile.ProfileViewModel";
-
-      static String com_fibonacci_fibohealth_ui_dashboard_DashboardViewModel = "com.fibonacci.fibohealth.ui.dashboard.DashboardViewModel";
-
-      static String com_fibonacci_fibohealth_ui_activity_ActivityViewModel = "com.fibonacci.fibohealth.ui.activity.ActivityViewModel";
-
       static String com_fibonacci_fibohealth_ui_foodlog_FoodLogViewModel = "com.fibonacci.fibohealth.ui.foodlog.FoodLogViewModel";
+
+      static String com_fibonacci_fibohealth_ui_profile_ProfileViewModel = "com.fibonacci.fibohealth.ui.profile.ProfileViewModel";
 
       static String com_fibonacci_fibohealth_ui_device_DeviceViewModel = "com.fibonacci.fibohealth.ui.device.DeviceViewModel";
 
-      @KeepFieldType
-      ProfileViewModel com_fibonacci_fibohealth_ui_profile_ProfileViewModel2;
+      static String com_fibonacci_fibohealth_ui_activity_ActivityViewModel = "com.fibonacci.fibohealth.ui.activity.ActivityViewModel";
 
-      @KeepFieldType
-      DashboardViewModel com_fibonacci_fibohealth_ui_dashboard_DashboardViewModel2;
-
-      @KeepFieldType
-      ActivityViewModel com_fibonacci_fibohealth_ui_activity_ActivityViewModel2;
+      static String com_fibonacci_fibohealth_ui_dashboard_DashboardViewModel = "com.fibonacci.fibohealth.ui.dashboard.DashboardViewModel";
 
       @KeepFieldType
       FoodLogViewModel com_fibonacci_fibohealth_ui_foodlog_FoodLogViewModel2;
 
       @KeepFieldType
+      ProfileViewModel com_fibonacci_fibohealth_ui_profile_ProfileViewModel2;
+
+      @KeepFieldType
       DeviceViewModel com_fibonacci_fibohealth_ui_device_DeviceViewModel2;
+
+      @KeepFieldType
+      ActivityViewModel com_fibonacci_fibohealth_ui_activity_ActivityViewModel2;
+
+      @KeepFieldType
+      DashboardViewModel com_fibonacci_fibohealth_ui_dashboard_DashboardViewModel2;
     }
   }
 
@@ -489,19 +489,19 @@ public final class DaggerFiboHealthApp_HiltComponents_SingletonC {
     private static final class LazyClassKeyProvider {
       static String com_fibonacci_fibohealth_ui_activity_ActivityViewModel = "com.fibonacci.fibohealth.ui.activity.ActivityViewModel";
 
-      static String com_fibonacci_fibohealth_ui_profile_ProfileViewModel = "com.fibonacci.fibohealth.ui.profile.ProfileViewModel";
+      static String com_fibonacci_fibohealth_ui_device_DeviceViewModel = "com.fibonacci.fibohealth.ui.device.DeviceViewModel";
 
       static String com_fibonacci_fibohealth_ui_dashboard_DashboardViewModel = "com.fibonacci.fibohealth.ui.dashboard.DashboardViewModel";
 
       static String com_fibonacci_fibohealth_ui_foodlog_FoodLogViewModel = "com.fibonacci.fibohealth.ui.foodlog.FoodLogViewModel";
 
-      static String com_fibonacci_fibohealth_ui_device_DeviceViewModel = "com.fibonacci.fibohealth.ui.device.DeviceViewModel";
+      static String com_fibonacci_fibohealth_ui_profile_ProfileViewModel = "com.fibonacci.fibohealth.ui.profile.ProfileViewModel";
 
       @KeepFieldType
       ActivityViewModel com_fibonacci_fibohealth_ui_activity_ActivityViewModel2;
 
       @KeepFieldType
-      ProfileViewModel com_fibonacci_fibohealth_ui_profile_ProfileViewModel2;
+      DeviceViewModel com_fibonacci_fibohealth_ui_device_DeviceViewModel2;
 
       @KeepFieldType
       DashboardViewModel com_fibonacci_fibohealth_ui_dashboard_DashboardViewModel2;
@@ -510,7 +510,7 @@ public final class DaggerFiboHealthApp_HiltComponents_SingletonC {
       FoodLogViewModel com_fibonacci_fibohealth_ui_foodlog_FoodLogViewModel2;
 
       @KeepFieldType
-      DeviceViewModel com_fibonacci_fibohealth_ui_device_DeviceViewModel2;
+      ProfileViewModel com_fibonacci_fibohealth_ui_profile_ProfileViewModel2;
     }
 
     private static final class SwitchingProvider<T> implements Provider<T> {
