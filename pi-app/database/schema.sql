@@ -7,7 +7,6 @@ CREATE TABLE IF NOT EXISTS foods (
     sugar_per_100g      REAL DEFAULT 0,
     fiber_per_100g      REAL DEFAULT 0,
     is_healthy          INTEGER DEFAULT 0,
-    health_score        REAL DEFAULT 50,
     huskylens_label_id  INTEGER UNIQUE
 );
 
