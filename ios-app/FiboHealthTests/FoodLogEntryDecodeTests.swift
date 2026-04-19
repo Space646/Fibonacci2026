@@ -6,7 +6,7 @@ final class FoodLogEntryDecodeTests: XCTestCase {
         let json = """
         {
           "id": 7, "food_name": "Chicken Breast", "weight_g": 200,
-          "calories": 330, "is_healthy": 1, "health_score": 80,
+          "calories": 330, "is_healthy": 1,
           "timestamp": "2026-04-15T12:00:00",
           "protein_g": 62.0, "fat_g": 7.2, "sugar_g": 0.0, "fiber_g": 0.0
         }
@@ -24,7 +24,7 @@ final class FoodLogEntryDecodeTests: XCTestCase {
         let json = """
         {
           "id": 7, "food_name": "Apple", "weight_g": 100,
-          "calories": 52, "is_healthy": 1, "health_score": 75,
+          "calories": 52, "is_healthy": 1,
           "timestamp": "2026-04-15T12:00:00"
         }
         """.data(using: .utf8)!
