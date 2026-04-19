@@ -108,31 +108,6 @@ Item {
                     MacroBar { width: parent.width; label: "Fat"
                                value: detectedFood.fat_per_100g || 0; maxValue: 30
                                barColor: "#fbbf24"; isDark: root.isDark }
-
-                    // Health score bar
-                    Row {
-                        width: parent.width
-                        Text { width: 120; text: "Health Score"; font.pixelSize: 18; color: muted
-                               verticalAlignment: Text.AlignVCenter; height: 24 }
-                        Rectangle {
-                            height: 8; width: parent.width - 120 - 60; radius: 4
-                            anchors.verticalCenter: parent.verticalCenter
-                            color: isDark ? "#0f172a" : "#e2e8f0"
-                            Rectangle {
-                                height: parent.height; radius: 3
-                                width: ((detectedFood.health_score || 50) / 100) * parent.width
-                                gradient: Gradient {
-                                    orientation: Gradient.Horizontal
-                                    GradientStop { position: 0.0; color: "#6366f1" }
-                                    GradientStop { position: 1.0; color: "#06b6d4" }
-                                }
-                            }
-                        }
-                        Text { width: 60; text: (detectedFood.health_score || 50) + "/100"
-                               font.pixelSize: 18; font.bold: true; color: "#06b6d4"
-                               horizontalAlignment: Text.AlignRight
-                               verticalAlignment: Text.AlignVCenter; height: 24 }
-                    }
                 }
             }
 
