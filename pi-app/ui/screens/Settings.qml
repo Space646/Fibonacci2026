@@ -214,12 +214,12 @@ Item {
                         color: isDark ? "#0f172a" : "#f8fafc"
                         visible: appState.userConnected
 
-                        Row {
+                        RowLayout {
                             anchors { fill: parent; leftMargin: 14; rightMargin: 14 }
                             spacing: 12
                             Rectangle {
                                 width: 36; height: 36; radius: 18
-                                anchors.verticalCenter: parent.verticalCenter
+                                Layout.alignment: Qt.AlignVCenter
                                 gradient: Gradient {
                                     orientation: Gradient.Horizontal
                                     GradientStop { position: 0.0; color: "#6366f1" }
@@ -229,13 +229,14 @@ Item {
                                        text: appState.activeUserName[0].toUpperCase()
                                        font.pixelSize: 18; font.bold: true; color: "white" }
                             }
-                            Text { anchors.verticalCenter: parent.verticalCenter
-                                   text: appState.activeUserName
-                                   font.pixelSize: 22; color: isDark ? "white" : "#0f172a" }
-                            Item { Layout.fillWidth: true; width: 1 }
+                            Text { text: appState.activeUserName
+                                   font.pixelSize: 22; color: isDark ? "white" : "#0f172a"
+                                   Layout.alignment: Qt.AlignVCenter }
+                            Item { Layout.fillWidth: true }
                             Row {
-                                spacing: 4; anchors.verticalCenter: parent.verticalCenter
-                                Rectangle { width: 6; height: 6; radius: 3; color: "#22c55e" }
+                                spacing: 4; Layout.alignment: Qt.AlignVCenter
+                                Rectangle { width: 6; height: 6; radius: 3; color: "#22c55e"
+                                            anchors.verticalCenter: parent.verticalCenter }
                                 Text { text: "Active"; font.pixelSize: 18; color: muted }
                             }
                         }

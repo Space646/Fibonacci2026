@@ -131,13 +131,13 @@ Item {
                 width: parent.width
                 spacing: 12
                 StatCard {
-                    width: (parent.width - 8) / 2
+                    width: (parent.width - 12) / 2
                     value: Math.round(appState.totalCaloriesToday).toString()
                     label: "Consumed"; isDark: root.isDark
                     valueColor: "#06b6d4"
                 }
                 StatCard {
-                    width: (parent.width - 8) / 2
+                    width: (parent.width - 12) / 2
                     value: Math.round(appState.dailyGoal).toString()
                     label: "Goal"; isDark: root.isDark
                     valueColor: "#22c55e"

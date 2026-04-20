@@ -114,14 +114,15 @@ Item {
             // Remaining after this
             Rectangle {
                 width: parent.width; height: 64; radius: 10; color: surface
-                Row {
+                RowLayout {
                     anchors { fill: parent; leftMargin: 12; rightMargin: 12 }
-                    Text { anchors.verticalCenter: parent.verticalCenter; text: "Remaining after this"
-                           font.pixelSize: 20; color: muted }
-                    Item { Layout.fillWidth: true; width: 1 }
-                    Text { anchors.verticalCenter: parent.verticalCenter
-                           text: Math.round(Math.max(0, appState.remainingCalories - calories)) + " kcal"
-                           font.pixelSize: 27; font.bold: true; color: "#06b6d4" }
+                    Text { text: "Remaining after this"
+                           font.pixelSize: 20; color: muted
+                           Layout.alignment: Qt.AlignVCenter }
+                    Item { Layout.fillWidth: true }
+                    Text { text: Math.round(Math.max(0, appState.remainingCalories - calories)) + " kcal"
+                           font.pixelSize: 27; font.bold: true; color: "#06b6d4"
+                           Layout.alignment: Qt.AlignVCenter }
                 }
             }
 

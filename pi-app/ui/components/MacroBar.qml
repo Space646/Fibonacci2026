@@ -10,7 +10,7 @@ Item {
     property bool isDark: true
 
     Row {
-        anchors.fill: parent
+        anchors { fill: parent; rightMargin: 12 }
         spacing: 8
 
         Text {
