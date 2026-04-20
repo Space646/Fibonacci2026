@@ -7,7 +7,9 @@ from PyQt6.QtCore import QUrl
 from ui.app_state import AppState
 
 TEST_MODE = "--test" in sys.argv
-
+if sys.platform == "linux":
+    os.environ.setdefault("QT_QPA_PLATFORM", "xcb")
+    os.environ.setdefault("QSG_RHI_BACKEND", "opengl")
 
 def main():
     app = QGuiApplication(sys.argv)
