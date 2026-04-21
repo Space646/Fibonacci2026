@@ -17,19 +17,39 @@ Production / containerized
 
 This app stores the entire database in the browser (client-side) using localStorage. There is no server-side database file — the container simply serves the static frontend.
 
-Build and run with Docker:
+Build and run with Docker (detached/background):
 
 ```bash
 cd "database-editor"
 docker build -t db-editor .
-docker run -p 8000:8000 -e PORT=8000 db-editor
+# run container in background (detached)
+docker run -d --name db-editor -p 8000:8000 -e PORT=8000 db-editor
 # open http://127.0.0.1:8000
 ```
 
-Or using docker-compose:
+To stop or remove the background container:
 
 ```bash
-docker-compose up --build
+docker stop db-editor
+docker rm db-editor
+```
+
+Or using docker-compose (detached with automatic restart):
+
+```bash
+docker-compose up --build -d
+```
+
+To view logs from the running container:
+
+```bash
+docker logs -f db-editor
+```
+
+To stop the compose stack:
+
+```bash
+docker-compose down
 ```
 
 Features:

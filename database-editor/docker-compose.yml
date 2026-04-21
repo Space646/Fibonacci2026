@@ -4,7 +4,6 @@ services:
     build: .
     ports:
       - "8000:8000"
-    volumes:
-      - ./data:/data
+    restart: unless-stopped
     environment:
-      - DATABASE_PATH=/data/foods.db
+      - PORT=8000
