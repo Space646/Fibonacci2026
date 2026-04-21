@@ -34,6 +34,17 @@ def run(cmd: list[str], **kwargs) -> subprocess.CompletedProcess:
     return subprocess.run(cmd, check=True, **kwargs)
 
 
+def ensure_system_deps():
+    pkgs = ["libxcb-cursor0"]
+    result = subprocess.run(
+        ["dpkg", "-l"] + pkgs,
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+    )
+    if result.returncode != 0:
+        print(f"Installing system dependencies: {' '.join(pkgs)} …")
+        run(["apt-get", "install", "-y"] + pkgs)
+
+
 def ensure_venv():
     python = VENV_DIR / "bin" / "python"
     if not python.exists():
@@ -47,6 +58,7 @@ def ensure_venv():
 
 def write_unit(user: str, display: str):
     python = VENV_DIR / "bin" / "python"
+    xauthority = f"/home/{user}/.Xauthority"
 
     unit = textwrap.dedent(f"""\
         [Unit]
@@ -59,6 +71,7 @@ def write_unit(user: str, display: str):
         User={user}
         WorkingDirectory={APP_DIR}
         Environment=DISPLAY={display}
+        Environment=XAUTHORITY={xauthority}
         Environment=QT_QPA_PLATFORM=xcb
         Environment=QSG_RHI_BACKEND=opengl
         ExecStart={python} {MAIN_PY}
@@ -83,7 +96,8 @@ def enable_and_start():
     run(["systemctl", "enable", SERVICE_NAME])
     run(["systemctl", "restart", SERVICE_NAME])
     print()
-    run(["systemctl", "status", SERVICE_NAME, "--no-pager"])
+    print(f"  $ systemctl status {SERVICE_NAME} --no-pager")
+    subprocess.run(["systemctl", "status", SERVICE_NAME, "--no-pager"], check=False)
 
 
 def main():
@@ -108,6 +122,7 @@ def main():
 
     print(f"Deploying {SERVICE_NAME} from {APP_DIR}\n")
 
+    ensure_system_deps()
     ensure_venv()
     print()
     write_unit(args.user, args.display)
