@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  db-editor:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/data
+    environment:
+      - DATABASE_PATH=/data/foods.db

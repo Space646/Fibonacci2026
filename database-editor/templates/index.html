@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Database Editor</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Foods Database Editor</h1>
+      <div class="toolbar">
+        <button id="refresh">Refresh</button>
+        <button id="export">Export as Python</button>
+      </div>
+
+      <table id="foods-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Calories</th>
+            <th>Protein</th>
+            <th>Fat</th>
+            <th>Sugar</th>
+            <th>Fiber</th>
+            <th>Healthy</th>
+            <th>Huskylens ID</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="foods-body"></tbody>
+      </table>
+
+      <h2>Add new food</h2>
+      <form id="add-form">
+        <input name="name" placeholder="Name" required />
+        <input name="calories_per_100g" placeholder="Calories" type="number" step="any" required />
+        <input name="protein_per_100g" placeholder="Protein" type="number" step="any" />
+        <input name="fat_per_100g" placeholder="Fat" type="number" step="any" />
+        <input name="sugar_per_100g" placeholder="Sugar" type="number" step="any" />
+        <input name="fiber_per_100g" placeholder="Fiber" type="number" step="any" />
+        <label>Healthy <input name="is_healthy" type="checkbox" /></label>
+        <input name="huskylens_label_id" placeholder="Huskylens ID" type="number" />
+        <button type="submit">Add</button>
+      </form>
+    </div>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
