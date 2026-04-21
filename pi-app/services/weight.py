@@ -43,6 +43,8 @@ class WeightService:
             self._scale_factor = 1.0
 
     def save_calibration(self, offset: float, scale_factor: float):
+        if scale_factor == 0.0:
+            raise ValueError("scale_factor cannot be zero")
         self._offset = offset
         self._scale_factor = scale_factor
         os.makedirs(os.path.dirname(self._calibration_file), exist_ok=True)
@@ -81,14 +83,10 @@ class WeightService:
 
     def read(self) -> float:
         if self._test_mode:
-            if self._scale_factor == 1.0 and self._offset == 0.0:
-                return self._test_weight
-            raw = self._test_weight
-            reading = max(0.0, round((raw - self._offset) / self._scale_factor, 1))
-            return reading
+            return max(0.0, round((self._test_weight - self._offset) / self._scale_factor, 1))
 
         if self._hx is None:
-            return self._test_weight
+            return 0.0
 
         try:
             raw = float(self._hx.get_weight_mean(5))

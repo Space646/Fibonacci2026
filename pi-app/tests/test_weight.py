@@ -1,6 +1,4 @@
 import json
-import os
-import tempfile
 from services.weight import WeightService
 
 
@@ -62,7 +60,7 @@ def test_read_applies_calibration():
     svc = WeightService(test_mode=True)
     svc._offset = 50.0
     svc._scale_factor = 2.0
-    svc._test_weight = 150.0
+    svc.set_test_weight(150.0)
     reading = svc.read()
     assert reading == (150.0 - 50.0) / 2.0
 
