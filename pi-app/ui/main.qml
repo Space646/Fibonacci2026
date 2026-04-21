@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
+import "components"
 
 ApplicationWindow {
     id: root
@@ -10,6 +11,8 @@ ApplicationWindow {
     height: 1280
     title: "Fibonacci Health"
     color: appState.theme === "dark" ? "#0f172a" : "#f8fafc"
+
+    function openAdminMenu() { adminOverlay.open() }
 
     StackView {
         id: stackView
@@ -111,6 +114,11 @@ ApplicationWindow {
                 }
             }
         }
+    }
+
+    AdminOverlay {
+        id: adminOverlay
+        anchors.fill: parent
     }
 
     Connections {
