@@ -1,3 +1,6 @@
+import subprocess
+import os
+
 from PyQt6.QtCore import QObject, pyqtSignal, pyqtSlot, pyqtProperty, QTimer
 from services.calorie_calculator import calculate_calories, calculate_daily_goal
 from services.food_detection import FoodDetectionService
@@ -247,3 +250,42 @@ class AppState(QObject):
         }
         self._on_profile_received(mock_device_id, mock_profile)
         self._on_health_received(mock_device_id, mock_health)
+
+    # ── Admin Actions ────────────────────────────────────────────────────────
+
+    _cal_raw_zero: float = 0.0
+    _cal_points: list = []
+
+    @pyqtSlot()
+    def stopService(self):
+        subprocess.run(["systemctl", "stop", "fibonacci-health.service"], check=False)
+
+    @pyqtSlot()
+    def updateAndRestart(self):
+        project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        subprocess.run(["git", "-C", project_dir, "pull"], check=False)
+        subprocess.run(["systemctl", "restart", "fibonacci-health.service"], check=False)
+
+    @pyqtSlot()
+    def calibrateTare(self):
+        self._cal_raw_zero = self._weight_svc.read_raw()
+        self._cal_points = []
+
+    @pyqtSlot(float)
+    def calibratePoint(self, known_grams: float):
+        raw = self._weight_svc.read_raw()
+        self._cal_points.append((raw, known_grams))
+
+    @pyqtSlot(result=bool)
+    def finalizeCalibration(self) -> bool:
+        if len(self._cal_points) < 2:
+            return False
+        raw1, weight1 = self._cal_points[0]
+        raw2, weight2 = self._cal_points[1]
+        offset, scale_factor = self._weight_svc.compute_calibration(
+            raw_zero=self._cal_raw_zero,
+            raw_point1=raw1, known_weight1=weight1,
+            raw_point2=raw2, known_weight2=weight2,
+        )
+        self._weight_svc.save_calibration(offset, scale_factor)
+        return True
