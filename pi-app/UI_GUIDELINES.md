@@ -1,4 +1,4 @@
-# FiboHealth Pi App — UI Guidelines
+# AntiDonut Pi App — UI Guidelines
 
 ## Overview
 
@@ -228,7 +228,7 @@ Standard rounded rectangular containers for grouping related content.
 - **Text Styling:** Bold, 11px, 1px letter spacing
 
 ### Connection State
-- **No User Connected:** Shows "Open FiboHealth on your phone" button
+- **No User Connected:** Shows "Open AntiDonut on your phone" button
 - **BLE Not Available:** Shows "Simulate phone" button (dev shortcut)
 - **Connected:** Button hidden, normal dashboard display
 

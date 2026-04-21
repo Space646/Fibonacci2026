@@ -74,7 +74,7 @@ Item {
                         id: connectText
                         anchors.centerIn: parent
                         text: appState.bleAvailable
-                              ? "Open FiboHealth on your phone"
+                              ? "Open AntiDonut on your phone"
                               : "Simulate phone"
                         color: "#6366f1"; font.pixelSize: 18
                     }

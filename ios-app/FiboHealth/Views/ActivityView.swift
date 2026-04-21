@@ -13,7 +13,7 @@ struct ActivityView: View {
                             Image(systemName: "heart.slash")
                                 .font(.system(size: 40))
                                 .foregroundColor(env.theme.textMuted)
-                            Text("HealthKit access not granted.\nOpen Settings → Health → FiboHealth to enable.")
+                            Text("HealthKit access not granted.\nOpen Settings → Health → AntiDonut to enable.")
                                 .multilineTextAlignment(.center)
                                 .font(.system(size: 13))
                                 .foregroundColor(env.theme.textMuted)

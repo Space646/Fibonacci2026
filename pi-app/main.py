@@ -13,7 +13,7 @@ if sys.platform == "linux":
 
 def main():
     app = QGuiApplication(sys.argv)
-    app.setApplicationName("FibonacciHealth")
+    app.setApplicationName("AntiDonut")
 
     state = AppState(test_mode=TEST_MODE)
 

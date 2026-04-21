@@ -1,4 +1,4 @@
-"""BLE GATT peripheral for FiboHealth.
+"""BLE GATT peripheral for AntiDonut.
 
 Sync facade over an asyncio bless server. The bless library handles the
 per-platform backend (CoreBluetooth on macOS, BlueZ/D-Bus on Linux/RPi).
@@ -20,14 +20,14 @@ from typing import Callable, Optional
 
 log = logging.getLogger(__name__)
 
-# UUIDs for the FiboHealth GATT service — must match iOS BluetoothClient
+# UUIDs for the AntiDonut GATT service — must match iOS BluetoothClient
 SERVICE_UUID        = "12345678-1234-5678-1234-56789abcdef0"
 CHAR_USER_PROFILE   = "12345678-1234-5678-1234-56789abcdef1"
 CHAR_HEALTH_SNAP    = "12345678-1234-5678-1234-56789abcdef2"
 CHAR_FOOD_LOG_SYNC  = "12345678-1234-5678-1234-56789abcdef3"
 CHAR_SESSION_STATE  = "12345678-1234-5678-1234-56789abcdef4"
 
-PERIPHERAL_NAME = "Fibo-Pi"
+PERIPHERAL_NAME = "AntiDonut-Pi"
 
 
 class BluetoothServer:

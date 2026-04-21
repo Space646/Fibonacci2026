@@ -178,7 +178,7 @@ fun ProfileScreen(vm: ProfileViewModel = hiltViewModel()) {
             onClick = { showRemoveDialog = true },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Remove FiboHealth Food Entries", color = StatusRed, fontSize = 13.sp)
+            Text("Remove AntiDonut Food Entries", color = StatusRed, fontSize = 13.sp)
         }
     }
 
@@ -186,7 +186,7 @@ fun ProfileScreen(vm: ProfileViewModel = hiltViewModel()) {
         AlertDialog(
             onDismissRequest = { showRemoveDialog = false },
             title            = { Text("Remove food entries?") },
-            text             = { Text("This will delete all FiboHealth food entries from Health Connect.") },
+            text             = { Text("This will delete all AntiDonut food entries from Health Connect.") },
             confirmButton    = {
                 TextButton({ vm.removeAllHcEntries(); showRemoveDialog = false }) {
                     Text("Remove", color = StatusRed)

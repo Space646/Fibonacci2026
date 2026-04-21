@@ -54,7 +54,7 @@ fun DeviceScreen(vm: DeviceViewModel = hiltViewModel()) {
         // Name + status
         Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Text(
-                "FiboPi Scanner",
+                "AntiDonut Scanner",
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onBackground

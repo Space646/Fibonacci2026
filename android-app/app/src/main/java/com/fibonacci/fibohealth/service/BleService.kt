@@ -32,7 +32,7 @@ class BleService : Service() {
         bleClient.startScan()
         scope.launch {
             bleClient.isConnected.collectLatest { connected ->
-                val text = if (connected) "Connected to FiboHealth Pi" else "Scanning for Pi…"
+                val text = if (connected) "Connected to AntiDonut Pi" else "Scanning for Pi…"
                 val nm = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
                 nm.notify(NOTIF_ID, buildNotification(text))
             }
@@ -52,7 +52,7 @@ class BleService : Service() {
             PendingIntent.FLAG_IMMUTABLE
         )
         return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("FiboHealth")
+            .setContentTitle("AntiDonut")
             .setContentText(text)
             .setSmallIcon(R.drawable.ic_bluetooth)
             .setContentIntent(openIntent)

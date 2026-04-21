@@ -71,7 +71,7 @@ struct ProfileView: View {
                               ? "checkmark.circle.fill" : "xmark.circle")
                             .foregroundColor(healthLoggingEnabled ? .green : env.theme.textMuted)
                     }
-                    Text("Manage in Settings → FiboHealth.")
+                    Text("Manage in Settings → AntiDonut.")
                         .foregroundColor(env.theme.textMuted)
                         .font(.system(size: 12))
                     if let err = healthKitFoodLogger.lastError {
@@ -82,7 +82,7 @@ struct ProfileView: View {
                     Button(role: .destructive) {
                         showRemoveConfirm = true
                     } label: {
-                        Text("Remove FiboHealth Food Entries from Health")
+                        Text("Remove AntiDonut Food Entries from Health")
                     }
                 }
                 Section {
@@ -108,7 +108,7 @@ struct ProfileView: View {
                 Button("Cancel", role: .cancel) { }
                 Button("Remove", role: .destructive) {
                     Task {
-                        let r = await healthKitFoodLogger.removeAllFiboHealthEntries()
+                        let r = await healthKitFoodLogger.removeAllAntiDonutEntries()
                         await MainActor.run {
                             removeResultMessage = r.failed == 0
                                 ? "Removed \(r.removed) entries."
@@ -118,7 +118,7 @@ struct ProfileView: View {
                     }
                 }
             } message: {
-                Text("This will permanently delete all food entries FiboHealth has written to Apple Health. Activity data and entries from other apps are not affected. This cannot be undone.")
+                Text("This will permanently delete all food entries AntiDonut has written to Apple Health. Activity data and entries from other apps are not affected. This cannot be undone.")
             }
             .alert("Done", isPresented: $showRemoveResult) {
                 Button("OK", role: .cancel) { }

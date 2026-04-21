@@ -1,6 +1,6 @@
-name: FiboHealth
+name: AntiDonut
 options:
-  bundleIdPrefix: com.fibonacci
+  bundleIdPrefix: com.antidonut
   deploymentTarget:
     iOS: "17.0"
   xcodeVersion: "15"
@@ -27,14 +27,14 @@ targets:
     info:
       path: FiboHealth/Info.plist
       properties:
-        CFBundleDisplayName: FiboHealth
-        CFBundleIdentifier: com.fibonacci.fibohealth
+        CFBundleDisplayName: AntiDonut
+        CFBundleIdentifier: com.antidonut.antidonut
         CFBundleVersion: "1"
         CFBundleShortVersionString: "1.0"
         UILaunchScreen: {}
-        NSHealthShareUsageDescription: "FiboHealth reads your activity data to calculate remaining daily calories."
-        NSHealthUpdateUsageDescription: "FiboHealth logs the food you scan on your Pi as dietary energy and macronutrients in Apple Health, so your daily calorie balance stays accurate."
-        NSBluetoothAlwaysUsageDescription: "FiboHealth connects to your Fibonacci Pi device over Bluetooth."
+        NSHealthShareUsageDescription: "AntiDonut reads your activity data to calculate remaining daily calories."
+        NSHealthUpdateUsageDescription: "AntiDonut logs the food you scan on your Pi as dietary energy and macronutrients in Apple Health, so your daily calorie balance stays accurate."
+        NSBluetoothAlwaysUsageDescription: "AntiDonut connects to your AntiDonut Pi device over Bluetooth."
         UIBackgroundModes:
           - bluetooth-central
     entitlements:
@@ -44,7 +44,7 @@ targets:
         com.apple.developer.healthkit.access: []
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.fibonacci.fibohealth
+        PRODUCT_BUNDLE_IDENTIFIER: com.antidonut.antidonut
         INFOPLIST_FILE: FiboHealth/Info.plist
         CODE_SIGN_ENTITLEMENTS: FiboHealth/FiboHealth.entitlements
         DEVELOPMENT_TEAM: "S7WWCVL5XU"
@@ -62,12 +62,12 @@ targets:
     info:
       path: FiboHealthTests/Info.plist
       properties:
-        CFBundleIdentifier: com.fibonacci.fibohealth.tests
+        CFBundleIdentifier: com.antidonut.antidonut.tests
         CFBundleVersion: "1"
         CFBundleShortVersionString: "1.0"
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.fibonacci.fibohealth.tests
+        PRODUCT_BUNDLE_IDENTIFIER: com.antidonut.antidonut.tests
         INFOPLIST_FILE: FiboHealthTests/Info.plist
         GENERATE_INFOPLIST_FILE: NO
         SWIFT_VERSION: "5.9"

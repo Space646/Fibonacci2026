@@ -6,12 +6,12 @@ import os
 /// Reconciles the Pi's food log into HealthKit food correlations.
 ///
 /// Source of truth for the Pi↔HK mapping is HealthKit metadata
-/// (`pi_food_id` + `source_app == "FiboHealth"`) — there is no local cache,
+/// (`pi_food_id` + `source_app == "AntiDonut"`) — there is no local cache,
 /// so deletions on the Pi cascade cleanly to HealthKit.
 final class HealthKitFoodLogger: ObservableObject {
     static let metaPiId      = "pi_food_id"
     static let metaSourceApp = "source_app"
-    static let sourceAppValue = "FiboHealth"
+    static let sourceAppValue = "AntiDonut"
 
     @Published var lastError: String?
 
@@ -19,7 +19,7 @@ final class HealthKitFoodLogger: ObservableObject {
     private var activeReconcile: Task<Void, Never>?
 
     private static let log = Logger(
-        subsystem: "com.fibohealth.app",
+        subsystem: "com.antidonut.app",
         category: "HealthKitFoodLogger"
     )
 

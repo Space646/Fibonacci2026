@@ -9,7 +9,7 @@ ApplicationWindow {
     visibility: Window.FullScreen
     width: 720
     height: 1280
-    title: "Fibonacci Health"
+    title: "AntiDonut"
     color: appState.theme === "dark" ? "#0f172a" : "#f8fafc"
 
     function openAdminMenu() { adminOverlay.open() }

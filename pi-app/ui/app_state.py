@@ -257,13 +257,13 @@ class AppState(QObject):
 
     @pyqtSlot()
     def stopService(self):
-        subprocess.run(["systemctl", "stop", "fibonacci-health.service"], check=False)
+        subprocess.run(["systemctl", "stop", "antidonut.service"], check=False)
 
     @pyqtSlot()
     def updateAndRestart(self):
         project_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         subprocess.run(["git", "-C", project_dir, "pull"], check=False)
-        subprocess.run(["systemctl", "restart", "fibonacci-health.service"], check=False)
+        subprocess.run(["systemctl", "restart", "antidonut.service"], check=False)
 
     @pyqtSlot()
     def calibrateTare(self):

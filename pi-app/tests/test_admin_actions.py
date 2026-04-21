@@ -16,7 +16,7 @@ def test_stop_service_calls_systemctl(app_state):
     with patch("ui.app_state.subprocess.run") as mock_run:
         app_state.stopService()
         mock_run.assert_called_once_with(
-            ["systemctl", "stop", "fibonacci-health.service"],
+            ["systemctl", "stop", "antidonut.service"],
             check=False
         )
 
@@ -27,7 +27,7 @@ def test_update_and_restart_calls_git_pull_then_restart(app_state):
         calls = mock_run.call_args_list
         assert len(calls) == 2
         assert calls[0][0][0] == ["git", "-C", ANY, "pull"]
-        assert calls[1][0][0] == ["systemctl", "restart", "fibonacci-health.service"]
+        assert calls[1][0][0] == ["systemctl", "restart", "antidonut.service"]
 
 
 def test_calibrate_tare_stores_raw_reading(app_state):

@@ -1,4 +1,4 @@
-# FiboHealth Pi App
+# AntiDonut Pi App
 
 Nutrition-tracking food scale built on Raspberry Pi with a HuskyLens camera and
 HX711 load cell. Pairs over BLE with the iOS companion app.
@@ -24,7 +24,7 @@ python main.py
 ```
 
 On first launch macOS asks permission to use Bluetooth — accept. The app will
-advertise as `FiboHealth-Pi` and an iPhone running FiboHealth can find it from
+advertise as `AntiDonut-Pi` and an iPhone running AntiDonut can find it from
 its Device tab.
 
 > **Known macOS limitation.** A stock Homebrew `python3` binary has no
