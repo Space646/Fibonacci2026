@@ -52,6 +52,8 @@ class AppState(QObject):
             "sex": "other", "activity_level": "sedentary", "daily_calorie_goal": None,
         })
         self._last_scan: dict = {}
+        self._cal_raw_zero: float = 0.0
+        self._cal_points: list[tuple[float, float]] = []
 
         # Poll weight every 100 ms
         self._weight_timer = QTimer(self)
@@ -252,9 +254,6 @@ class AppState(QObject):
         self._on_health_received(mock_device_id, mock_health)
 
     # ── Admin Actions ────────────────────────────────────────────────────────
-
-    _cal_raw_zero: float = 0.0
-    _cal_points: list = []
 
     @pyqtSlot()
     def stopService(self):

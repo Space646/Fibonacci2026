@@ -1,5 +1,4 @@
-import subprocess
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch, ANY
 import pytest
 
 from ui.app_state import AppState
@@ -14,7 +13,7 @@ def app_state():
 
 
 def test_stop_service_calls_systemctl(app_state):
-    with patch("subprocess.run") as mock_run:
+    with patch("ui.app_state.subprocess.run") as mock_run:
         app_state.stopService()
         mock_run.assert_called_once_with(
             ["systemctl", "stop", "fibonacci-health.service"],
@@ -23,12 +22,12 @@ def test_stop_service_calls_systemctl(app_state):
 
 
 def test_update_and_restart_calls_git_pull_then_restart(app_state):
-    with patch("subprocess.run") as mock_run:
+    with patch("ui.app_state.subprocess.run") as mock_run:
         app_state.updateAndRestart()
         calls = mock_run.call_args_list
         assert len(calls) == 2
-        assert "pull" in calls[0][0][0]
-        assert "restart" in calls[1][0][0]
+        assert calls[0][0][0] == ["git", "-C", ANY, "pull"]
+        assert calls[1][0][0] == ["systemctl", "restart", "fibonacci-health.service"]
 
 
 def test_calibrate_tare_stores_raw_reading(app_state):
@@ -53,3 +52,9 @@ def test_finalize_calibration(app_state, tmp_path):
     assert result is True
     assert app_state._weight_svc._offset == 100.0
     assert app_state._weight_svc._scale_factor == 2.0
+
+
+def test_finalize_calibration_returns_false_with_insufficient_points(app_state):
+    app_state._cal_points = [(300.0, 100.0)]
+    result = app_state.finalizeCalibration()
+    assert result is False
