@@ -100,10 +100,32 @@ Item {
                     }
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: {
-                            refreshBtn.scale = 0.88
-                            appState.refreshHome()
-                            spinReset.restart()
+                        property bool longPressTriggered: false
+
+                        onPressed: {
+                            longPressTriggered = false
+                            adminTimer.restart()
+                        }
+                        onReleased: {
+                            adminTimer.stop()
+                            if (!longPressTriggered) {
+                                refreshBtn.scale = 0.88
+                                appState.refreshHome()
+                                spinReset.restart()
+                            }
+                        }
+                        onCanceled: {
+                            adminTimer.stop()
+                        }
+
+                        Timer {
+                            id: adminTimer
+                            interval: 5000
+                            repeat: false
+                            onTriggered: {
+                                parent.longPressTriggered = true
+                                root.ApplicationWindow.window.openAdminMenu()
+                            }
                         }
                     }
                     Timer {
