@@ -261,7 +261,7 @@ class AppState(QObject):
 
     @pyqtSlot()
     def updateAndRestart(self):
-        project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        project_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         subprocess.run(["git", "-C", project_dir, "pull"], check=False)
         subprocess.run(["systemctl", "restart", "fibonacci-health.service"], check=False)
 
@@ -281,10 +281,13 @@ class AppState(QObject):
             return False
         raw1, weight1 = self._cal_points[0]
         raw2, weight2 = self._cal_points[1]
-        offset, scale_factor = self._weight_svc.compute_calibration(
-            raw_zero=self._cal_raw_zero,
-            raw_point1=raw1, known_weight1=weight1,
-            raw_point2=raw2, known_weight2=weight2,
-        )
-        self._weight_svc.save_calibration(offset, scale_factor)
+        try:
+            offset, scale_factor = self._weight_svc.compute_calibration(
+                raw_zero=self._cal_raw_zero,
+                raw_point1=raw1, known_weight1=weight1,
+                raw_point2=raw2, known_weight2=weight2,
+            )
+            self._weight_svc.save_calibration(offset, scale_factor)
+        except ValueError:
+            return False
         return True

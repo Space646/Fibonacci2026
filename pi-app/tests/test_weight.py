@@ -1,4 +1,5 @@
 import json
+import pytest
 from services.weight import WeightService
 
 
@@ -76,11 +77,19 @@ def test_save_calibration(tmp_path):
 
 
 def test_compute_calibration_from_points():
-    svc = WeightService(test_mode=True)
-    offset, scale_factor = svc.compute_calibration(
+    offset, scale_factor = WeightService.compute_calibration(
         raw_zero=100.0,
         raw_point1=300.0, known_weight1=100.0,
         raw_point2=500.0, known_weight2=200.0,
     )
     assert offset == 100.0
     assert scale_factor == 2.0
+
+
+def test_compute_calibration_rejects_equal_weights():
+    with pytest.raises(ValueError):
+        WeightService.compute_calibration(
+            raw_zero=100.0,
+            raw_point1=300.0, known_weight1=100.0,
+            raw_point2=400.0, known_weight2=100.0,
+        )

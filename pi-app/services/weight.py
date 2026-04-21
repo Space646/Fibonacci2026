@@ -62,7 +62,9 @@ class WeightService:
         offset = raw_zero
         delta_raw = raw_point2 - raw_point1
         delta_weight = known_weight2 - known_weight1
-        scale_factor = delta_raw / delta_weight if delta_weight != 0 else 1.0
+        if delta_weight == 0:
+            raise ValueError("known_weight1 and known_weight2 must differ")
+        scale_factor = delta_raw / delta_weight
         return offset, scale_factor
 
     def _init_hardware(self):

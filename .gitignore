@@ -15,3 +15,6 @@ ios-app/build/
 # py2app (macOS dev bundle)
 pi-app/build/
 pi-app/dist/
+
+# Runtime calibration data
+pi-app/config/scale_calibration.json
