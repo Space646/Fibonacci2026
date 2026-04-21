@@ -11,26 +11,10 @@ ApplicationWindow {
     title: "Fibonacci Health"
     color: appState.theme === "dark" ? "#0f172a" : "#f8fafc"
 
-    // Test mode banner
-    Rectangle {
-        id: testBanner
-        visible: appState.testMode
-        anchors { top: parent.top; left: parent.left; right: parent.right }
-        height: 48
-        color: "#92400e"
-        z: 100
-        Text {
-            anchors.centerIn: parent
-            text: "⚠  TEST MODE ACTIVE"
-            color: "#fbbf24"
-            font { pixelSize: 20; bold: true; letterSpacing: 1 }
-        }
-    }
-
     StackView {
         id: stackView
         anchors {
-            top: appState.testMode ? testBanner.bottom : parent.top
+            top: parent.top
             left: parent.left; right: parent.right; bottom: navBar.top
         }
         initialItem: Qt.createComponent(Qt.resolvedUrl("screens/Dashboard.qml"))
