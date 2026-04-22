@@ -91,6 +91,18 @@ def write_unit(user: str, display: str):
     print(f"Wrote {UNIT_PATH}")
 
 
+def write_sudoers(user: str):
+    sudoers_path = Path(f"/etc/sudoers.d/antidonut-kiosk")
+    systemctl = "/bin/systemctl"
+    rule = (
+        f"{user} ALL=(ALL) NOPASSWD: {systemctl} stop {SERVICE_NAME}\n"
+        f"{user} ALL=(ALL) NOPASSWD: {systemctl} restart {SERVICE_NAME}\n"
+    )
+    sudoers_path.write_text(rule)
+    sudoers_path.chmod(0o440)
+    print(f"Wrote {sudoers_path}")
+
+
 def enable_and_start():
     run(["systemctl", "daemon-reload"])
     run(["systemctl", "enable", SERVICE_NAME])
@@ -102,7 +114,7 @@ def enable_and_start():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--user", default="pi", help="Linux user to run the service as (default: pi)")
+    parser.add_argument("--user", default="tadroid", help="Linux user to run the service as (default: tadroid)")
     parser.add_argument("--display", default=":0", help="X display for the GUI (default: :0)")
     parser.add_argument("--uninstall", action="store_true", help="Stop, disable, and remove the service")
     args = parser.parse_args()
@@ -117,6 +129,9 @@ def main():
         if UNIT_PATH.exists():
             UNIT_PATH.unlink()
             run(["systemctl", "daemon-reload"])
+        sudoers_path = Path("/etc/sudoers.d/antidonut-kiosk")
+        if sudoers_path.exists():
+            sudoers_path.unlink()
         print("Done.")
         return
 
@@ -126,6 +141,7 @@ def main():
     ensure_venv()
     print()
     write_unit(args.user, args.display)
+    write_sudoers(args.user)
     print()
     enable_and_start()
 
