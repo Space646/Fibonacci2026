@@ -35,7 +35,7 @@ def run(cmd: list[str], **kwargs) -> subprocess.CompletedProcess:
 
 
 def ensure_system_deps():
-    pkgs = ["libxcb-cursor0"]
+    pkgs = ["libxcb-cursor0", "python3-rpi.gpio"]
     result = subprocess.run(
         ["dpkg", "-l"] + pkgs,
         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
@@ -45,11 +45,23 @@ def ensure_system_deps():
         run(["apt-get", "install", "-y"] + pkgs)
 
 
+def _venv_has_system_site_packages() -> bool:
+    cfg = VENV_DIR / "pyvenv.cfg"
+    if not cfg.exists():
+        return False
+    return "include-system-site-packages = true" in cfg.read_text()
+
+
 def ensure_venv():
     python = VENV_DIR / "bin" / "python"
-    if not python.exists():
-        print("Creating virtualenv …")
-        run([sys.executable, "-m", "venv", str(VENV_DIR)])
+    if not python.exists() or not _venv_has_system_site_packages():
+        if VENV_DIR.exists():
+            print("Recreating virtualenv with --system-site-packages …")
+            import shutil
+            shutil.rmtree(VENV_DIR)
+        else:
+            print("Creating virtualenv …")
+        run([sys.executable, "-m", "venv", "--system-site-packages", str(VENV_DIR)])
     print("Installing / updating dependencies …")
     pip = str(VENV_DIR / "bin" / "pip")
     run([pip, "install", "--upgrade", "pip"], stdout=subprocess.DEVNULL)
@@ -69,6 +81,7 @@ def write_unit(user: str, display: str):
         [Service]
         Type=simple
         User={user}
+        SupplementaryGroups=gpio
         WorkingDirectory={APP_DIR}
         Environment=DISPLAY={display}
         Environment=XAUTHORITY={xauthority}

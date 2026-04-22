@@ -102,7 +102,9 @@ class WeightService:
             return 0.0
 
         try:
-            reading = max(0.0, round(float(self._hx.get_weight(5)), 1))
+            reading = max(0.0, round(float(self._hx.get_weight(3)), 1))
+            self._hx.power_down()
+            self._hx.power_up()
         except Exception:
             reading = 0.0
 
