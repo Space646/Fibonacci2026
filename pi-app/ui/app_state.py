@@ -266,15 +266,17 @@ class AppState(QObject):
         subprocess.run(["git", "-C", project_dir, "pull"], check=False)
         subprocess.run(["sudo", "systemctl", "restart", "antidonut-kiosk"], check=False)
 
-    @pyqtSlot()
-    def calibrateTare(self):
+    @pyqtSlot(result=float)
+    def calibrateTare(self) -> float:
         self._cal_raw_zero = self._weight_svc.read_raw()
         self._cal_points = []
+        return self._cal_raw_zero
 
-    @pyqtSlot(float)
-    def calibratePoint(self, known_grams: float):
+    @pyqtSlot(float, result=float)
+    def calibratePoint(self, known_grams: float) -> float:
         raw = self._weight_svc.read_raw()
         self._cal_points.append((raw, known_grams))
+        return raw
 
     @pyqtSlot(result=bool)
     def finalizeCalibration(self) -> bool:

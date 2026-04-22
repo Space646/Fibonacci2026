@@ -163,6 +163,9 @@ Rectangle {
 
             property int step: 1
             property string statusText: ""
+            property string rawReadings: ""
+            property real rawZero: 0
+            property real rawP1: 0
 
             Text {
                 width: parent.width
@@ -173,6 +176,15 @@ Rectangle {
                     : parent.step === 2 ? "Step 2: Place a known weight on the scale and enter its weight below."
                     : parent.step === 3 ? "Step 3: Add a second item (keep the first). Enter the combined weight below."
                     : parent.statusText
+            }
+
+            Text {
+                width: parent.width
+                wrapMode: Text.WordWrap
+                font.pixelSize: 16
+                color: "#94a3b8"
+                visible: parent.rawReadings !== ""
+                text: parent.rawReadings
             }
 
             TextField {
@@ -203,19 +215,25 @@ Rectangle {
                     onClicked: {
                         var col = parent.parent
                         if (col.step === 1) {
-                            appState.calibrateTare()
+                            col.rawZero = appState.calibrateTare()
+                            col.rawReadings = "Raw zero: " + col.rawZero.toFixed(1)
                             col.step = 2
                         } else if (col.step === 2) {
                             var w1 = parseFloat(calWeightField.text) || 0
                             if (w1 > 0) {
-                                appState.calibratePoint(w1)
+                                col.rawP1 = appState.calibratePoint(w1)
+                                col.rawReadings = "Raw zero: " + col.rawZero.toFixed(1)
+                                    + "  |  Raw pt1: " + col.rawP1.toFixed(1)
                                 calWeightField.text = ""
                                 col.step = 3
                             }
                         } else if (col.step === 3) {
                             var w2 = parseFloat(calWeightField.text) || 0
                             if (w2 > 0) {
-                                appState.calibratePoint(w2)
+                                var rawP2 = appState.calibratePoint(w2)
+                                col.rawReadings = "Raw zero: " + col.rawZero.toFixed(1)
+                                    + "  |  Raw pt1: " + col.rawP1.toFixed(1)
+                                    + "  |  Raw pt2: " + rawP2.toFixed(1)
                                 var ok = appState.finalizeCalibration()
                                 col.step = 4
                                 col.statusText = ok ? "Calibration complete!" : "Calibration failed. Try again."
