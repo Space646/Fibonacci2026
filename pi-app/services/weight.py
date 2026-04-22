@@ -1,5 +1,6 @@
 import json
 import os
+import threading
 from collections import deque
 from datetime import datetime, timezone
 
@@ -24,6 +25,7 @@ class WeightService:
 
         self._reference_unit: float = 1.0
         self._hardware_error: str = ""
+        self._calibrating = threading.Lock()
         self._calibration_file = calibration_file or os.path.join(
             os.path.dirname(os.path.dirname(__file__)), "config", "scale_calibration.json"
         )
@@ -79,20 +81,24 @@ class WeightService:
 
     def tare(self):
         if self._hx is not None:
-            self._hx.tare()
+            with self._calibrating:
+                self._hx.tare()
 
     def read_raw(self) -> float:
         """Returns tare-adjusted reading with reference_unit=1, for use during calibration."""
         if self._test_mode or self._hx is None:
             return self._test_weight
-        try:
-            self._hx.set_reference_unit(1)
-            raw = float(self._hx.get_weight(5))
-            return raw
-        except Exception:
-            return 0.0
-        finally:
-            self._hx.set_reference_unit(self._reference_unit)
+        with self._calibrating:
+            try:
+                self._hx.set_reference_unit(1)
+                raw = float(self._hx.get_weight(5))
+                self._hx.power_down()
+                self._hx.power_up()
+                return raw
+            except Exception:
+                return 0.0
+            finally:
+                self._hx.set_reference_unit(self._reference_unit)
 
     def read(self) -> float:
         if self._test_mode:
@@ -101,12 +107,16 @@ class WeightService:
         if self._hx is None:
             return 0.0
 
+        if not self._calibrating.acquire(blocking=False):
+            return self._readings[-1] if self._readings else 0.0
         try:
             reading = max(0.0, round(float(self._hx.get_weight(3)), 1))
             self._hx.power_down()
             self._hx.power_up()
         except Exception:
             reading = 0.0
+        finally:
+            self._calibrating.release()
 
         self._readings.append(reading)
         return reading

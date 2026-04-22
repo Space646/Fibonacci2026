@@ -18,3 +18,5 @@ pi-app/dist/
 
 # Runtime calibration data
 pi-app/config/scale_calibration.json
+
+pi-app/data/fibonacci.db

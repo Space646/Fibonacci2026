@@ -1,4 +1,4 @@
-import lgpio
+import RPi.GPIO as GPIO
 import time
 import threading
 
@@ -11,9 +11,9 @@ class HX711:
 
         self.readLock = threading.Lock()
 
-        self._chip = lgpio.gpiochip_open(0)
-        lgpio.gpio_claim_output(self._chip, self.PD_SCK)
-        lgpio.gpio_claim_input(self._chip, self.DOUT)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(self.PD_SCK, GPIO.OUT)
+        GPIO.setup(self.DOUT, GPIO.IN)
 
         self.GAIN = 0
         self.REFERENCE_UNIT = 1
@@ -30,10 +30,10 @@ class HX711:
         time.sleep(1)
 
     def _gpio_write(self, pin, value):
-        lgpio.gpio_write(self._chip, pin, 1 if value else 0)
+        GPIO.output(pin, value)
 
     def _gpio_read(self, pin):
-        return lgpio.gpio_read(self._chip, pin)
+        return GPIO.input(pin)
 
     def convertFromTwosComplement24bit(self, inputValue):
         return -(inputValue & 0x800000) + (inputValue & 0x7fffff)
@@ -220,4 +220,4 @@ class HX711:
         self.power_up()
 
     def close(self):
-        lgpio.gpiochip_close(self._chip)
+        GPIO.cleanup()
