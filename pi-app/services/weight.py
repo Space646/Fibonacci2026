@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 
 class WeightService:
     """
-    Reads weight from an HX711 loadcell.
+    Reads weight from an HX711 load cell via tatobari/hx711py.
     Pass test_mode=True to bypass hardware and use set_test_weight() instead.
     Pass skip_hardware_init=True to skip GPIO setup without test mode.
     """
@@ -22,8 +22,7 @@ class WeightService:
         self._readings: deque = deque(maxlen=self.STABILITY_READINGS)
         self._hx = None
 
-        self._offset: float = 0.0
-        self._scale_factor: float = 1.0
+        self._reference_unit: float = 1.0
         self._calibration_file = calibration_file or os.path.join(
             os.path.dirname(os.path.dirname(__file__)), "config", "scale_calibration.json"
         )
@@ -36,63 +35,69 @@ class WeightService:
         try:
             with open(self._calibration_file, "r") as f:
                 data = json.load(f)
-            self._offset = float(data.get("offset", 0.0))
-            self._scale_factor = float(data.get("scale_factor", 1.0))
+            self._reference_unit = float(data.get("reference_unit", 1.0))
         except (FileNotFoundError, json.JSONDecodeError, ValueError):
-            self._offset = 0.0
-            self._scale_factor = 1.0
+            self._reference_unit = 1.0
 
-    def save_calibration(self, offset: float, scale_factor: float):
-        if scale_factor == 0.0:
-            raise ValueError("scale_factor cannot be zero")
-        self._offset = offset
-        self._scale_factor = scale_factor
+    def save_calibration(self, reference_unit: float):
+        if reference_unit == 0.0:
+            raise ValueError("reference_unit cannot be zero")
+        self._reference_unit = reference_unit
+        if self._hx is not None:
+            self._hx.set_reference_unit(reference_unit)
         os.makedirs(os.path.dirname(self._calibration_file), exist_ok=True)
         data = {
-            "offset": offset,
-            "scale_factor": scale_factor,
+            "reference_unit": reference_unit,
             "calibrated_at": datetime.now(timezone.utc).isoformat(),
         }
         with open(self._calibration_file, "w") as f:
             json.dump(data, f, indent=2)
 
     @staticmethod
-    def compute_calibration(raw_zero: float, raw_point1: float, known_weight1: float,
-                            raw_point2: float, known_weight2: float) -> tuple[float, float]:
-        offset = raw_zero
-        delta_raw = raw_point2 - raw_point1
-        delta_weight = known_weight2 - known_weight1
-        if delta_weight == 0:
-            raise ValueError("known_weight1 and known_weight2 must differ")
-        scale_factor = delta_raw / delta_weight
-        return offset, scale_factor
+    def compute_calibration(raw_reading: float, known_weight: float) -> float:
+        if known_weight == 0:
+            raise ValueError("known_weight cannot be zero")
+        if raw_reading == 0:
+            raise ValueError("raw_reading is zero — scale may not be responding")
+        return raw_reading / known_weight
 
     def _init_hardware(self):
         try:
             from hx711 import HX711  # type: ignore
-            self._hx = HX711(dout_pin=5, pd_sck_pin=6)
+            self._hx = HX711(5, 6)
+            self._hx.set_reading_format("MSB", "MSB")
+            self._hx.set_reference_unit(self._reference_unit)
             self._hx.reset()
+            self._hx.tare()
         except Exception:
             pass
 
+    def tare(self):
+        if self._hx is not None:
+            self._hx.tare()
+
     def read_raw(self) -> float:
+        """Returns tare-adjusted reading with reference_unit=1, for use during calibration."""
         if self._test_mode or self._hx is None:
             return self._test_weight
         try:
-            return float(self._hx.get_weight_mean(5))
+            self._hx.set_reference_unit(1)
+            raw = float(self._hx.get_weight(5))
+            return raw
         except Exception:
             return 0.0
+        finally:
+            self._hx.set_reference_unit(self._reference_unit)
 
     def read(self) -> float:
         if self._test_mode:
-            return max(0.0, round((self._test_weight - self._offset) / self._scale_factor, 1))
+            return self._test_weight
 
         if self._hx is None:
             return 0.0
 
         try:
-            raw = float(self._hx.get_weight_mean(5))
-            reading = max(0.0, round((raw - self._offset) / self._scale_factor, 1))
+            reading = max(0.0, round(float(self._hx.get_weight(5)), 1))
         except Exception:
             reading = 0.0
 

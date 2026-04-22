@@ -164,17 +164,14 @@ Rectangle {
             property int step: 1
             property string statusText: ""
             property string rawReadings: ""
-            property real rawZero: 0
-            property real rawP1: 0
 
             Text {
                 width: parent.width
                 wrapMode: Text.WordWrap
                 font.pixelSize: 20
                 color: "white"
-                text: parent.step === 1 ? "Step 1: Remove everything from the scale, then tap Next."
+                text: parent.step === 1 ? "Step 1: Remove everything from the scale, then tap Tare."
                     : parent.step === 2 ? "Step 2: Place a known weight on the scale and enter its weight below."
-                    : parent.step === 3 ? "Step 3: Add a second item (keep the first). Enter the combined weight below."
                     : parent.statusText
             }
 
@@ -190,16 +187,16 @@ Rectangle {
             TextField {
                 id: calWeightField
                 width: parent.width
-                visible: parent.step === 2 || parent.step === 3
+                visible: parent.step === 2
                 leftPadding: 12; rightPadding: 12; topPadding: 10; bottomPadding: 10
                 inputMethodHints: Qt.ImhFormattedNumbersOnly
-                placeholderText: parent.step === 2 ? "Known weight (g)" : "Combined weight (g)"
+                placeholderText: "Known weight (g)"
                 color: "white"
             }
 
             Rectangle {
                 width: parent.width; height: 60; radius: 10
-                visible: parent.step <= 3
+                visible: parent.step <= 2
                 gradient: Gradient {
                     orientation: Gradient.Horizontal
                     GradientStop { position: 0.0; color: "#6366f1" }
@@ -207,7 +204,7 @@ Rectangle {
                 }
                 Text {
                     anchors.centerIn: parent
-                    text: parent.parent.step === 1 ? "Next" : "Confirm"
+                    text: parent.parent.step === 1 ? "Tare" : "Confirm"
                     color: "white"; font { pixelSize: 22; bold: true }
                 }
                 MouseArea {
@@ -215,27 +212,16 @@ Rectangle {
                     onClicked: {
                         var col = parent.parent
                         if (col.step === 1) {
-                            col.rawZero = appState.calibrateTare()
-                            col.rawReadings = "Raw zero: " + col.rawZero.toFixed(1)
+                            var rawAfterTare = appState.calibrateTare()
+                            col.rawReadings = "Raw after tare: " + rawAfterTare.toFixed(1)
                             col.step = 2
                         } else if (col.step === 2) {
-                            var w1 = parseFloat(calWeightField.text) || 0
-                            if (w1 > 0) {
-                                col.rawP1 = appState.calibratePoint(w1)
-                                col.rawReadings = "Raw zero: " + col.rawZero.toFixed(1)
-                                    + "  |  Raw pt1: " + col.rawP1.toFixed(1)
-                                calWeightField.text = ""
-                                col.step = 3
-                            }
-                        } else if (col.step === 3) {
-                            var w2 = parseFloat(calWeightField.text) || 0
-                            if (w2 > 0) {
-                                var rawP2 = appState.calibratePoint(w2)
-                                col.rawReadings = "Raw zero: " + col.rawZero.toFixed(1)
-                                    + "  |  Raw pt1: " + col.rawP1.toFixed(1)
-                                    + "  |  Raw pt2: " + rawP2.toFixed(1)
+                            var w = parseFloat(calWeightField.text) || 0
+                            if (w > 0) {
+                                var rawPt = appState.calibratePoint(w)
+                                col.rawReadings += "  |  Raw point: " + rawPt.toFixed(1)
                                 var ok = appState.finalizeCalibration()
-                                col.step = 4
+                                col.step = 3
                                 col.statusText = ok ? "Calibration complete!" : "Calibration failed. Try again."
                             }
                         }
@@ -247,7 +233,7 @@ Rectangle {
                 width: parent.width; height: 50; radius: 10; color: "#334155"
                 Text {
                     anchors.centerIn: parent
-                    text: parent.parent.step === 4 ? "Done" : "Cancel"
+                    text: parent.parent.step === 3 ? "Done" : "Cancel"
                     color: "#94a3b8"; font { pixelSize: 20; bold: true }
                 }
                 MouseArea { anchors.fill: parent; onClicked: overlay.view = "menu" }

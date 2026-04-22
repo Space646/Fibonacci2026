@@ -52,8 +52,8 @@ class AppState(QObject):
             "sex": "other", "activity_level": "sedentary", "daily_calorie_goal": None,
         })
         self._last_scan: dict = {}
-        self._cal_raw_zero: float = 0.0
-        self._cal_points: list[tuple[float, float]] = []
+        self._cal_raw_point: float = 0.0
+        self._cal_known_grams: float = 0.0
 
         # Poll weight every 100 ms
         self._weight_timer = QTimer(self)
@@ -268,29 +268,23 @@ class AppState(QObject):
 
     @pyqtSlot(result=float)
     def calibrateTare(self) -> float:
-        self._cal_raw_zero = self._weight_svc.read_raw()
-        self._cal_points = []
-        return self._cal_raw_zero
+        self._weight_svc.tare()
+        return self._weight_svc.read_raw()
 
     @pyqtSlot(float, result=float)
     def calibratePoint(self, known_grams: float) -> float:
         raw = self._weight_svc.read_raw()
-        self._cal_points.append((raw, known_grams))
+        self._cal_raw_point = raw
+        self._cal_known_grams = known_grams
         return raw
 
     @pyqtSlot(result=bool)
     def finalizeCalibration(self) -> bool:
-        if len(self._cal_points) < 2:
-            return False
-        raw1, weight1 = self._cal_points[0]
-        raw2, weight2 = self._cal_points[1]
         try:
-            offset, scale_factor = self._weight_svc.compute_calibration(
-                raw_zero=self._cal_raw_zero,
-                raw_point1=raw1, known_weight1=weight1,
-                raw_point2=raw2, known_weight2=weight2,
+            ref_unit = self._weight_svc.compute_calibration(
+                self._cal_raw_point, self._cal_known_grams
             )
-            self._weight_svc.save_calibration(offset, scale_factor)
+            self._weight_svc.save_calibration(ref_unit)
         except ValueError:
             return False
         return True
