@@ -23,6 +23,7 @@ class WeightService:
         self._hx = None
 
         self._reference_unit: float = 1.0
+        self._hardware_error: str = ""
         self._calibration_file = calibration_file or os.path.join(
             os.path.dirname(os.path.dirname(__file__)), "config", "scale_calibration.json"
         )
@@ -61,6 +62,10 @@ class WeightService:
             raise ValueError("raw_reading is zero — scale may not be responding")
         return raw_reading / known_weight
 
+    @property
+    def hardware_error(self) -> str:
+        return self._hardware_error
+
     def _init_hardware(self):
         try:
             from hx711 import HX711  # type: ignore
@@ -69,8 +74,8 @@ class WeightService:
             self._hx.set_reference_unit(self._reference_unit)
             self._hx.reset()
             self._hx.tare()
-        except Exception:
-            pass
+        except Exception as e:
+            self._hardware_error = type(e).__name__ + ": " + str(e)
 
     def tare(self):
         if self._hx is not None:

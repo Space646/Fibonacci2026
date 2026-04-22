@@ -266,6 +266,10 @@ class AppState(QObject):
         subprocess.run(["git", "-C", project_dir, "pull"], check=False)
         subprocess.run(["sudo", "systemctl", "restart", "antidonut-kiosk"], check=False)
 
+    @pyqtSlot(result=str)
+    def scaleHardwareError(self) -> str:
+        return self._weight_svc.hardware_error
+
     @pyqtSlot(result=float)
     def calibrateTare(self) -> float:
         self._weight_svc.tare()

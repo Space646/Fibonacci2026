@@ -168,6 +168,15 @@ Rectangle {
             Text {
                 width: parent.width
                 wrapMode: Text.WordWrap
+                font.pixelSize: 14
+                color: "#f87171"
+                visible: text !== ""
+                text: appState.scaleHardwareError()
+            }
+
+            Text {
+                width: parent.width
+                wrapMode: Text.WordWrap
                 font.pixelSize: 20
                 color: "white"
                 text: parent.step === 1 ? "Step 1: Remove everything from the scale, then tap Tare."
