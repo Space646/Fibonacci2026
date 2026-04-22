@@ -1,7 +1,7 @@
 import subprocess
 import os
 
-from PyQt6.QtCore import QObject, pyqtSignal, pyqtSlot, pyqtProperty, QTimer
+from PyQt6.QtCore import QObject, pyqtSignal, pyqtSlot, pyqtProperty, QTimer, QCoreApplication
 from services.calorie_calculator import calculate_calories, calculate_daily_goal
 from services.food_detection import FoodDetectionService
 from services.weight import WeightService
@@ -258,6 +258,7 @@ class AppState(QObject):
     @pyqtSlot()
     def stopService(self):
         subprocess.run(["systemctl", "stop", "antidonut.service"], check=False)
+        QCoreApplication.quit()
 
     @pyqtSlot()
     def updateAndRestart(self):
