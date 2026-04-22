@@ -1,0 +1,118 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f9f9f9" stroke="#ccc" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="400" y="30" font-size="24" font-weight="bold" text-anchor="middle" font-family="Arial">
+    AntiDonut System Architecture
+  </text>
+
+  <!-- Raspberry Pi (center, large box) -->
+  <rect x="250" y="150" width="300" height="280" fill="#fff" stroke="#333" stroke-width="2" rx="5"/>
+  <text x="400" y="175" font-size="16" font-weight="bold" text-anchor="middle" font-family="Arial">
+    Raspberry Pi 4/5
+  </text>
+
+  <!-- Internal components of Pi -->
+  <!-- HuskyLens -->
+  <rect x="270" y="200" width="130" height="50" fill="#e8f4f8" stroke="#0066cc" stroke-width="1" rx="3"/>
+  <text x="335" y="215" font-size="12" font-weight="bold" text-anchor="middle" font-family="Arial">
+    HuskyLens K210
+  </text>
+  <text x="335" y="230" font-size="10" text-anchor="middle" font-family="Arial">
+    Food Detection (UART)
+  </text>
+
+  <!-- HX711 -->
+  <rect x="420" y="200" width="130" height="50" fill="#e8f4f8" stroke="#0066cc" stroke-width="1" rx="3"/>
+  <text x="485" y="215" font-size="12" font-weight="bold" text-anchor="middle" font-family="Arial">
+    HX711 + Loadcell
+  </text>
+  <text x="485" y="230" font-size="10" text-anchor="middle" font-family="Arial">
+    Weight (GPIO)
+  </text>
+
+  <!-- LCD -->
+  <rect x="270" y="270" width="130" height="50" fill="#e8f4f8" stroke="#0066cc" stroke-width="1" rx="3"/>
+  <text x="335" y="285" font-size="12" font-weight="bold" text-anchor="middle" font-family="Arial">
+    LCD Touchscreen
+  </text>
+  <text x="335" y="300" font-size="10" text-anchor="middle" font-family="Arial">
+    5" 720x1280 DSI
+  </text>
+
+  <!-- SQLite -->
+  <rect x="420" y="270" width="130" height="50" fill="#e8f4f8" stroke="#0066cc" stroke-width="1" rx="3"/>
+  <text x="485" y="285" font-size="12" font-weight="bold" text-anchor="middle" font-family="Arial">
+    SQLite3
+  </text>
+  <text x="485" y="300" font-size="10" text-anchor="middle" font-family="Arial">
+    Local Database
+  </text>
+
+  <!-- Software Core (in Pi) -->
+  <rect x="270" y="340" width="280" height="60" fill="#fff9e6" stroke="#cc8800" stroke-width="1" rx="3"/>
+  <text x="410" y="355" font-size="11" font-weight="bold" text-anchor="middle" font-family="Arial">
+    Python Services: FoodDetection | Weight | CalorieCalc | BLE | UI (PyQt6/QML)
+  </text>
+
+  <!-- iOS App (left) -->
+  <rect x="50" y="200" width="140" height="100" fill="#fff" stroke="#333" stroke-width="2" rx="5"/>
+  <text x="120" y="220" font-size="14" font-weight="bold" text-anchor="middle" font-family="Arial">
+    iOS App
+  </text>
+  <text x="120" y="240" font-size="10" text-anchor="middle" font-family="Arial">
+    (Swift/SwiftUI)
+  </text>
+  <text x="120" y="255" font-size="9" text-anchor="middle" font-family="Arial">
+    • BLE Client
+  </text>
+  <text x="120" y="268" font-size="9" text-anchor="middle" font-family="Arial">
+    • HealthKit
+  </text>
+  <text x="120" y="281" font-size="9" text-anchor="middle" font-family="Arial">
+    • Food Log
+  </text>
+
+  <!-- Android App (right) -->
+  <rect x="610" y="200" width="140" height="100" fill="#fff" stroke="#333" stroke-width="2" rx="5"/>
+  <text x="680" y="220" font-size="14" font-weight="bold" text-anchor="middle" font-family="Arial">
+    Android App
+  </text>
+  <text x="680" y="240" font-size="10" text-anchor="middle" font-family="Arial">
+    (Kotlin)
+  </text>
+  <text x="680" y="255" font-size="9" text-anchor="middle" font-family="Arial">
+    • BLE Client
+  </text>
+  <text x="680" y="268" font-size="9" text-anchor="middle" font-family="Arial">
+    • Health Connect
+  </text>
+  <text x="680" y="281" font-size="9" text-anchor="middle" font-family="Arial">
+    • Food Log
+  </text>
+
+  <!-- Connections: Pi to iOS -->
+  <line x1="250" y1="250" x2="190" y2="250" stroke="#0066cc" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="210" y="245" font-size="10" fill="#0066cc" font-weight="bold">
+    BLE GATT
+  </text>
+
+  <!-- Connections: Pi to Android -->
+  <line x1="550" y1="250" x2="610" y2="250" stroke="#0066cc" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="570" y="245" font-size="10" fill="#0066cc" font-weight="bold">
+    BLE GATT
+  </text>
+
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#0066cc"/>
+    </marker>
+  </defs>
+
+  <!-- Caption -->
+  <text x="400" y="570" font-size="11" text-anchor="middle" font-family="Arial" fill="#666">
+    All processing is local to the Pi. iOS and Android act as GATT clients, syncing data over BLE.
+  </text>
+</svg>
