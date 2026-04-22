@@ -3,4 +3,4 @@ pyserial>=3.5
 pytest>=8.0
 pytest-qt>=4.4
 bless>=0.2.6
-rpi-lgpio
+RPi.GPIO>=0.7.0
