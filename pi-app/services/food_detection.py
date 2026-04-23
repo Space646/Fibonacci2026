@@ -11,7 +11,7 @@ class FoodDetectionService:
 
     POLL_INTERVAL_S = 0.3
 
-    def __init__(self, conn, test_mode: bool = False, i2c_address: int = 0x20,
+    def __init__(self, conn, test_mode: bool = False, i2c_address: int = 0x32,
                  on_detection: Optional[Callable] = None):
         self._conn = conn
         self._test_mode = test_mode
