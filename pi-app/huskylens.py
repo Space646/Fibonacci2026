@@ -3,7 +3,7 @@
 # 08/03/2020
 # Dependenices :
 #   pyserial
-#   smbus
+#   smbus3
 #   pypng
 #
 # How to use :
@@ -100,8 +100,8 @@ class HuskyLensLibrary:
             self.huskylensSer.flush()
 
         elif (proto == "I2C"):
-            import smbus
-            self.huskylensSer = smbus.SMBus(channel)
+            import smbus3
+            self.huskylensSer = smbus3.SMBus(channel)
         self.lastCmdSent = ""
 
     def writeToHuskyLens(self, cmd):

@@ -3,4 +3,7 @@ pyserial>=3.5
 pytest>=8.0
 pytest-qt>=4.4
 bless>=0.2.6
+smbus3
+pyserial
+pypng
 # RPi.GPIO is installed via apt (python3-rpi.gpio) and accessed through --system-site-packages
