@@ -30,6 +30,7 @@ Rectangle {
             text: overlay.view === "menu" ? "Admin Menu"
                 : overlay.view === "food" ? "Add Food Item"
                 : overlay.view === "calibrate" ? "Calibrate Scale"
+                : overlay.view === "debug" ? "Debug Info"
                 : "Admin Menu"
             font { pixelSize: 28; bold: true }
             color: "white"
@@ -50,6 +51,7 @@ Rectangle {
             sourceComponent: overlay.view === "menu" ? menuView
                            : overlay.view === "food" ? foodView
                            : overlay.view === "calibrate" ? calibrateView
+                           : overlay.view === "debug" ? debugView
                            : menuView
         }
     }
@@ -65,7 +67,8 @@ Rectangle {
                     { label: "Close App", action: "stop" },
                     { label: "Add Food Item", action: "food" },
                     { label: "Update & Restart", action: "update" },
-                    { label: "Calibrate Scale", action: "calibrate" }
+                    { label: "Calibrate Scale", action: "calibrate" },
+                    { label: "Debug Info", action: "debug" }
                 ]
 
                 Rectangle {
@@ -92,6 +95,8 @@ Rectangle {
                                 appState.updateAndRestart()
                             } else if (modelData.action === "calibrate") {
                                 overlay.view = "calibrate"
+                            } else if (modelData.action === "debug") {
+                                overlay.view = "debug"
                             }
                         }
                     }
@@ -245,6 +250,159 @@ Rectangle {
                     text: parent.parent.step === 3 ? "Done" : "Cancel"
                     color: "#94a3b8"; font { pixelSize: 20; bold: true }
                 }
+                MouseArea { anchors.fill: parent; onClicked: overlay.view = "menu" }
+            }
+        }
+    }
+
+    Component {
+        id: debugView
+        Column {
+            spacing: 16
+            width: parent ? parent.width : 0
+
+            property bool camOk: false
+            property bool camChecking: false
+
+            Timer {
+                id: weightRefresh
+                interval: 200
+                repeat: true
+                running: true
+            }
+
+            Text {
+                text: "WEIGHT SCALE"
+                font { pixelSize: 14; bold: true; letterSpacing: 1 }
+                color: "#64748b"
+            }
+
+            Rectangle {
+                width: parent.width; height: 72; radius: 10; color: "#0f172a"
+                Row {
+                    anchors.centerIn: parent
+                    spacing: 8
+                    Text {
+                        id: weightVal
+                        property real w: appState.currentWeightG
+                        text: w.toFixed(1)
+                        font { pixelSize: 36; bold: true; family: "monospace" }
+                        color: "white"
+                        Connections {
+                            target: weightRefresh
+                            function onTriggered() { weightVal.w = appState.currentWeightG }
+                        }
+                    }
+                    Text {
+                        text: "g"
+                        font { pixelSize: 20 }
+                        color: "#94a3b8"
+                        anchors.baseline: weightVal.baseline
+                    }
+                }
+            }
+
+            Row {
+                spacing: 12
+                Rectangle {
+                    width: 12; height: 12; radius: 6
+                    anchors.verticalCenter: parent.verticalCenter
+                    color: appState.weightIsStable ? "#22c55e" : "#eab308"
+                }
+                Text {
+                    text: appState.weightIsStable ? "Stable" : "Unstable"
+                    font.pixelSize: 16; color: "#cbd5e1"
+                }
+                Text {
+                    text: "|"
+                    font.pixelSize: 16; color: "#334155"
+                }
+                Text {
+                    text: appState.scaleHardwareError() !== "" ? appState.scaleHardwareError() : "No hardware errors"
+                    font.pixelSize: 16
+                    color: appState.scaleHardwareError() !== "" ? "#f87171" : "#22c55e"
+                }
+            }
+
+            Rectangle { width: parent.width; height: 1; color: "#334155" }
+
+            Text {
+                text: "HUSKYLENS CAMERA"
+                font { pixelSize: 14; bold: true; letterSpacing: 1 }
+                color: "#64748b"
+            }
+
+            Row {
+                spacing: 12
+                Rectangle {
+                    width: 12; height: 12; radius: 6
+                    anchors.verticalCenter: parent.verticalCenter
+                    color: parent.parent.camChecking ? "#64748b"
+                         : parent.parent.camOk ? "#22c55e" : "#ef4444"
+                }
+                Text {
+                    font.pixelSize: 18; color: "#cbd5e1"
+                    text: parent.parent.camChecking ? "Checking..."
+                        : parent.parent.camOk ? "Connected (knock OK)" : "Not connected"
+                }
+            }
+
+            Rectangle {
+                width: parent.width; height: 50; radius: 10
+                gradient: Gradient {
+                    orientation: Gradient.Horizontal
+                    GradientStop { position: 0.0; color: "#6366f1" }
+                    GradientStop { position: 1.0; color: "#06b6d4" }
+                }
+                Text { anchors.centerIn: parent; text: "Check Camera"; color: "white"; font { pixelSize: 18; bold: true } }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        var col = parent.parent
+                        col.camChecking = true
+                        col.camOk = appState.cameraConnected()
+                        col.camChecking = false
+                    }
+                }
+            }
+
+            Rectangle { width: parent.width; height: 1; color: "#334155" }
+
+            Text {
+                text: "SYSTEM"
+                font { pixelSize: 14; bold: true; letterSpacing: 1 }
+                color: "#64748b"
+            }
+
+            Row {
+                spacing: 12
+                Rectangle {
+                    width: 12; height: 12; radius: 6
+                    anchors.verticalCenter: parent.verticalCenter
+                    color: appState.bleAvailable ? "#22c55e" : "#ef4444"
+                }
+                Text {
+                    font.pixelSize: 16; color: "#cbd5e1"
+                    text: "BLE: " + (appState.bleAvailable ? "Advertising" : "Unavailable")
+                }
+            }
+
+            Row {
+                spacing: 12
+                Rectangle {
+                    width: 12; height: 12; radius: 6
+                    anchors.verticalCenter: parent.verticalCenter
+                    color: appState.testMode ? "#eab308" : "#22c55e"
+                }
+                Text {
+                    font.pixelSize: 16; color: "#cbd5e1"
+                    text: "Mode: " + (appState.testMode ? "Test" : "Production")
+                }
+            }
+
+            Rectangle {
+                width: parent.width; height: 50; radius: 10; color: "#334155"
+                Text { anchors.centerIn: parent; text: "Back"; color: "#94a3b8"; font { pixelSize: 20; bold: true } }
                 MouseArea { anchors.fill: parent; onClicked: overlay.view = "menu" }
             }
         }

@@ -266,6 +266,16 @@ class AppState(QObject):
         subprocess.run(["git", "-C", project_dir, "pull"], check=False)
         subprocess.run(["sudo", "systemctl", "restart", "antidonut-kiosk"], check=False)
 
+    @pyqtSlot(result=bool)
+    def cameraConnected(self) -> bool:
+        hl = self._detection_svc._huskylens
+        if hl is None:
+            return False
+        try:
+            return hl.knock() == "Knock Recieved"
+        except Exception:
+            return False
+
     @pyqtSlot(result=str)
     def scaleHardwareError(self) -> str:
         return self._weight_svc.hardware_error

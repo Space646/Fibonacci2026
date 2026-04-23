@@ -329,27 +329,27 @@ class HuskyLensLibrary:
     def blocks(self):
         cmd = self.cmdToBytes(commandHeaderAndAddress+"002131")
         self.writeToHuskyLens(cmd)
-        return self.processReturnData()[0]
+        return self.processReturnData()
 
     def arrows(self):
         cmd = self.cmdToBytes(commandHeaderAndAddress+"002232")
         self.writeToHuskyLens(cmd)
-        return self.processReturnData()[0]
+        return self.processReturnData()
 
     def learned(self):
         cmd = self.cmdToBytes(commandHeaderAndAddress+"002333")
         self.writeToHuskyLens(cmd)
-        return self.processReturnData()[0]
+        return self.processReturnData()
 
     def learnedBlocks(self):
         cmd = self.cmdToBytes(commandHeaderAndAddress+"002434")
         self.writeToHuskyLens(cmd)
-        return self.processReturnData()[0]
+        return self.processReturnData()
 
     def learnedArrows(self):
         cmd = self.cmdToBytes(commandHeaderAndAddress+"002535")
         self.writeToHuskyLens(cmd)
-        return self.processReturnData()[0]
+        return self.processReturnData()
 
     def getObjectByID(self, idVal):
         idVal = "{:04x}".format(idVal)
